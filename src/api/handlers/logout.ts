@@ -15,8 +15,8 @@ export const logoutServerFn = createServerFn().handler(async () => {
 
     clearAuthCookies()
 
-    return { success: true, message: 'Logout successful' }
+    return { success: true, message: 'Çıkış başarılı' }
   } catch (error: any) {
-    return { success: false, message: error.message || 'Internal Server Error' }
+    return { success: false, message: error.message || 'Sunucu Hatası' }
   }
 })

@@ -4,11 +4,17 @@ import { authMiddleware } from '../middlewares/auth'
 import { eq } from 'drizzle-orm'
 import { userTable, UserView } from '../db/schema/users'
 import db from '../db'
+import { hashPassword } from '../libs/password'
 
 const updateProfileValidation = z.object({
   name: z.string().min(1, 'İsim zorunludur').max(100, 'İsim en fazla 100 karakter olabilir'),
   email: z.email('Geçerli bir email adresi giriniz').optional().or(z.literal('')),
   phone: z.string().max(20, 'Telefon en fazla 20 karakter olabilir').optional().or(z.literal('')),
+  password: z
+    .string({ message: 'Şifre gerekli' })
+    .min(6, { message: 'Şifre en az 6 karakter olmalıdır' })
+    .max(16, { message: 'Şifre en fazla 16 karakter olmalıdır' })
+    .optional(),
 })
 
 interface UpdateProfileResponse {
@@ -23,33 +29,22 @@ export const updateProfileServerFn = createServerFn()
   .middleware([authMiddleware])
   .handler(async ({ data, context }): Promise<UpdateProfileResponse> => {
     try {
-      const userId = context.user.id
+      const updateData: Partial<typeof userTable.$inferInsert> = {
+        name: data.name,
+        email: data.email || null,
+        phone: data.phone || null,
+      }
 
-      // Email benzersizlik kontrolü (eğer email değiştiriliyorsa)
-      if (data.email && data.email !== context.user.email) {
-        const existingUser = await db
-          .select()
-          .from(userTable)
-          .where(eq(userTable.email, data.email))
-          .get()
-
-        if (existingUser) {
-          return {
-            success: false,
-            error: 'Bu email adresi zaten kullanılıyor',
-          }
-        }
+      if (data.password) {
+        const hashedPassword = await hashPassword(data.password)
+        updateData.password = hashedPassword
       }
 
       // Kullanıcı bilgilerini güncelle
       const updatedUser = await db
         .update(userTable)
-        .set({
-          name: data.name,
-          email: data.email || null,
-          phone: data.phone || null,
-        })
-        .where(eq(userTable.id, userId))
+        .set(updateData)
+        .where(eq(userTable.id, context.user.id))
         .returning({
           id: userTable.id,
           username: userTable.username,

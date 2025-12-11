@@ -1,5 +1,5 @@
 import { useGlobalModalStore } from '@/features/modals/store'
-import { X, Loader2, User, Mail, Phone, Check } from 'lucide-react'
+import { X, Loader2, User, Mail, Phone, Check, Lock, EyeOff, Eye } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
@@ -11,6 +11,11 @@ const profileFormSchema = z.object({
   name: z.string().min(1, 'İsim zorunludur').max(100, 'İsim en fazla 100 karakter olabilir'),
   email: z.email('Geçerli bir email adresi giriniz').optional().or(z.literal('')),
   phone: z.string().max(20, 'Telefon en fazla 20 karakter olabilir').optional().or(z.literal('')),
+  password: z
+    .string({ message: 'Password is required' })
+    .min(6, { message: 'Password must be at least 6 characters' })
+    .max(16, { message: 'Password must be at most 16 characters' })
+    .optional(),
 })
 
 type ProfileFormData = z.infer<typeof profileFormSchema>
@@ -34,6 +39,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
       name: user?.name || '',
       email: user?.email || '',
       phone: user?.phone || '',
+      password: '',
     },
     mode: 'onChange',
   })
@@ -54,6 +60,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
       name: formData.name,
       email: formData.email || undefined,
       phone: formData.phone || undefined,
+      password: formData.password || undefined,
     })
   }
 
@@ -159,6 +166,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                   id="email"
                   type="email"
                   placeholder="ornek@email.com"
+                  autoComplete="new-password"
                   disabled={isPending}
                   className={`h-11 w-full rounded-lg border bg-white px-3 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${
                     errors.email
@@ -199,6 +207,54 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
               )}
             />
             {errors.phone && <p className="text-xs text-red-600">{errors.phone.message}</p>}
+          </div>
+          {/* Password */}
+          <div className="space-y-2">
+            <label
+              htmlFor="password"
+              className="flex items-center gap-2 text-sm font-medium text-gray-800"
+            >
+              <Lock className="size-4" />
+              Yeni Şifre
+            </label>
+            <div className="relative">
+              <Controller
+                name="password"
+                control={control}
+                render={({ field }) => {
+                  const [showPassword, setShowPassword] = useState(false)
+                  return (
+                    <>
+                      <input
+                        {...field}
+                        id="password"
+                        autoComplete="new-password"
+                        type={showPassword ? 'text' : 'password'}
+                        placeholder="Yeni Şifre"
+                        disabled={isPending}
+                        className={`h-11 w-full rounded-lg border bg-white px-3 pr-11 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${
+                          errors.password
+                            ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
+                            : 'border-gray-200'
+                        }`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowPassword(!showPassword)}
+                        className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-5 w-5" />
+                        ) : (
+                          <Eye className="h-5 w-5" />
+                        )}
+                      </button>
+                    </>
+                  )
+                }}
+              />
+              {errors.password && <p className="text-xs text-red-600">{errors.password.message}</p>}
+            </div>
           </div>
         </form>
       </div>

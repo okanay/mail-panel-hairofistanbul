@@ -34,8 +34,13 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
       confirmText: 'Sil',
       cancelText: 'İptal',
       variant: 'danger',
-      onSubmit: async () => {
-        deleteDocument(hash)
+      onSubmit: () => {
+        return new Promise<void>((resolve, reject) => {
+          deleteDocument(hash, {
+            onSuccess: () => resolve(),
+            onError: (error) => reject(error),
+          })
+        })
       },
     })
   }

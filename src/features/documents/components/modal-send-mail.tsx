@@ -10,12 +10,14 @@ import { DocumentStore, useDocumentStore } from '../store'
 import { useState } from 'react'
 
 const mailFormSchema = z.object({
-  emailAddress: z.email('Geçerli bir email adresi giriniz'),
+  sendMail: z.literal(true),
+  emailAddress: z.email('Geçerli bir email adresi giriniz').optional(),
   emailTitle: z
     .string()
     .min(1, 'Mail başlığı zorunludur')
-    .max(200, 'Başlık en fazla 200 karakter olabilir'),
-  emailDescription: z.string().max(2000, 'Açıklama en fazla 2000 karakter olabilir'),
+    .max(200, 'Başlık en fazla 200 karakter olabilir')
+    .optional(),
+  emailDescription: z.string().max(2000, 'Açıklama en fazla 2000 karakter olabilir').optional(),
 })
 
 type MailFormData = z.infer<typeof mailFormSchema>
@@ -35,10 +37,12 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
   const {
     control,
     handleSubmit,
+    watch,
     formState: { errors, isValid },
   } = useForm<MailFormData>({
     resolver: zodResolver(mailFormSchema),
     defaultValues: {
+      sendMail: true,
       emailAddress: '',
       emailTitle: EMAIL_TEMPLATES[type][language].title,
       emailDescription: EMAIL_TEMPLATES[type][language].description,
@@ -64,7 +68,13 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
       return
     }
 
+    if (!formData.emailAddress || !formData.emailTitle) {
+      setEmailError('Email adresi ve başlık zorunludur')
+      return
+    }
+
     mutate({
+      sendMail: formData.sendMail,
       emailAddress: formData.emailAddress,
       emailTitle: formData.emailTitle,
       emailDescription: formData.emailDescription,
@@ -74,6 +84,9 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
   }
 
   const isProcessing = isPending || isSaving
+  const showForm = !isProcessing && !emailError && !emailData
+  const showSuccess = emailData !== null
+  const showError = emailError !== null
 
   return (
     <div className="flex h-screen w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-lg md:max-w-lg md:rounded-lg md:shadow-2xl">
@@ -93,9 +106,9 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
 
       {/* Content */}
       <div className="relative flex-1 overflow-y-auto bg-gray-50/50 px-4 py-4">
-        {/* Loading Overlay */}
+        {/* Loading State */}
         {isProcessing && (
-          <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-sm">
+          <div className="z-10 flex h-40 items-center justify-center bg-white/80 backdrop-blur-sm">
             <div className="flex flex-col items-center gap-3">
               <Loader2 className="size-8 animate-spin text-primary" />
               <p className="text-sm font-medium text-gray-600">
@@ -105,14 +118,16 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
           </div>
         )}
 
-        {emailError && (
+        {/* Error State */}
+        {showError && (
           <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4">
             <p className="text-sm font-medium text-red-900">Hata</p>
             <p className="mt-1 text-sm text-red-700">{emailError}</p>
           </div>
         )}
 
-        {emailData ? (
+        {/* Success State */}
+        {showSuccess && (
           <div className="space-y-4">
             <div className="rounded-lg border border-green-200 bg-green-50 p-4">
               <p className="text-sm font-medium text-green-900">Başarılı</p>
@@ -138,9 +153,19 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                 <p className="text-xs font-medium text-gray-500">Dosya Hash</p>
                 <p className="mt-1 truncate text-sm text-gray-900">{emailData.hash}</p>
               </div>
+
+              {emailData.emailSent && emailData.emailMessageId && (
+                <div className="rounded-lg border border-gray-200 bg-white p-3">
+                  <p className="text-xs font-medium text-gray-500">Email Message ID</p>
+                  <p className="mt-1 truncate text-sm text-gray-900">{emailData.emailMessageId}</p>
+                </div>
+              )}
             </div>
           </div>
-        ) : (
+        )}
+
+        {/* Form State */}
+        {showForm && (
           <form id="mail-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Email Address */}
             <div className="space-y-1.5">
@@ -156,8 +181,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                     id="emailAddress"
                     type="email"
                     placeholder="ornek@email.com"
-                    disabled={isProcessing}
-                    className={`h-11 w-full rounded-lg border bg-white px-3 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${
+                    className={`h-11 w-full rounded-lg border bg-white px-3 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 ${
                       errors.emailAddress
                         ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                         : 'border-gray-200'
@@ -184,8 +208,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                     id="emailTitle"
                     type="text"
                     placeholder="Mail başlığını giriniz"
-                    disabled={isProcessing}
-                    className={`h-11 w-full rounded-lg border bg-white px-3 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${
+                    className={`h-11 w-full rounded-lg border bg-white px-3 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 ${
                       errors.emailTitle
                         ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                         : 'border-gray-200'
@@ -210,10 +233,9 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                   <textarea
                     {...field}
                     id="emailDescription"
-                    rows={6}
+                    rows={12}
                     placeholder="Mail içeriğini giriniz"
-                    disabled={isProcessing}
-                    className={`w-full resize-none rounded-lg border bg-white px-3 py-2.5 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${
+                    className={`w-full resize-none rounded-lg border bg-white px-3 py-2.5 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 ${
                       errors.emailDescription
                         ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                         : 'border-gray-200'
@@ -234,13 +256,20 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
         <button
           type="submit"
           form="mail-form"
-          disabled={isProcessing || !search.hash || !!emailData || !isValid}
+          disabled={
+            isProcessing ||
+            !search.hash ||
+            showSuccess ||
+            !isValid ||
+            !watch('emailAddress') ||
+            !watch('emailTitle')
+          }
           className="flex h-12 w-full items-center justify-center gap-2 rounded-sm border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white shadow-lg transition-all hover:opacity-90 disabled:opacity-50"
         >
           {isProcessing ? (
             <span>{isSaving ? 'Kaydediliyor...' : 'Gönderiliyor...'}</span>
-          ) : emailData ? (
-            'Gönderildi'
+          ) : showSuccess ? (
+            'Belge Gönderildi'
           ) : (
             'Mail Gönder'
           )}
@@ -269,7 +298,7 @@ const EMAIL_TEMPLATES: Record<
 > = {
   'with-otel': {
     en: {
-      title: 'Appointment Confirmation - <<Müşteri Adı>>',
+      title: 'Appointment Confirmation',
       description: `Dear <<Müşteri Adı>>,
 
 We are sending you the document containing all the details, hotel, and transfer information regarding your hair transplant operation scheduled for <<Operasyon Tarihi>>.
@@ -282,7 +311,7 @@ Best regards,
 Hair of Istanbul Team`,
     },
     tr: {
-      title: 'Randevu Onayı - <<Müşteri Adı>>',
+      title: 'Randevu Onayı',
       description: `Sayın <<Müşteri Adı>>,
 
 <<Operasyon Tarihi>> tarihinde planlanan saç ekimi operasyonunuz ile ilgili tüm detayları, otel ve transfer bilgilerini içeren doküman ekte yer almaktadır.
@@ -297,7 +326,7 @@ Hair of Istanbul Ekibi`,
   },
   'without-otel': {
     en: {
-      title: 'Appointment Confirmation - <<Müşteri Adı>>',
+      title: 'Appointment Confirmation',
       description: `Dear <<Müşteri Adı>>,
 
 We are sending you the document containing all the details and transfer information regarding your hair transplant operation scheduled for <<Operasyon Tarihi>>.
@@ -310,7 +339,7 @@ Best regards,
 Hair of Istanbul Team`,
     },
     tr: {
-      title: 'Randevu Onayı - <<Müşteri Adı>>',
+      title: 'Randevu Onayı',
       description: `Sayın <<Müşteri Adı>>,
 
 <<Operasyon Tarihi>> tarihinde planlanan saç ekimi operasyonunuz ile ilgili tüm detayları ve transfer bilgilerini içeren doküman ekte yer almaktadır.
@@ -325,7 +354,7 @@ Hair of Istanbul Ekibi`,
   },
   'without-otel-transfer': {
     en: {
-      title: 'Appointment Confirmation - <<Müşteri Adı>>',
+      title: 'Appointment Confirmation',
       description: `Dear <<Müşteri Adı>>,
 
 We are sending you the document containing all the details regarding your hair transplant operation scheduled for <<Operasyon Tarihi>>.
@@ -338,7 +367,7 @@ Best regards,
 Hair of Istanbul Team`,
     },
     tr: {
-      title: 'Randevu Onayı - <<Müşteri Adı>>',
+      title: 'Randevu Onayı',
       description: `Sayın <<Müşteri Adı>>,
 
 <<Operasyon Tarihi>> tarihinde planlanan saç ekimi operasyonunuz ile ilgili tüm detayları içeren doküman ekte yer almaktadır.

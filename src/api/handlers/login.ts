@@ -19,8 +19,7 @@ export const loginServerFn = createServerFn()
         .get()
 
       if (!user || !(await verifyPassword(data.password, user.password))) {
-        console.error('Invalid credentials provided.')
-        throw new Error('Invalid credentials')
+        throw new Error('Geçersiz kullanıcı adı veya şifre')
       }
 
       // 1. Refresh Token Oluştur (Veritabanı için)
@@ -40,6 +39,6 @@ export const loginServerFn = createServerFn()
       setAuthCookies(accessToken, refreshToken, REFRESH_TOKEN_MAX_AGE)
       return { success: true }
     } catch (error: any) {
-      return { success: false }
+      return { success: false, message: error?.message || 'Beklenmedik bir hata oluştu.' }
     }
   })

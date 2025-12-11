@@ -4,16 +4,16 @@ import { UserView } from '../db/schema/users'
 
 export const authValidation = z.object({
   username: z
-    .string({ message: 'Username is required' })
-    .min(3, { message: 'Username must be at least 3 characters' })
-    .max(20, { message: 'Username must be at most 20 characters' })
+    .string({ message: 'Kullanıcı adı gerekli' })
+    .min(3, { message: 'Kullanıcı adı en az 3 karakter olmalıdır' })
+    .max(20, { message: 'Kullanıcı adı en fazla 20 karakter olmalıdır' })
     .regex(/^[a-zA-Z0-9_]+$/, {
-      message: 'Username can only contain letters, numbers and underscores',
+      message: 'Kullanıcı adı sadece harfler, sayılar ve alt çizgiler içerebilir',
     }),
   password: z
-    .string({ message: 'Password is required' })
-    .min(6, { message: 'Password must be at least 6 characters' })
-    .max(16, { message: 'Password must be at most 16 characters' }),
+    .string({ message: 'Şifre gerekli' })
+    .min(6, { message: 'Şifre en az 6 karakter olmalıdır' })
+    .max(16, { message: 'Şifre en fazla 16 karakter olmalıdır' }),
 })
 
 async function getKey() {

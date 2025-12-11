@@ -9,9 +9,10 @@ interface UseSendEmailOptions {
 }
 
 interface SendEmailPayload {
-  emailAddress: string
-  emailTitle: string
-  emailDescription: string
+  sendMail: boolean
+  emailAddress?: string
+  emailTitle?: string
+  emailDescription?: string
   hash: string
   language: string
 }
@@ -25,15 +26,22 @@ export const useSendEmail = ({ store, onSuccess, onError }: UseSendEmailOptions)
         throw new Error('Required parameters missing')
       }
 
+      if (payload.sendMail && (!payload.emailAddress || !payload.emailTitle)) {
+        throw new Error('Email address and title are required when sendMail is true')
+      }
+
       const response = await sendEmailServerFn({
         data: {
           url: frontendUrl,
           hash: payload.hash,
           filename: `document-${payload.hash}.pdf`,
           language: payload.language,
-          emailAddress: payload.emailAddress,
-          emailTitle: payload.emailTitle,
-          emailDescription: payload.emailDescription,
+          sendMail: payload.sendMail,
+          ...(payload.sendMail && {
+            emailAddress: payload.emailAddress,
+            emailTitle: payload.emailTitle,
+            emailDescription: payload.emailDescription,
+          }),
         },
       })
 

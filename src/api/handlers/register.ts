@@ -11,7 +11,6 @@ export const registerServerFn = createServerFn()
     try {
       const { username, password } = data
 
-      // Check if the user already exists
       const existingUser = await db
         .select()
         .from(userTable)
@@ -19,7 +18,7 @@ export const registerServerFn = createServerFn()
         .get()
 
       if (existingUser) {
-        throw new Error('User already exists.')
+        throw new Error('Kullanıcı zaten mevcut.')
       }
 
       // Hash the password
@@ -31,6 +30,7 @@ export const registerServerFn = createServerFn()
         .values({
           username: username,
           password: hashedPassword,
+          role: 'user',
           created_at: new Date(),
         })
         .returning({ id: userTable.id })
@@ -39,7 +39,6 @@ export const registerServerFn = createServerFn()
         success: true,
       }
     } catch (error: any) {
-      console.error('Registration error:', error)
       return {
         success: false,
       }

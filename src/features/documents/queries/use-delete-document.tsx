@@ -10,7 +10,6 @@ interface UseDeleteDocumentOptions {
 export const useDeleteDocument = ({ onSuccess, onError }: UseDeleteDocumentOptions = {}) => {
   const router = useRouter()
   const search = useSearch({ from: '/docs' })
-
   const queryClient = useQueryClient()
 
   return useMutation({

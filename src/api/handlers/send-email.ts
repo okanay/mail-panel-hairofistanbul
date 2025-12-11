@@ -3,13 +3,14 @@ import { z } from 'zod'
 import { authMiddleware } from '../middlewares/auth'
 
 const sendEmailValidation = z.object({
-  url: z.url(),
+  url: z.string().url(),
   hash: z.string(),
   filename: z.string(),
   language: z.string(),
-  emailAddress: z.email(),
-  emailTitle: z.string().min(1).max(200),
-  emailDescription: z.string().max(2000),
+  sendMail: z.boolean(),
+  emailAddress: z.string().email().optional(),
+  emailTitle: z.string().min(1).max(200).optional(),
+  emailDescription: z.string().max(2000).optional(),
 })
 
 interface SendEmailResponse {
@@ -21,6 +22,9 @@ interface SendEmailResponse {
     etag: string
     filename: string
     emailSent: boolean
+    emailMessageId?: string
+    emailError?: string
+    timestamp: number
   }
   error?: string
   details?: any
@@ -38,16 +42,26 @@ export const sendEmailServerFn = createServerFn()
         throw new Error('PDF service configuration missing')
       }
 
+      if (data.sendMail && (!data.emailAddress || !data.emailTitle)) {
+        return {
+          success: false,
+          error: 'Email address and title are required when sendMail is true',
+        }
+      }
+
       const targetUrl = `${pdfServiceUrl}/auth/send-email`
 
       const payload = {
         url: data.url,
         hash: data.hash,
         filename: data.filename || `document-${data.hash}.pdf`,
+        sendMail: data.sendMail,
         language: data.language,
-        emailAddress: data.emailAddress,
-        emailTitle: data.emailTitle,
-        emailDescription: data.emailDescription,
+        ...(data.sendMail && {
+          emailAddress: data.emailAddress,
+          emailTitle: data.emailTitle,
+          emailDescription: data.emailDescription,
+        }),
       }
 
       const response = await fetch(targetUrl, {
@@ -64,7 +78,7 @@ export const sendEmailServerFn = createServerFn()
       if (!response.ok || !result.success) {
         return {
           success: false,
-          error: result.error || 'PDF generation and email sending failed',
+          error: result.error || 'PDF generation failed',
           details: result.details,
         }
       }
