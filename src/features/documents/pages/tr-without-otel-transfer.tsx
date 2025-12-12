@@ -8,19 +8,117 @@ import { HideableText } from '../components/hideable-text'
 export const WithoutOtelTransferPageTR = () => {
   const { user } = useAuth()
 
+  // Form Data Definition for WithoutOtelTransferPageTR
+  const formData: DocumentFormData = [
+    {
+      name: 'Müşteri Adı',
+      editKey: 'd3-p1-k1',
+      defaultValue: 'MÜŞTERİ-ADI',
+      inputMode: 'text',
+    },
+    {
+      name: 'Operasyon Tarihi',
+      editKey: 'd3-p1-k2',
+      defaultValue: 'Salı, 28 Temmuz 1998',
+      inputMode: 'text',
+    },
+    {
+      name: 'Varış Günü (1. Gün)',
+      editKey: 'd3-p1-k3',
+      defaultValue: '(Perşembe, 26 Mart 2026)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Prosedür Günü (2. Gün)',
+      editKey: 'd3-p1-k4',
+      defaultValue: '(Cuma, 27 Mart 2026)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Kontrol Günü (3. Gün)',
+      editKey: 'd3-p2-k1',
+      defaultValue: '(Cumartesi, 28 Mart 2026)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Toplam Paket Değeri',
+      editKey: 'd3-p3-k2-e1',
+      defaultValue: '$4,300',
+      inputMode: 'text',
+    },
+    {
+      name: 'Toplam Paket Değerini Gizle',
+      editKey: 'd3-p3-k1-h1',
+      defaultValue: false,
+      inputMode: 'toggle',
+    },
+    {
+      name: 'Depozito Miktarı',
+      editKey: 'd3-p3-k4-e2',
+      defaultValue: '€500 (Non-refundable)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Alınan Depozitoyu Gizle',
+      editKey: 'd3-p3-k3-h2',
+      defaultValue: false,
+      inputMode: 'toggle',
+    },
+    {
+      name: 'Kalan Bakiye',
+      editKey: 'd3-p3-k6-e3',
+      defaultValue: '€3,800',
+      inputMode: 'text',
+    },
+    {
+      name: 'Kalan Bakiyeyi Gizle',
+      editKey: 'd3-p3-k5-h3',
+      defaultValue: false,
+      inputMode: 'toggle',
+    },
+    {
+      name: 'Bakiye Son Ödeme Tarihini Gizle',
+      editKey: 'd3-p3-k7-h4',
+      defaultValue: false,
+      inputMode: 'toggle',
+    },
+    {
+      name: 'Temsilci Adı',
+      editKey: 'd3-p3-k8',
+      defaultValue: 'AD-SOYAD',
+      seedValue: user?.name,
+      inputMode: 'text',
+    },
+    {
+      name: 'İletişim Telefonu',
+      editKey: 'd3-p3-k9',
+      defaultValue: {
+        value: '+90 532 650 00 00',
+        type: 'tel',
+      } as LinkData,
+      seedValue: user?.phone
+        ? ({
+            value: user.phone,
+            type: 'tel',
+          } as LinkData)
+        : undefined,
+      inputMode: 'link',
+    },
+  ]
+
   return (
     <div className="flex flex-col bg-gray-50 text-black md:items-center md:justify-center">
-      <EditorMenu />
+      <EditorMenu formData={formData} />
       <EditablePage index={0} className="text-[10px] leading-relaxed">
         <header className="flex flex-col gap-y-1">
           <h1 className="font-semibold">
-            Sayın <EditableText editKey="d1-p1-k1">{'MÜŞTERİ-ADI'}</EditableText>,
+            Sayın <EditableText editKey="d3-p1-k1">{'MÜŞTERİ-ADI'}</EditableText>,
           </h1>
 
           <p>
             Bu mesajın sizi iyi bulduğunu umuyoruz. Hair of İstanbul ailesinin tamamı adına, sizin
             saç nakli işleminizin{' '}
-            <EditableText editKey="d1-p1-k2" className="font-bold">
+            <EditableText editKey="d3-p1-k2" className="font-bold">
               {'Salı, 28 Temmuz 1998'}
             </EditableText>{' '}
             tarihine planlandığını resmi olarak onaylamaktan mutluluk duyuyoruz. Bu e-posta,

@@ -203,7 +203,7 @@ const TextInput = ({ field, value, onChange }: TextInputProps) => {
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="h-11 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+        className="h-11 w-full rounded-lg border border-gray-200 bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
       />
     </div>
   )
@@ -233,7 +233,7 @@ const TextareaInput = ({ field, value, onChange }: TextareaInputProps) => {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         rows={6}
-        className="w-full resize-none rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+        className="w-full resize-none rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
       />
     </div>
   )
@@ -253,7 +253,7 @@ const ToggleInput = ({ field, value, onChange }: ToggleInputProps) => {
   return (
     <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-gray-700">{field.name}</label>
+        <label className="text-base font-medium text-gray-700 sm:text-sm">{field.name}</label>
         {field.description && (
           <p className="flex items-center gap-x-2 rounded border border-gray-200 bg-gray-100 px-2 py-1 text-xs text-gray-600">
             <Info className="size-3" />
@@ -328,7 +328,7 @@ const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
               type="button"
               onClick={() => handleTypeChange(linkType)}
               className={twMerge(
-                'flex-1 px-3 py-2 text-xs font-medium uppercase transition-colors',
+                'flex-1 px-3 py-2 text-xs font-bold uppercase transition-colors',
                 isActive ? 'bg-primary text-white' : 'bg-gray-50 text-gray-600 hover:bg-gray-100',
               )}
             >
@@ -344,7 +344,7 @@ const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
         value={value.value}
         onChange={(e) => handleValueChange(e.target.value)}
         placeholder={getPlaceholder()}
-        className="h-11 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20"
+        className="h-11 w-full rounded-lg border border-gray-200 bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
       />
     </div>
   )

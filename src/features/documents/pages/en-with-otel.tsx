@@ -31,9 +31,8 @@ export const WithOtelPageEN = () => {
     },
     {
       name: 'Otel Bilgileri',
-      description:
-        'Stil vermek istiyorsanız, <b>Kalın Metin</b> <u>Altı Çizgili Metin</u> <i>Italic Metin</i>',
-      editKey: 'd2-p1-k4',
+      description: 'HTML etiketleri (b, i, u vb.) kullanılabilir.',
+      editKey: 'd1-p1-k4',
       defaultValue: `Our team will greet you at Istanbul Airport (IST), Gate 8, in front of Simit Saray Café. A personal interpreter will provide a procedural overview and answer any initial questions. Following this, you will be privately transferred to your accommodation at the <b>5-star Crowne Plaza Istanbul Florya.</b>`,
       inputMode: 'textarea',
     },
@@ -214,7 +213,7 @@ export const WithOtelPageEN = () => {
                 </h2>
                 <EditableContainer className="mt-2">
                   <p>
-                    <EditableText editKey="d2-p1-k4" focusClassName="py-0 text-xs/6">
+                    <EditableText editKey="d1-p1-k4" focusClassName="py-0 text-xs/6">
                       {`Our team will greet you at Istanbul Airport (IST), Gate 8, in front of Simit
                     Saray Café. A personal interpreter will provide a procedural overview and answer
                     any initial questions. Following this, you will be privately transferred to your

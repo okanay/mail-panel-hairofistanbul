@@ -9,19 +9,130 @@ import { EditableContainer } from '../components/editable-container'
 export const WithoutOtelPageEN = () => {
   const { user } = useAuth()
 
+  // Form Data Definition for WithoutOtelPageEN
+  const formData: DocumentFormData = [
+    {
+      name: 'Müşteri Adı',
+      editKey: 'd2-p1-k1',
+      defaultValue: 'Mr. Customer-Name',
+      inputMode: 'text',
+    },
+    {
+      name: 'Operasyon Tarihi',
+      editKey: 'd2-p1-k2',
+      defaultValue: 'Tuesday, 28 July 1998',
+      inputMode: 'text',
+    },
+    {
+      name: 'Varış Günü (Day 1)',
+      editKey: 'd2-p1-k3',
+      defaultValue: '(Thursday, 26 March 2026)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Karşılama Bilgisi',
+      description: 'HTML etiketleri (b, i, u vb.) kullanılabilir.',
+      editKey: 'd2-p1-k4',
+      defaultValue: `Our team will greet you at Istanbul Airport (IST), Gate 8, in front of Simit Saray Café. A personal interpreter will provide a procedural overview and answer any initial questions. Following this, you will be privately transferred to your accommodation at the <b>5-star Crowne Plaza Istanbul Florya.</b>`,
+      inputMode: 'textarea',
+    },
+    {
+      name: 'Prosedür Günü (Day 2)',
+      editKey: 'd2-p1-k5',
+      defaultValue: '(Friday, 27 March 2026)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Kontrol Günü (Day 3)',
+      editKey: 'd2-p1-k6',
+      defaultValue: '(Saturday, 28 March 2026)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Ayrılış Günü (Day 4)',
+      editKey: 'd2-p1-k7',
+      defaultValue: '(Sunday, 29 March 2026)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Toplam Paket Değeri',
+      editKey: 'd2-p3-k2-e1',
+      defaultValue: '$4,300',
+      inputMode: 'text',
+    },
+    {
+      name: 'Toplam Paket Değerini Gizle',
+      editKey: 'd2-p3-k1-h1',
+      defaultValue: false,
+      inputMode: 'toggle',
+    },
+    {
+      name: 'Depozito Miktarı',
+      editKey: 'd2-p3-k4-e2',
+      defaultValue: '€500 (Non-refundable)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Alınan Depozitoyu Gizle',
+      editKey: 'd2-p3-k3-h2',
+      defaultValue: false,
+      inputMode: 'toggle',
+    },
+    {
+      name: 'Kalan Bakiye',
+      editKey: 'd2-p3-k6-e3',
+      defaultValue: '€3,800',
+      inputMode: 'text',
+    },
+    {
+      name: 'Kalan Bakiyeyi Gizle',
+      editKey: 'd2-p3-k5-h3',
+      defaultValue: false,
+      inputMode: 'toggle',
+    },
+    {
+      name: 'Bakiye Son Ödeme Tarihini Gizle',
+      editKey: 'd2-p3-k7-h4',
+      defaultValue: false,
+      inputMode: 'toggle',
+    },
+    {
+      name: 'Temsilci Adı',
+      editKey: 'd2-p3-k8',
+      defaultValue: 'YOUR-NAME',
+      seedValue: user?.name,
+      inputMode: 'text',
+    },
+    {
+      name: 'İletişim Telefonu',
+      editKey: 'd2-p3-k9',
+      defaultValue: {
+        value: '+90 532 650 00 00',
+        type: 'tel',
+      } as LinkData,
+      seedValue: user?.phone
+        ? ({
+            value: user.phone,
+            type: 'tel',
+          } as LinkData)
+        : undefined,
+      inputMode: 'link',
+    },
+  ]
+
   return (
     <div className="flex flex-col bg-gray-50 text-black md:items-center md:justify-center">
-      <EditorMenu />
+      <EditorMenu formData={formData} />
       <EditablePage index={0} className="text-[10px] leading-relaxed">
         <header className="flex flex-col gap-y-1">
           <h1 className="font-semibold">
-            Dear <EditableText editKey="d1-p1-k1">{'Mr. Customer-Name'}</EditableText>,
+            Dear <EditableText editKey="d2-p1-k1">{'Mr. Customer-Name'}</EditableText>,
           </h1>
 
           <p>
             We hope this message finds you well. On behalf of the entire team at Hair of Istanbul,
             we are delighted to formally confirm your scheduled hair transplant procedure for{' '}
-            <EditableText editKey="d1-p1-k2" className="font-bold">
+            <EditableText editKey="d2-p1-k2" className="font-bold">
               {'Tuesday, 28 July 1998'}
             </EditableText>
             .This email serves as your comprehensive appointment confirmation and guide. To ensure a
