@@ -178,7 +178,7 @@ export const WithOtelPageTR = () => {
           </h1>
 
           <p>
-            Hair of İstanbul ailesinin tamamı adına, sizin saç nakli işleminizin{' '}
+            Hair of İstanbul ailesinin tamamı adına, saç nakli işleminizin{' '}
             <EditableText editKey="d1-p1-k2" className="font-bold">
               {'Salı, 28 Temmuz 1998'}
             </EditableText>{' '}
