@@ -31,7 +31,7 @@ export const WithoutOtelPageEN = () => {
     },
     {
       name: '1. Gün: Karşılama Metni',
-      description: 'HTML tags (b, i, u etc.) can be used.',
+      description: 'HTML etiketleri (b, i, u vb.) kullanılabilir.',
       editKey: 'd2-p1-k4',
       defaultValue: `Our team will greet you at Istanbul Airport (IST), Gate 8, in front of Simit Saray Café. A personal interpreter will provide a procedural overview and answer any initial questions.`,
       inputMode: 'textarea',

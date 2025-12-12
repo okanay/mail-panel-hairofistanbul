@@ -30,10 +30,46 @@ export const WithOtelPageTR = () => {
       inputMode: 'text',
     },
     {
-      name: '1. Gün: Otel ve Karşılama Metni',
+      name: '1. Gün: Karşılama Metni',
       description: 'HTML etiketleri (b, i, u vb.) kullanılabilir.',
       editKey: 'd1-p1-k4',
       defaultValue: `Ekibimiz sizi İstanbul Havalimanı (IST) Kapı 8'de, Simit Saray Café'nin önünde karşılayacaktır. Kişisel bir tercüman, işlem hakkında bilgi verecek ve ilk sorularınızı cevaplayacaktır. Daha sonra size <strong>5 yıldızlı Crowne Plaza İstanbul Florya</strong> otelinde özel transfer yapılacaktır.`,
+      inputMode: 'textarea',
+    },
+    {
+      name: 'Otel Adresi',
+      editKey: 'd1-p1-k5',
+      defaultValue:
+        'Şenlikköy Mahallesi Yeşilköy Halkalı Cad 95 Florya, 34290 Bakırköy/İstanbul, Türkiye.',
+      inputMode: 'text',
+    },
+    {
+      name: 'Otel Web Sitesi',
+      editKey: 'd1-p1-k6',
+      defaultValue: {
+        value: 'https://www.cpistanbulflorya.com/',
+        type: 'https',
+      },
+      inputMode: 'link',
+    },
+    {
+      name: 'Paket İçeriği',
+      editKey: 'd1-p1-k7',
+      defaultValue:
+        '3 gece konaklama, günlük kahvaltı ve spa, fitness merkezi, yüzme havuzu, Türk Hamamı ve sauna erişimi.',
+      inputMode: 'text',
+    },
+    {
+      name: 'Paket Dışı',
+      editKey: 'd1-p1-k8',
+      defaultValue: 'Mini bar, masaj, çamaşır servisi, oda servisi ve diğer ek ücretler.',
+      inputMode: 'text',
+    },
+    {
+      name: 'Ekstra Konaklama Bilgisi',
+      editKey: 'd1-p1-k9',
+      defaultValue:
+        'Ek geceler <span class="font-bold">tek kişilik için €135 ve çift kişilik için €160 gece fiyatından</span>, doğrudan sizin tarafınızdan ödenecektir.',
       inputMode: 'textarea',
     },
     {
@@ -238,37 +274,54 @@ export const WithOtelPageTR = () => {
               <div>
                 <h3 className="font-bold text-primary">■ Otel Adresi:</h3>
                 <p>
-                  Şenlikköy Mahallesi Yeşilköy Halkalı Cad 95 Florya, 34290 Bakırköy/İstanbul,
-                  Türkiye.
+                  <EditableText editKey="d1-p1-k5">
+                    {
+                      'Şenlikköy Mahallesi Yeşilköy Halkalı Cad 95 Florya, 34290 Bakırköy/İstanbul, Türkiye.'
+                    }
+                  </EditableText>
                 </p>
               </div>
 
               <div>
                 <h3 className="font-bold text-primary">■ Web Adresi:</h3>
-                <p>https://www.cpistanbulflorya.com/</p>
+                <p>
+                  <EditableLink
+                    editKey="d1-p1-k6"
+                    href="https://www.cpistanbulflorya.com/"
+                    className="underline transition-colors hover:text-primary"
+                  />
+                </p>
               </div>
 
               <div>
                 <h3 className="font-bold text-primary">■ Paket Kapsamı:</h3>
                 <p>
-                  3 gece konaklama, günlük kahvaltı ve spa, fitness merkezi, yüzme havuzu, Türk
-                  Hamamı ve sauna erişimi.
+                  <EditableText editKey="d1-p1-k7">
+                    {
+                      '3 gece konaklama, günlük kahvaltı ve spa, fitness merkezi, yüzme havuzu, Türk Hamamı ve sauna erişimi.'
+                    }
+                  </EditableText>
                 </p>
               </div>
 
               <div>
                 <h3 className="font-bold text-primary">■ Kapsam Dışı Hizmetler:</h3>
-                <p>Mini bar, masaj, çamaşır servisi, oda servisi ve diğer ek ücretler.</p>
+                <p>
+                  <EditableText editKey="d1-p1-k8">
+                    {'Mini bar, masaj, çamaşır servisi, oda servisi ve diğer ek ücretler.'}
+                  </EditableText>
+                </p>
               </div>
 
               <div>
                 <h3 className="font-bold text-primary">■ Uzatılmış Konaklama:</h3>
+                {/* Tek parça editable alan */}
                 <p>
-                  Ek geceler{' '}
-                  <span className="font-bold">
-                    tek kişilik için €135 ve çift kişilik için €160 gece fiyatından
-                  </span>
-                  , doğrudan sizin tarafınızdan ödenecektir.
+                  <EditableText editKey="d1-p1-k9">
+                    {
+                      'Ek geceler <span class="font-bold">tek kişilik için €135 ve çift kişilik için €160 gece fiyatından</span>, doğrudan sizin tarafınızdan ödenecektir.'
+                    }
+                  </EditableText>
                 </p>
               </div>
             </div>

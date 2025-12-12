@@ -58,7 +58,7 @@ export function FormModeModal({ onClose, formData, store }: FormModeModalProps) 
   }
 
   return (
-    <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-2xl md:max-w-2xl md:rounded-lg md:shadow-2xl">
+    <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-xl md:max-w-2xl md:rounded-lg md:shadow-2xl">
       <FormHeader onClose={onClose} />
 
       <FormContent formData={formData} formValues={formValues} onChange={handleChange} />
@@ -106,7 +106,7 @@ interface FormContentProps {
 const FormContent = ({ formData, formValues, onChange }: FormContentProps) => {
   return (
     <div className="flex-1 overflow-y-auto bg-gray-50/50 px-6 py-4">
-      <div className="space-y-4">
+      <div className="flex flex-col gap-y-5">
         {formData.map((field) => (
           <FormField
             key={field.editKey}
@@ -192,7 +192,7 @@ interface TextInputProps {
 const TextInput = ({ field, value, onChange }: TextInputProps) => {
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-medium text-gray-700">{field.name}</label>
+      <label className="block text-sm font-bold text-gray-800">{field.name}</label>
       {field.description && (
         <p className="flex items-center gap-x-2 rounded border border-gray-200 bg-gray-100 px-2 py-1 text-xs text-gray-600">
           <Info className="size-3" />
@@ -222,7 +222,7 @@ interface TextareaInputProps {
 const TextareaInput = ({ field, value, onChange }: TextareaInputProps) => {
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-medium text-gray-700">{field.name}</label>
+      <label className="block text-sm font-bold text-gray-800">{field.name}</label>
       {field.description && (
         <p className="flex items-center gap-x-2 rounded border border-gray-200 bg-gray-100 px-2 py-1 text-xs text-gray-600">
           <Info className="size-3" />
@@ -232,7 +232,7 @@ const TextareaInput = ({ field, value, onChange }: TextareaInputProps) => {
       <textarea
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        rows={6}
+        rows={4}
         className="w-full resize-none rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
       />
     </div>
@@ -251,9 +251,9 @@ interface ToggleInputProps {
 
 const ToggleInput = ({ field, value, onChange }: ToggleInputProps) => {
   return (
-    <div className="flex items-center justify-between rounded-lg border border-gray-200 bg-white p-4">
+    <div className="-mt-3 flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2">
       <div className="flex flex-col gap-2">
-        <label className="text-base font-medium text-gray-700 sm:text-sm">{field.name}</label>
+        <label className="text-sm font-medium text-gray-800">{field.name}</label>
         {field.description && (
           <p className="flex items-center gap-x-2 rounded border border-gray-200 bg-gray-100 px-2 py-1 text-xs text-gray-600">
             <Info className="size-3" />
@@ -311,7 +311,7 @@ const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-700">{field.name}</label>
+      <label className="block text-sm font-bold text-gray-800">{field.name}</label>
       {field.description && (
         <p className="flex items-center gap-x-2 rounded border border-gray-200 bg-gray-100 px-2 py-1 text-xs text-gray-600">
           <Info className="size-3" />

@@ -30,10 +30,46 @@ export const WithOtelPageEN = () => {
       inputMode: 'text',
     },
     {
-      name: '1. Gün: Otel ve Karşılama Metni',
-      description: 'HTML tags (b, i, u etc.) can be used.',
+      name: '1. Gün: Karşılama Metni',
+      description: 'HTML etiketleri (b, i, u vb.) kullanılabilir.',
       editKey: 'd1-p1-k4',
       defaultValue: `Our team will greet you at Istanbul Airport (IST), Gate 8, in front of Simit Saray Café. A personal interpreter will provide a procedural overview and answer any initial questions. Following this, you will be privately transferred to your accommodation at the <b>5-star Crowne Plaza Istanbul Florya.</b>`,
+      inputMode: 'textarea',
+    },
+    {
+      name: 'Otel Adresi',
+      editKey: 'd1-p1-k5',
+      defaultValue:
+        'Şenlikköy Mahallesi Yeşilköy Halkalı Cad 95 Florya, 34290 Bakırköy/İstanbul, Türkiye.',
+      inputMode: 'text',
+    },
+    {
+      name: 'Otel Web Sitesi',
+      editKey: 'd1-p1-k6',
+      defaultValue: {
+        value: 'https://www.cpistanbulflorya.com/',
+        type: 'https',
+      },
+      inputMode: 'link',
+    },
+    {
+      name: 'Paket İçeriği',
+      editKey: 'd1-p1-k7',
+      defaultValue:
+        '3-night stay, daily breakfast, and access to spa, fitness centre, swimming pool, Turkish Hammam, and sauna.',
+      inputMode: 'textarea',
+    },
+    {
+      name: 'Paket Dışı',
+      editKey: 'd1-p1-k8',
+      defaultValue: 'Minibar, massage, laundry, room service, and other ancillary charges.',
+      inputMode: 'text',
+    },
+    {
+      name: 'Ekstra Konaklama Bilgisi',
+      editKey: 'd1-p1-k9',
+      defaultValue:
+        'Additional nights are available at <b>€135 per night for single occupancy</b> and <b>€160 per night for double occupancy</b>, payable directly by you.',
       inputMode: 'textarea',
     },
     {
@@ -238,37 +274,54 @@ export const WithOtelPageEN = () => {
               <div>
                 <h3 className="font-bold text-primary">■ Hotel Address:</h3>
                 <p>
-                  Şenlikköy Mahallesi Yeşilköy Halkalı Cad 95 Florya, 34290 Bakırköy/İstanbul,
-                  Türkiye.
+                  <EditableText editKey="d1-p1-k5">
+                    {
+                      'Şenlikköy Mahallesi Yeşilköy Halkalı Cad 95 Florya, 34290 Bakırköy/İstanbul, Türkiye.'
+                    }
+                  </EditableText>
                 </p>
               </div>
 
               <div>
                 <h3 className="font-bold text-primary">■ Web Address:</h3>
-                <p>https://www.cpistanbulflorya.com/</p>
+                <p>
+                  <EditableLink
+                    editKey="d1-p1-k6"
+                    href="https://www.cpistanbulflorya.com/"
+                    className="underline transition-colors hover:text-primary"
+                  />
+                </p>
               </div>
 
               <div>
                 <h3 className="font-bold text-primary">■ Package Inclusions:</h3>
                 <p>
-                  3-night stay, daily breakfast, and access to spa, fitness centre, swimming pool,
-                  Turkish Hammam, and sauna.
+                  <EditableText editKey="d1-p1-k7">
+                    {
+                      '3-night stay, daily breakfast, and access to spa, fitness centre, swimming pool, Turkish Hammam, and sauna.'
+                    }
+                  </EditableText>
                 </p>
               </div>
 
               <div>
                 <h3 className="font-bold text-primary">■ Exclusions:</h3>
-                <p>Minibar, massage, laundry, room service, and other ancillary charges.</p>
+                <p>
+                  <EditableText editKey="d1-p1-k8">
+                    {'Minibar, massage, laundry, room service, and other ancillary charges.'}
+                  </EditableText>
+                </p>
               </div>
 
               <div>
                 <h3 className="font-bold text-primary">■ Extended Stays:</h3>
+                {/* Tek parça (HTML destekli) editable alan */}
                 <p>
-                  Additional nights are available at{' '}
-                  <span className="font-bold">
-                    €135 per night for single occupancy and €160 per night for double occupancy
-                  </span>
-                  , payable directly by you.
+                  <EditableText editKey="d1-p1-k9">
+                    {
+                      'Additional nights are available at <b>€135 per night for single occupancy</b> and <b>€160 per night for double occupancy</b>, payable directly by you.'
+                    }
+                  </EditableText>
                 </p>
               </div>
             </div>
