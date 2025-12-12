@@ -57,7 +57,9 @@ function RouteComponent() {
     <div className="flex min-h-screen w-full items-center justify-center bg-gray-50 px-4 py-12">
       <div className="mx-auto h-full w-full max-w-6xl">
         <div className="mb-10 text-center">
-          <h1 className="text-4xl font-bold text-gray-800">Doküman Şablonları</h1>
+          <h1 className="font-custom-commuters text-4xl font-bold text-primary-500">
+            Doküman Şablonları
+          </h1>
           <p className="mt-3 text-lg text-gray-600">
             Paket tipine göre doküman şablonunu seçin ve görüntüleyin
           </p>
@@ -93,7 +95,9 @@ function RouteComponent() {
                 className={`group relative flex h-auto w-full flex-col rounded-xl border border-gray-100 bg-white p-6`}
               >
                 <div className="mb-4">
-                  <h2 className={`mb-1 text-2xl font-bold text-gray-800 transition-colors`}>
+                  <h2
+                    className={`mb-1 font-custom-commuters text-2xl font-bold text-gray-800 transition-colors`}
+                  >
                     {doc.title}
                   </h2>
                   <p className={`text-sm font-medium`}>{doc.subtitle}</p>

@@ -59,7 +59,7 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
   const getContentTypeText = (value: DocumentContentType) => {
     switch (value) {
       case 'with-otel':
-        return 'Otel Paketi'
+        return 'Tam Paket'
       case 'without-otel':
         return 'Transfer Paketi'
       case 'without-otel-transfer':
