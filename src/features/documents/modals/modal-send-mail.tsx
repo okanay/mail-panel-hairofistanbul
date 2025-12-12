@@ -169,7 +169,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
           <form id="mail-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Email Address */}
             <div className="space-y-1.5">
-              <label htmlFor="emailAddress" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="emailAddress" className="block text-sm font-medium text-gray-800">
                 Email Adresi <span className="text-red-500">*</span>
               </label>
               <Controller
@@ -196,10 +196,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
 
             {/* Email Title */}
             <div className="space-y-1.5">
-              <label
-                htmlFor="emailTitle"
-                className="block text-base font-medium text-gray-700 sm:text-sm"
-              >
+              <label htmlFor="emailTitle" className="block text-sm font-medium text-gray-800">
                 Mail Başlığı <span className="text-red-500">*</span>
               </label>
               <Controller
@@ -226,7 +223,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
 
             {/* Email Description */}
             <div className="space-y-1.5">
-              <label htmlFor="emailDescription" className="block text-sm font-medium text-gray-700">
+              <label htmlFor="emailDescription" className="block text-sm font-medium text-gray-800">
                 Mail Açıklaması
               </label>
               <Controller
@@ -236,7 +233,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                   <textarea
                     {...field}
                     id="emailDescription"
-                    rows={14}
+                    rows={8}
                     placeholder="Mail içeriğini giriniz"
                     className={`w-full resize-none rounded-lg border bg-white px-3 py-2.5 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm ${
                       errors.emailDescription

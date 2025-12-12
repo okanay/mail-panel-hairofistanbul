@@ -17,7 +17,7 @@ import { useState } from 'react'
 import { useSaveDocument } from '../queries/use-save-document'
 import { useSendEmail } from '../queries/use-send-email'
 import { useDocumentStore } from '../store'
-import { LoadingIndicator } from '../../components/loading-indicator'
+import { LoadingIndicator } from '../../../components/loading-indicator'
 import { useDocumentHistoryModal } from '../modals/modal-get-document'
 import { useMailModal } from '../modals/modal-send-mail'
 import { useFormModeModal } from '../modals/modal-form-mode'
@@ -147,7 +147,7 @@ export const EditorMenu = ({ formData }: Props) => {
                 <Settings className="size-4" />
               </button>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-semibold text-gray-900">
+                <p className="truncate text-sm font-medium text-gray-900">
                   {user?.name || 'Kullanıcı'}
                 </p>
                 <p className="truncate text-xs text-gray-500">@{user?.username}</p>
@@ -179,7 +179,7 @@ export const EditorMenu = ({ formData }: Props) => {
           <button
             onClick={handleHide}
             data-hidden={hideMenu}
-            className="absolute top-0 -right-15.25 rounded-r-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-opacity duration-300 hover:opacity-75 data-[hidden=true]:-right-18 data-[hidden=true]:rounded-l-lg data-[hidden=true]:border-l"
+            className="absolute top-0 -right-16 rounded-r-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-opacity duration-300 hover:opacity-75 data-[hidden=true]:-right-18 data-[hidden=true]:rounded-l-lg data-[hidden=true]:border-l"
           >
             {hideMenu ? 'Göster' : 'Gizle'}
           </button>
@@ -229,7 +229,7 @@ export const EditorMenu = ({ formData }: Props) => {
 
             {/* Language Section */}
             <div className="space-y-1.5 px-4 py-1.5">
-              <p className="text-xs font-semibold tracking-wider text-gray-500 uppercase">Dil</p>
+              <p className="text-xs font-medium tracking-wider text-gray-500 uppercase">Dil</p>
               <div className="grid grid-cols-2 gap-2">
                 <LanguageButton
                   language="tr"
@@ -251,7 +251,7 @@ export const EditorMenu = ({ formData }: Props) => {
           hidden={hideMenu}
           onClick={openMailModal}
           disabled={query.isFetching}
-          className="flex h-11 items-center justify-center gap-2 rounded-b-lg border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white transition-opacity hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-75"
+          className="flex h-11 items-center justify-center gap-2 rounded-b-lg border border-zinc-950/10 bg-primary px-4 text-sm font-semibold text-white transition-opacity hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-75"
         >
           <Mail className="size-4" />
           <span>Mail Gönder</span>
@@ -271,7 +271,7 @@ type MenuButtonProps = {
 
 const MenuButton = ({ onClick, disabled, icon, label, variant = 'default' }: MenuButtonProps) => {
   const baseClasses =
-    'flex h-9 w-full items-center gap-2.5 rounded-md px-3 text-sm font-medium transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-75'
+    'flex h-9 w-full items-center font-medium gap-2.5 rounded-md px-3 text-sm  transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-75'
   const variantClasses =
     variant === 'danger' ? 'text-red-600 hover:bg-red-50' : 'text-gray-700 hover:bg-gray-100'
 
@@ -293,7 +293,7 @@ const LanguageButton = ({ language, isActive, onClick }: LanguageButtonProps) =>
   <button
     onClick={onClick}
     disabled={isActive}
-    className="flex h-8 items-center justify-center rounded-md border border-gray-200 bg-white text-xs font-semibold text-gray-700 transition-[colors_opacity] duration-300 hover:bg-gray-100 disabled:cursor-not-allowed disabled:bg-primary disabled:text-white disabled:hover:bg-primary disabled:hover:opacity-75"
+    className="flex h-8 items-center justify-center rounded-md border border-gray-200 bg-white text-xs font-medium text-gray-700 transition-[colors_opacity] duration-300 hover:bg-gray-100 disabled:cursor-not-allowed disabled:bg-primary disabled:text-white disabled:hover:bg-primary disabled:hover:opacity-75"
   >
     {language.toUpperCase()}
   </button>

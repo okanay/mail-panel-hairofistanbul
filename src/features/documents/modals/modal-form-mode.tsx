@@ -192,7 +192,7 @@ interface TextInputProps {
 const TextInput = ({ field, value, onChange }: TextInputProps) => {
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-bold text-gray-800">{field.name}</label>
+      <label className="block text-sm font-medium text-gray-800">{field.name}</label>
       {field.description && (
         <p className="flex items-center gap-x-2 rounded border border-gray-200 bg-gray-100 px-2 py-1 text-xs text-gray-600">
           <Info className="size-3" />
@@ -222,7 +222,7 @@ interface TextareaInputProps {
 const TextareaInput = ({ field, value, onChange }: TextareaInputProps) => {
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-bold text-gray-800">{field.name}</label>
+      <label className="block text-sm font-medium text-gray-800">{field.name}</label>
       {field.description && (
         <p className="flex items-center gap-x-2 rounded border border-gray-200 bg-gray-100 px-2 py-1 text-xs text-gray-600">
           <Info className="size-3" />
@@ -311,7 +311,7 @@ const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-bold text-gray-800">{field.name}</label>
+      <label className="block text-sm font-medium text-gray-800">{field.name}</label>
       {field.description && (
         <p className="flex items-center gap-x-2 rounded border border-gray-200 bg-gray-100 px-2 py-1 text-xs text-gray-600">
           <Info className="size-3" />
