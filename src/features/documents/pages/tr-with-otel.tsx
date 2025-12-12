@@ -190,7 +190,7 @@ export const WithOtelPageTR = () => {
 
         <article className="mt-6 flex flex-col gap-y-6">
           <section>
-            <h2 className="text-[14px] text-primary">
+            <h2 className="font-custom-commuters text-[14px] text-primary">
               <span className="font-bold">1. KRİTİK TIBBİ BİLGİ</span>
               <span className="block">VE AÇIKLAMALAR</span>
             </h2>
@@ -246,7 +246,7 @@ export const WithOtelPageTR = () => {
           </section>
 
           <section>
-            <h2 className="text-[14px] text-primary">
+            <h2 className="font-custom-commuters text-[14px] text-primary">
               <span className="font-bold">2. RANDEVUNUZ</span>
               <span className="block">PROGRAMME VE İTİNERARY</span>
             </h2>
@@ -414,7 +414,7 @@ export const WithOtelPageTR = () => {
           </section>
 
           <section>
-            <h2 className="text-[14px] text-primary">
+            <h2 className="font-custom-commuters text-[14px] text-primary">
               <span className="font-bold">3. OPERASYON ÖNCESİ</span>
               <span className="block">HAZIRLIK TÜRLERİ</span>
             </h2>
@@ -498,7 +498,7 @@ export const WithOtelPageTR = () => {
           </section>
 
           <section>
-            <h2 className="text-[14px] leading-tight text-primary uppercase">
+            <h2 className="font-custom-commuters text-[14px] text-primary uppercase">
               <span className="font-bold">4. PAKET ÖZETİ VE</span>
               <span className="block">FİNANSAL ANLAŞMA</span>
             </h2>
@@ -591,7 +591,7 @@ export const WithOtelPageTR = () => {
       <EditablePage index={3} className="text-[10px] leading-relaxed">
         <article className="flex flex-col gap-y-6">
           <section>
-            <h2 className="mb-3 text-[14px] text-primary uppercase">
+            <h2 className="mb-3 font-custom-commuters text-[14px] text-primary uppercase">
               <span className="font-bold">5. DEPOZİTO VE İPTAL POLİTİKASI</span>
             </h2>
 
@@ -626,7 +626,7 @@ export const WithOtelPageTR = () => {
           </section>
 
           <section>
-            <h2 className="mb-3 text-[14px] text-primary uppercase">
+            <h2 className="mb-3 font-custom-commuters text-[14px] text-primary uppercase">
               <span className="font-bold">6. SON ADIMLAR VE İLETİŞİM</span>
               <span className="block">BİLGİLERİ</span>
             </h2>

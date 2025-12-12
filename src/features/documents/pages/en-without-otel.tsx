@@ -150,7 +150,7 @@ export const WithoutOtelPageEN = () => {
         <article className="mt-6 flex flex-col gap-y-6">
           {/* SECTION 1: CRITICAL INFO (Aynen korundu) */}
           <section>
-            <h2 className="text-[14px] text-primary">
+            <h2 className="font-custom-commuters text-[14px] text-primary">
               <span className="font-bold">1. CRITICAL MEDICAL INFORMATION</span>
               <span className="block">& DISCLOSURES</span>
             </h2>
@@ -212,7 +212,7 @@ export const WithoutOtelPageEN = () => {
 
           {/* SECTION 2: SCHEDULE (Otel bilgileri çıkarıldı, Day 2 buraya alındı) */}
           <section>
-            <h2 className="text-[14px] text-primary">
+            <h2 className="font-custom-commuters text-[14px] text-primary">
               <span className="font-bold">2. YOUR APPOINTMENT</span>
               <span className="block">SCHEDULE AND ITINERARY</span>
             </h2>
@@ -316,7 +316,7 @@ export const WithoutOtelPageEN = () => {
 
           {/* SECTION 3: PREPARATION */}
           <section>
-            <h2 className="text-[14px] text-primary">
+            <h2 className="font-custom-commuters text-[14px] text-primary">
               <span className="font-bold">3. ESSENTIAL PRE-PROCEDURE</span>
               <span className="block">PREPARATION</span>
             </h2>
@@ -410,7 +410,7 @@ export const WithoutOtelPageEN = () => {
         <article className="flex flex-col gap-y-6">
           {/* SECTION 4: PACKAGE SUMMARY & FINANCIAL */}
           <section>
-            <h2 className="text-[14px] leading-tight text-primary uppercase">
+            <h2 className="font-custom-commuters text-[14px] text-primary uppercase">
               <span className="font-bold">4. PACKAGE SUMMARY &</span>
               <span className="block">FINANCIAL AGREEMENT</span>
             </h2>
@@ -494,7 +494,7 @@ export const WithoutOtelPageEN = () => {
 
           {/* SECTION 5: DEPOSIT & CANCELLATION */}
           <section>
-            <h2 className="mb-3 text-[14px] text-primary uppercase">
+            <h2 className="mb-3 font-custom-commuters text-[14px] text-primary uppercase">
               <span className="font-bold">5. DEPOSIT & CANCELLATION POLICY</span>
             </h2>
 
@@ -535,7 +535,7 @@ export const WithoutOtelPageEN = () => {
         <article className="flex flex-col gap-y-6">
           {/* SECTION 6: FINAL STEPS */}
           <section>
-            <h2 className="mb-3 text-[14px] text-primary uppercase">
+            <h2 className="mb-3 font-custom-commuters text-[14px] text-primary uppercase">
               <span className="font-bold">6. FINAL STEPS & CONTACT</span>
               <span className="block">INFORMATION</span>
             </h2>

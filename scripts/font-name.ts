@@ -12,35 +12,62 @@ const weightMap: Record<string, string> = {
   SemiBold: 'semibold',
   Bold: 'bold',
   ExtraBold: 'extra-bold',
-  Black: 'black',
+  Heavy: 'heavy',
+  Italic: 'regular', // This is incorrect. Italic should be handled in the style.
 }
 
-const CatchRegex = /^Inter_(\d+)pt-(.+?)(Italic)?\.ttf$/
+const CatchRegex = /^CommutersSans-(.+?)(Italic)?\.(ttf|woff|eot|woff2)$/
 
-const files = readdirSync(targetDir).filter((file) => file.endsWith('.ttf'))
+const files = readdirSync(targetDir).filter((file) =>
+  ['.ttf', '.woff2', '.eot', '.woff'].some((ext) => file.endsWith(ext)),
+)
 
 files.forEach((file) => {
   const match = file.match(CatchRegex)
 
   if (!match) {
+    // Handle the standalone Italic case.  These files do not match the regex.
+    if (
+      file.startsWith('CommutersSans-Italic') &&
+      ['.ttf', '.woff2', '.eot', '.woff'].some((ext) => file.endsWith(ext))
+    ) {
+      const extension = file.split('.').pop()
+      const newName = `regular-italic.${extension}`
+      const oldPath = join(targetDir, file)
+      const newPath = join(targetDir, newName)
+
+      try {
+        renameSync(oldPath, newPath)
+        console.log(`${file} → ${newName}`)
+      } catch (error) {
+        console.error(`Failed to rename ${file}: ${error}`)
+      }
+    }
+
     return
   }
 
-  const [, , weight, isItalic] = match
-  const weightName = weight.replace('Italic', '')
-  const weightNumber = weightMap[weightName]
+  const [, weight, isItalicCapture, extension] = match
+  const weightName = weight
+  const weightNumber = weightMap[weightName.replace('Italic', '')]
 
   if (!weightNumber) {
     console.log(`Unknown weight: ${file}`)
     return
   }
 
+  const isItalic = !!isItalicCapture // Convert capture group to boolean
+
   const style = isItalic ? 'italic' : 'normal'
-  const newName = `${weightNumber}-${style}.ttf`
+  const newName = `${weightNumber}-${style}.${extension}`
 
   const oldPath = join(targetDir, file)
   const newPath = join(targetDir, newName)
 
-  renameSync(oldPath, newPath)
-  console.log(`${file} → ${newName}`)
+  try {
+    renameSync(oldPath, newPath)
+    console.log(`${file} → ${newName}`)
+  } catch (error) {
+    console.error(`Failed to rename ${file}: ${error}`)
+  }
 })

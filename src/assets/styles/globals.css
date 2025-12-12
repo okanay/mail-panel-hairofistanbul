@@ -4,8 +4,9 @@
 
 @theme {
   --font-custom-sans:  'Inter', 'Helvetica Neue', 'Arial', 'sans-serif';
-  --color-primary : #87AC8A;
+  --font-custom-commuters : 'Commuters Sans', 'Helvetica Neue', 'Arial', 'sans-serif';
 
+  --color-primary : #87AC8A;
   --color-primary-50: #f2f7f2;
   --color-primary-100: #e1ebe0;
   --color-primary-200: #c3d7c4;
@@ -21,10 +22,11 @@
 
 @layer base {
   * {
-    @apply font-custom-sans focus:outline-none  ;
+    @apply focus:outline-none  ;
   }
 
   body {
+    font-family: var(--font-custom-sans);
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
   }
