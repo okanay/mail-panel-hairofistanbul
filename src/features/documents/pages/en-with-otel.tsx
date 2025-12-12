@@ -9,102 +9,114 @@ import { EditableContainer } from '../components/editable-container'
 export const WithOtelPageEN = () => {
   const { user } = useAuth()
 
-  // Form Data Definition
+  // Form Data Definition for WithOtelPageTR
   const formData: DocumentFormData = [
     {
-      name: 'Customer Name',
+      name: 'Müşteri Adı',
       editKey: 'd1-p1-k1',
       defaultValue: 'Mr. Customer-Name',
       inputMode: 'text',
     },
     {
-      name: 'Operation Date (Main)',
+      name: 'Operasyon Tarihi (Ana)',
       editKey: 'd1-p1-k2',
       defaultValue: 'Tuesday, 28 July 1998',
       inputMode: 'text',
     },
     {
-      name: 'Day 1: Arrival Date',
+      name: '1. Gün: Varış Tarihi',
       editKey: 'd1-p1-k3',
       defaultValue: '(Monday, 21 April 1997)',
       inputMode: 'text',
     },
     {
-      name: 'Day 1: Hotel & Welcome Text',
+      name: '1. Gün: Otel ve Karşılama Metni',
       description: 'HTML tags (b, i, u etc.) can be used.',
       editKey: 'd1-p1-k4',
       defaultValue: `Our team will greet you at Istanbul Airport (IST), Gate 8, in front of Simit Saray Café. A personal interpreter will provide a procedural overview and answer any initial questions. Following this, you will be privately transferred to your accommodation at the <b>5-star Crowne Plaza Istanbul Florya.</b>`,
       inputMode: 'textarea',
     },
     {
-      name: 'Day 2: Procedure Date',
+      name: '2. Gün: Operasyon Tarihi',
       editKey: 'd1-p2-k1',
       defaultValue: '(Thursday, 26 March 2026)',
       inputMode: 'text',
     },
     {
-      name: 'Day 3: Check-up Date',
+      name: '3. Gün: Kontrol Tarihi',
       editKey: 'd1-p2-k2',
       defaultValue: '(Saturday, 28 March 2026)',
       inputMode: 'text',
     },
     {
-      name: 'Day 4: Departure Date',
+      name: '4. Gün: Ayrılış Tarihi',
       editKey: 'd1-p2-k3',
       defaultValue: '(Sunday, 29 March 2026)',
       inputMode: 'text',
     },
     {
-      name: 'Financial: Total Package Value',
-      editKey: 'd1-p3-k2-e1',
+      name: 'Otel Bilgisi',
+      editKey: 'd1-p3-i1',
+      defaultValue: '3 nights at Crowne Plaza Istanbul Florya (5-star).',
+      inputMode: 'text',
+    },
+    {
+      name: 'Toplam Paket Değeri',
+      editKey: 'd1-p3-f1-e1',
       defaultValue: '$4,300',
       inputMode: 'text',
     },
     {
-      name: 'Financial: Toggle Total Value',
-      editKey: 'd1-p3-k1-h1',
+      name: 'Toplamı Gizle',
+      editKey: 'd1-p3-f1-h1',
       defaultValue: false,
       inputMode: 'toggle',
     },
     {
-      name: 'Financial: Deposit Amount',
-      editKey: 'd1-p3-k4-e2',
+      name: 'Depozito Miktarı',
+      editKey: 'd1-p3-f2-e2',
       defaultValue: '€500 (Non-refundable)',
       inputMode: 'text',
     },
     {
-      name: 'Financial: Toggle Deposit',
-      editKey: 'd1-p3-k3-h2',
+      name: 'Depozitoyu Gizle',
+      editKey: 'd1-p3-f2-h2',
       defaultValue: false,
       inputMode: 'toggle',
     },
     {
-      name: 'Financial: Remaining Balance',
-      editKey: 'd1-p3-k6-e3',
+      name: 'Kalan Bakiye',
+      editKey: 'd1-p3-f3-e3',
       defaultValue: '€3,800',
       inputMode: 'text',
     },
     {
-      name: 'Financial: Toggle Balance',
-      editKey: 'd1-p3-k5-h3',
+      name: 'Bakiyeyi Gizle',
+      editKey: 'd1-p3-f3-h3',
       defaultValue: false,
       inputMode: 'toggle',
     },
     {
-      name: 'Financial: Toggle Due Date',
-      editKey: 'd1-p3-k7-h4',
+      name: 'Son Ödeme Tarihini',
+      editKey: 'd1-p3-f4-e4',
+      defaultValue: 'In full on the day of the procedure.',
+      inputMode: 'text',
+    },
+    {
+      name: 'Son Ödeme Tarihini Gizle',
+      editKey: 'd1-p3-f4-h4',
       defaultValue: false,
       inputMode: 'toggle',
     },
     {
-      name: 'Agent: Name',
+      name: 'Temsilci Adı',
       editKey: 'd1-p4-k1',
       defaultValue: 'YOUR-NAME',
       seedValue: user?.name,
       inputMode: 'text',
     },
     {
-      name: 'Agent: Phone Number',
+      name: 'Temsilci Telefonu',
       editKey: 'd1-p4-k2',
       defaultValue: {
         value: '+90 532 650 00 00',
@@ -451,7 +463,11 @@ export const WithOtelPageEN = () => {
                   <li>Hair Transplant procedure using the FUE technique.</li>
                   <li>All private transfers (Airport ⇄ Hotel ⇄ Clinic).</li>
                   <li>Dedicated interpreter services.</li>
-                  <li>3 nights at Crowne Plaza Istanbul Florya (5-star).</li>
+                  <li>
+                    <EditableText editKey="d1-p3-i1">
+                      {'3 nights at Crowne Plaza Istanbul Florya (5-star).'}
+                    </EditableText>
+                  </li>
                   <li>All post-procedure medications.</li>
                   <li>One (1) PRP session.</li>
                   <li>Post-care kit (Shampoo & Foam Spray).</li>
@@ -463,31 +479,33 @@ export const WithOtelPageEN = () => {
             <div className="mt-4">
               <h3 className="mb-2 text-[12px] font-bold text-black">Financial Terms:</h3>
               <ul className="flex flex-col gap-y-1">
-                <HideableText editKey="d1-p3-k1-h1">
+                <HideableText editKey="d1-p3-f1-h1">
                   <li>
                     <span className="font-bold">• Total Package Value: </span>
-                    <EditableText editKey="d1-p3-k2-e1">{'$4,300'}</EditableText>
+                    <EditableText editKey="d1-p3-f1-e1">{'$4,300'}</EditableText>
                   </li>
                 </HideableText>
 
-                <HideableText editKey="d1-p3-k3-h2">
+                <HideableText editKey="d1-p3-f2-h2">
                   <li>
                     <span className="font-bold">• Deposit Received: </span>
-                    <EditableText editKey="d1-p3-k4-e2">{'€500 (Non-refundable)'}</EditableText>
+                    <EditableText editKey="d1-p3-f2-e2">{'€500 (Non-refundable)'}</EditableText>
                   </li>
                 </HideableText>
 
-                <HideableText editKey="d1-p3-k5-h3">
+                <HideableText editKey="d1-p3-f3-h3">
                   <li>
                     <span className="font-bold">• Outstanding Balance: </span>
-                    <EditableText editKey="d1-p3-k6-e3">{'€3,800'}</EditableText>
+                    <EditableText editKey="d1-p3-f3-e3">{'€3,800'}</EditableText>
                   </li>
                 </HideableText>
 
-                <HideableText editKey="d1-p3-k7-h4">
+                <HideableText editKey="d1-p3-f4-h4">
                   <li>
                     <span className="font-bold">• Balance Due Date: </span>
-                    In full on the day of the procedure.
+                    <EditableText editKey="d1-p3-f4-e4">
+                      {'In full on the day of the procedure.'}
+                    </EditableText>
                   </li>
                 </HideableText>
               </ul>

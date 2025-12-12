@@ -17,12 +17,12 @@ import { useState } from 'react'
 import { useSaveDocument } from '../queries/use-save-document'
 import { useSendEmail } from '../queries/use-send-email'
 import { useDocumentStore } from '../store'
-import { LoadingIndicator } from './loading-indicator'
-import { useProfileEditModal } from './modal-edit-profile'
-import { useDocumentHistoryModal } from './modal-get-document'
-import { useMailModal } from './modal-send-mail'
-import { useFormModeModal } from './modal-form-mode'
-import { useDownloadModal } from './modal-download-modal'
+import { LoadingIndicator } from '../../components/loading-indicator'
+import { useDocumentHistoryModal } from '../modals/modal-get-document'
+import { useMailModal } from '../modals/modal-send-mail'
+import { useFormModeModal } from '../modals/modal-form-mode'
+import { useDownloadModal } from '../modals/modal-download'
+import { useProfileEditModal } from '@/features/auth/modals/modal-edit-profile'
 
 interface Props {
   formData?: DocumentFormData

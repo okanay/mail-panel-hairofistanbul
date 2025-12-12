@@ -5,8 +5,8 @@ import type { QueryClient } from '@tanstack/react-query'
 import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router'
 import globals from '../assets/styles/globals.css?url'
 import { AuthProvider } from '../providers/auth'
-import { LoginForm } from '@/features/auth/login-form'
 import z from 'zod'
+import { LoginPage } from '@/features/auth/pages/login'
 
 export const validation = z.object({
   language: z
@@ -82,7 +82,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <AuthProvider initialUser={data.user}>
           <GlobalModalStoreProvider>
-            {data.user || skipLogin === 'yes' ? children : <LoginForm />}
+            {data.user || skipLogin === 'yes' ? children : <LoginPage />}
             <GlobalModalProvider />
           </GlobalModalStoreProvider>
         </AuthProvider>

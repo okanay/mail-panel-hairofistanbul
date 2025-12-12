@@ -11,86 +11,92 @@ export const WithoutOtelTransferPageEN = () => {
   // Form Data Definition for WithoutOtelTransferPageEN
   const formData: DocumentFormData = [
     {
-      name: 'Customer Name',
+      name: 'Müşteri Adı',
       editKey: 'd3-p1-k1',
       defaultValue: 'Mr. Customer-Name',
       inputMode: 'text',
     },
     {
-      name: 'Operation Date (Main)',
+      name: 'Operasyon Tarihi (Ana)',
       editKey: 'd3-p1-k2',
       defaultValue: 'Tuesday, 28 July 1998',
       inputMode: 'text',
     },
     {
-      name: 'Day 1: Arrival Date',
+      name: '1. Gün: Varış Tarihi',
       editKey: 'd3-p1-k3',
       defaultValue: '(Thursday, 26 March 2026)',
       inputMode: 'text',
     },
     {
-      name: 'Day 2: Procedure Date',
+      name: '2. Gün: Operasyon Tarihi',
       editKey: 'd3-p1-k4',
       defaultValue: '(Friday, 27 March 2026)',
       inputMode: 'text',
     },
     {
-      name: 'Day 3: Check-up Date',
+      name: '3. Gün: Kontrol Tarihi',
       editKey: 'd3-p2-k1',
       defaultValue: '(Saturday, 28 March 2026)',
       inputMode: 'text',
     },
     {
-      name: 'Financial: Total Package Value',
-      editKey: 'd3-p3-k2-e1',
+      name: 'Toplam Paket Değeri',
+      editKey: 'd3-p3-f1-e1',
       defaultValue: '$4,300',
       inputMode: 'text',
     },
     {
-      name: 'Financial: Toggle Total Value',
-      editKey: 'd3-p3-k1-h1',
+      name: 'Toplamı Gizle',
+      editKey: 'd3-p3-f1-h1',
       defaultValue: false,
       inputMode: 'toggle',
     },
     {
-      name: 'Financial: Deposit Amount',
-      editKey: 'd3-p3-k4-e2',
+      name: 'Depozito Miktarı',
+      editKey: 'd3-p3-f2-e2',
       defaultValue: '€500 (Non-refundable)',
       inputMode: 'text',
     },
     {
-      name: 'Financial: Toggle Deposit',
-      editKey: 'd3-p3-k3-h2',
+      name: 'Depozitoyu Gizle',
+      editKey: 'd3-p3-f2-h2',
       defaultValue: false,
       inputMode: 'toggle',
     },
     {
-      name: 'Financial: Remaining Balance',
-      editKey: 'd3-p3-k6-e3',
+      name: 'Kalan Bakiye',
+      editKey: 'd3-p3-f3-e3',
       defaultValue: '€3,800',
       inputMode: 'text',
     },
     {
-      name: 'Financial: Toggle Balance',
-      editKey: 'd3-p3-k5-h3',
+      name: 'Bakiyeyi Gizle',
+      editKey: 'd3-p3-f3-h3',
       defaultValue: false,
       inputMode: 'toggle',
     },
     {
-      name: 'Financial: Toggle Due Date',
-      editKey: 'd3-p3-k7-h4',
+      name: 'Son Ödeme Tarihini',
+      editKey: 'd3-p3-f4-e4',
+      defaultValue: 'In full on the day of the procedure.',
+      inputMode: 'text',
+    },
+    {
+      name: 'Son Ödeme Tarihini Gizle',
+      editKey: 'd3-p3-f4-h4',
       defaultValue: false,
       inputMode: 'toggle',
     },
     {
-      name: 'Agent: Name',
+      name: 'Temsilci Adı',
       editKey: 'd3-p3-k8',
       defaultValue: 'YOUR-NAME',
       seedValue: user?.name,
       inputMode: 'text',
     },
     {
-      name: 'Agent: Phone Number',
+      name: 'Temsilci Telefonu',
       editKey: 'd3-p3-k9',
       defaultValue: {
         value: '+90 532 650 00 00',
@@ -354,9 +360,7 @@ export const WithoutOtelTransferPageEN = () => {
               </h3>
               <ul className="ml-4 list-disc space-y-1">
                 <li>Hair Transplant procedure using the FUE technique.</li>
-                <li>All private transfers (Airport ⇄ Hotel ⇄ Clinic).</li>
                 <li>Dedicated interpreter services.</li>
-                <li>3 nights at Crowne Plaza Istanbul Florya (5-star).</li>
                 <li>All post-procedure medications.</li>
                 <li>One (1) PRP session.</li>
                 <li>Post-care kit (Shampoo & Foam Spray).</li>
@@ -372,31 +376,33 @@ export const WithoutOtelTransferPageEN = () => {
             <div>
               <h3 className="mb-2 text-[12px] font-bold text-black">Financial Terms:</h3>
               <ul className="flex flex-col gap-y-1">
-                <HideableText editKey="d3-p3-k1-h1">
+                <HideableText editKey="d3-p3-f1-h1">
                   <li>
                     <span className="font-bold">• Total Package Value: </span>
-                    <EditableText editKey="d3-p3-k2-e1">{'$4,300'}</EditableText>
+                    <EditableText editKey="d3-p3-f1-e1">{'$4,300'}</EditableText>
                   </li>
                 </HideableText>
 
-                <HideableText editKey="d3-p3-k3-h2">
+                <HideableText editKey="d3-p3-f2-h2">
                   <li>
                     <span className="font-bold">• Deposit Received: </span>
-                    <EditableText editKey="d3-p3-k4-e2">{'€500 (Non-refundable)'}</EditableText>
+                    <EditableText editKey="d3-p3-f2-e2">{'€500 (Non-refundable)'}</EditableText>
                   </li>
                 </HideableText>
 
-                <HideableText editKey="d3-p3-k5-h3">
+                <HideableText editKey="d3-p3-f3-h3">
                   <li>
                     <span className="font-bold">• Outstanding Balance: </span>
-                    <EditableText editKey="d3-p3-k6-e3">{'€3,800'}</EditableText>
+                    <EditableText editKey="d3-p3-f3-e3">{'€3,800'}</EditableText>
                   </li>
                 </HideableText>
 
-                <HideableText editKey="d3-p3-k7-h4">
+                <HideableText editKey="d3-p3-f4-h4">
                   <li>
                     <span className="font-bold">• Balance Due Date: </span>
-                    In full on the day of the procedure.
+                    <EditableText editKey="d3-p3-f4-e4">
+                      {'In full on the day of the procedure.'}
+                    </EditableText>
                   </li>
                 </HideableText>
               </ul>
