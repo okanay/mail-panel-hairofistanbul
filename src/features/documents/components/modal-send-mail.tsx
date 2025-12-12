@@ -181,7 +181,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                     id="emailAddress"
                     type="email"
                     placeholder="ornek@email.com"
-                    className={`h-11 w-full rounded-lg border bg-white px-3 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 ${
+                    className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm ${
                       errors.emailAddress
                         ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                         : 'border-gray-200'
@@ -196,7 +196,10 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
 
             {/* Email Title */}
             <div className="space-y-1.5">
-              <label htmlFor="emailTitle" className="block text-sm font-medium text-gray-700">
+              <label
+                htmlFor="emailTitle"
+                className="block text-base font-medium text-gray-700 sm:text-sm"
+              >
                 Mail Başlığı <span className="text-red-500">*</span>
               </label>
               <Controller
@@ -208,7 +211,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                     id="emailTitle"
                     type="text"
                     placeholder="Mail başlığını giriniz"
-                    className={`h-11 w-full rounded-lg border bg-white px-3 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 ${
+                    className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm ${
                       errors.emailTitle
                         ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                         : 'border-gray-200'

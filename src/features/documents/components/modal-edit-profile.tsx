@@ -137,7 +137,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                   type="text"
                   placeholder="İsminizi giriniz"
                   disabled={isPending}
-                  className={`h-11 w-full rounded-lg border bg-white px-3 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${
+                  className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
                     errors.name
                       ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                       : 'border-gray-200'
@@ -168,7 +168,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                   placeholder="ornek@email.com"
                   autoComplete="new-password"
                   disabled={isPending}
-                  className={`h-11 w-full rounded-lg border bg-white px-3 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${
+                  className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
                     errors.email
                       ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                       : 'border-gray-200'
@@ -198,7 +198,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                   type="tel"
                   placeholder="+90 555 123 45 67"
                   disabled={isPending}
-                  className={`h-11 w-full rounded-lg border bg-white px-3 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${
+                  className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
                     errors.phone
                       ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                       : 'border-gray-200'
@@ -232,7 +232,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Yeni Şifre"
                         disabled={isPending}
-                        className={`h-11 w-full rounded-lg border bg-white px-3 pr-11 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 ${
+                        className={`h-11 w-full rounded-lg border bg-white px-3 pr-11 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
                           errors.password
                             ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                             : 'border-gray-200'
