@@ -97,7 +97,7 @@ export const WithOtelPageTR = () => {
       inputMode: 'toggle',
     },
     {
-      name: 'Son Ödeme Tarihini',
+      name: 'Son Ödeme Tarihi Hakkında',
       editKey: 'd1-p3-f4-e4',
       defaultValue: 'İşlem günü, ödemenin tamamı yapılmalıdır.',
       inputMode: 'text',

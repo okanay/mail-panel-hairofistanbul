@@ -97,7 +97,7 @@ export const WithOtelPageEN = () => {
       inputMode: 'toggle',
     },
     {
-      name: 'Son Ödeme Tarihini',
+      name: 'Son Ödeme Tarihi Hakkında',
       editKey: 'd1-p3-f4-e4',
       defaultValue: 'In full on the day of the procedure.',
       inputMode: 'text',
