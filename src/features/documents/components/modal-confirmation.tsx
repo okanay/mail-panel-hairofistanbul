@@ -63,9 +63,9 @@ export function ConfirmationModal({
   }
 
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden bg-white md:h-auto md:w-md md:max-w-md md:rounded-lg md:shadow-2xl">
+    <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white md:h-auto md:w-md md:max-w-md md:rounded-lg md:shadow-2xl">
       {/* Header */}
-      <div className="flex shrink-0 items-start justify-between gap-4 border-b border-gray-100 px-6 py-5">
+      <div className="flex shrink-0 items-start justify-between gap-4 border-b border-gray-100 px-6 py-4">
         <div className="flex items-start gap-3">
           <div
             className={`flex size-10 shrink-0 items-center justify-center rounded-full ${styles.iconBg}`}

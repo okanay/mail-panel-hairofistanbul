@@ -16,3 +16,23 @@ type DocumentConfig = {
   type: DocumentContentType
   from: DocumentPaths
 }
+
+// types.ts
+type FormFieldInputMode = 'text' | 'textarea' | 'toggle' | 'link'
+
+type LinkTypeMode = 'mailto' | 'tel' | 'https'
+type LinkData = {
+  value: string
+  type: LinkTypeMode
+}
+
+type FormFieldConfig = {
+  name: string
+  description?: string
+  editKey: string
+  defaultValue: any
+  seedValue?: any
+  inputMode: FormFieldInputMode
+}
+
+type DocumentFormData = FormFieldConfig[]

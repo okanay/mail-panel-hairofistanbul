@@ -1,7 +1,7 @@
 import { useDocumentStore } from '@/features/documents/store'
 import { useSearch } from '@tanstack/react-router'
 import DOMPurify from 'dompurify'
-import { Bold, Command, Italic, Underline, PaintBucket } from 'lucide-react'
+import { Command } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { twMerge } from 'tailwind-merge'
@@ -36,7 +36,7 @@ export const EditableText = ({
   const sanitizeHTML = (html: string): string => {
     return DOMPurify.sanitize(html, {
       ALLOWED_TAGS: ['strong', 'em', 'u', 'br', 'span', 'b', 'i', 'mark', 'sub', 'sup', 's', 'del'],
-      ALLOWED_ATTR: ['class'],
+      ALLOWED_ATTR: ['class', 'data-style'],
       KEEP_CONTENT: true,
     })
   }
@@ -45,23 +45,6 @@ export const EditableText = ({
     const temp = document.createElement('div')
     temp.innerHTML = sanitizeHTML(html)
     return temp.textContent?.trim() || ''
-  }
-
-  const getStatusStyles = () => {
-    if (!editable) return ''
-
-    if (isFocused) {
-      return twMerge(
-        'border border-black border-dashed bg-black/70 text-white px-2 py-1 outline-none min-w-10 z-20 relative',
-        focusClassName,
-      )
-    }
-
-    if (isEditedAndFilled) {
-      return 'border border-dashed border-gray-400 bg-gray-300 px-2 py-0'
-    }
-
-    return 'border border-dashed border-amber-400 bg-amber-100 px-2 py-0 min-w-10'
   }
 
   const handleBlur = () => {
@@ -88,26 +71,71 @@ export const EditableText = ({
     }, 0)
   }
 
-  const currentTextContent = getTextContent(currentHTML)
-  const hasUserEdit = savedValue !== undefined && currentTextContent.length > 0
-  const hasSeedContent = isSeedMode && currentTextContent.length > 0
-  const isEditedAndFilled = hasUserEdit || hasSeedContent
+  const saveAndBlur = () => {
+    if (contentRef.current) {
+      contentRef.current.blur()
+    }
+  }
 
-  const applyStyle = (tailwindClasses: string) => {
+  const toggleStyle = (className: string, styleName: string) => {
     const selection = window.getSelection()
     if (!selection || selection.rangeCount === 0) return
 
     const range = selection.getRangeAt(0)
     if (range.collapsed) return
 
-    const selectedContent = range.extractContents()
+    const container = range.commonAncestorContainer
+    const parentElement =
+      container.nodeType === Node.TEXT_NODE ? container.parentElement : (container as HTMLElement)
 
-    const span = document.createElement('span')
-    span.className = tailwindClasses
-    span.appendChild(selectedContent)
+    const existingSpan = parentElement?.closest(`span[data-style="${styleName}"]`) as HTMLElement
 
-    range.insertNode(span)
+    if (existingSpan && contentRef.current?.contains(existingSpan)) {
+      const parent = existingSpan.parentNode
+      const fragment = document.createDocumentFragment()
+
+      while (existingSpan.firstChild) {
+        fragment.appendChild(existingSpan.firstChild)
+      }
+
+      parent?.replaceChild(fragment, existingSpan)
+    } else {
+      const span = document.createElement('span')
+      span.className = className
+      span.setAttribute('data-style', styleName)
+
+      try {
+        range.surroundContents(span)
+      } catch {
+        const contents = range.extractContents()
+        span.appendChild(contents)
+        range.insertNode(span)
+      }
+    }
+
     selection.removeAllRanges()
+
+    if (contentRef.current) {
+      const cleanHTML = sanitizeHTML(contentRef.current.innerHTML)
+      setEdit(editKey, cleanHTML)
+    }
+  }
+
+  const getStatusStyles = () => {
+    if (!editable) return ''
+
+    if (isFocused) {
+      return twMerge(
+        'border border-black border-dashed bg-black/70 text-white px-2 py-1 outline-none min-w-10 z-20 relative',
+        focusClassName,
+      )
+    }
+
+    if (isEditedAndFilled) {
+      return 'border border-dashed border-gray-400 bg-gray-300 px-2 py-0'
+    }
+
+    return 'border border-dashed border-amber-400 bg-amber-100 px-2 py-0 min-w-10'
   }
 
   useEffect(() => {
@@ -130,49 +158,41 @@ export const EditableText = ({
     if (!contentRef.current || !editable) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      const modifierPressed = e.metaKey || e.ctrlKey
-      if (!modifierPressed) return
-
+      const isModifier = e.metaKey || e.ctrlKey
       const key = e.key.toLowerCase()
-      let shouldPrevent = false
-      let tailwindClasses = ''
 
-      switch (key) {
-        case 'b':
-          if (!e.shiftKey) {
-            shouldPrevent = true
-            tailwindClasses = 'font-bold'
-          }
-          break
-
-        case 'i':
-          if (!e.shiftKey) {
-            shouldPrevent = true
-            tailwindClasses = 'italic'
-          }
-          break
-
-        case 'u':
-          if (!e.shiftKey) {
-            shouldPrevent = true
-            tailwindClasses = 'underline'
-          }
-          break
-
-        case 'p':
-          if (e.shiftKey) {
-            shouldPrevent = true
-            tailwindClasses = 'text-primary'
-          }
-          break
-
-        default:
-          break
+      // Enter tuşu - shift ile br, normal ile save
+      if (key === 'enter') {
+        e.preventDefault()
+        if (e.shiftKey) {
+        } else {
+          saveAndBlur()
+        }
+        return
       }
 
-      if (shouldPrevent && tailwindClasses) {
+      // Modifier tuşu yoksa style işlemleri yapma
+      if (!isModifier) return
+
+      // Style toggle işlemleri
+      let shouldPrevent = false
+
+      if (key === 'b' && !e.shiftKey) {
+        shouldPrevent = true
+        toggleStyle('font-bold', 'apply-bold')
+      } else if (key === 'i' && !e.shiftKey) {
+        shouldPrevent = true
+        toggleStyle('italic', 'apply-italic')
+      } else if (key === 'u' && !e.shiftKey) {
+        shouldPrevent = true
+        toggleStyle('underline', 'apply-underline')
+      } else if (key === 'p' && e.shiftKey) {
+        shouldPrevent = true
+        toggleStyle('text-primary decoration-primary', 'apply-color')
+      }
+
+      if (shouldPrevent) {
         e.preventDefault()
-        applyStyle(tailwindClasses)
       }
     }
 
@@ -182,7 +202,12 @@ export const EditableText = ({
     return () => {
       element.removeEventListener('keydown', handleKeyDown)
     }
-  }, [editable])
+  }, [editable, toggleStyle])
+
+  const currentTextContent = getTextContent(currentHTML)
+  const hasUserEdit = savedValue !== undefined && currentTextContent.length > 0
+  const hasSeedContent = isSeedMode && currentTextContent.length > 0
+  const isEditedAndFilled = hasUserEdit || hasSeedContent
 
   return (
     <>
@@ -213,6 +238,15 @@ export const EditableText = ({
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center gap-3">
                 <div className="flex items-center gap-1.5 rounded bg-gray-50 px-2 py-1">
+                  <kbd className="rounded bg-white px-1.5 py-0.5 text-xs text-gray-700 shadow-sm">
+                    Enter
+                  </kbd>
+                </div>
+                <span className="text-xs text-gray-600">Kaydet</span>
+              </div>
+
+              <div className="flex items-center gap-3">
+                <div className="flex items-center gap-1.5 rounded bg-gray-50 px-2 py-1">
                   <Command size={12} className="text-gray-600" />
                   <span className="text-xs font-medium text-gray-600">+</span>
                   <kbd className="rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-gray-700 shadow-sm">
@@ -220,7 +254,6 @@ export const EditableText = ({
                   </kbd>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Bold size={14} className="text-gray-700" />
                   <span className="text-xs text-gray-600">Kalın</span>
                 </div>
               </div>
@@ -234,7 +267,6 @@ export const EditableText = ({
                   </kbd>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Italic size={14} className="text-gray-700" />
                   <span className="text-xs text-gray-600">Italic</span>
                 </div>
               </div>
@@ -248,7 +280,6 @@ export const EditableText = ({
                   </kbd>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <Underline size={14} className="text-gray-700" />
                   <span className="text-xs text-gray-600">Alt Çizgi</span>
                 </div>
               </div>
@@ -262,16 +293,13 @@ export const EditableText = ({
                   </kbd>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <PaintBucket size={14} className="text-gray-700" />
                   <span className="text-xs text-gray-600">Renk</span>
                 </div>
               </div>
             </div>
 
             <div className="mt-1 border-t border-gray-100 pt-2">
-              <p className="text-[10px] text-gray-400">
-                Stil uygulamak için metin seçin (Ctrl/Cmd tuşu)
-              </p>
+              <p className="text-[10px] text-gray-400">Stil uygulamak için metin seçin</p>
             </div>
           </div>,
           document.body,

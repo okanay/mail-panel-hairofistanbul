@@ -1,4 +1,3 @@
-// EditableLink.tsx
 import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { twMerge } from 'tailwind-merge'
@@ -10,35 +9,16 @@ interface EditableLinkProps {
   seedValue?: string | null | undefined
   className?: string
   editKey: string
+  linkType?: LinkTypeMode
 }
 
-type LinkType = 'mailto' | 'tel' | 'https'
-
-interface LinkData {
-  value: string
-  type: LinkType
-}
-
-const detectType = (href: string): LinkType => {
-  if (href.startsWith('mailto:')) return 'mailto'
-  if (href.startsWith('tel:')) return 'tel'
-  return 'https'
-}
-
-const cleanValue = (href: string, type: LinkType): string => {
-  if (type === 'mailto') return href.replace('mailto:', '')
-  if (type === 'tel') return href.replace('tel:', '')
-  return href.replace(/^https?:\/\//, '')
-}
-
-const buildHref = (type: LinkType, value: string): string => {
-  if (!value) return '#'
-  if (type === 'mailto') return `mailto:${value}`
-  if (type === 'tel') return `tel:${value}`
-  return value.startsWith('http') ? value : `https://${value}`
-}
-
-export const EditableLink = ({ href, seedValue, className, editKey }: EditableLinkProps) => {
+export const EditableLink = ({
+  href,
+  seedValue,
+  className,
+  editKey,
+  linkType,
+}: EditableLinkProps) => {
   const search = useSearch({ from: '/docs' })
   const editable = search.editable === 'yes'
   const { edits, setEdit } = useDocumentStore()
@@ -49,29 +29,25 @@ export const EditableLink = ({ href, seedValue, className, editKey }: EditableLi
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 })
   const [formValue, setFormValue] = useState('')
-  const [formType, setFormType] = useState<LinkType>('https')
+  const [formType, setFormType] = useState<LinkTypeMode>('https')
 
-  // Seed mode kontrolü: seedValue varsa ve href'den farklıysa seed mode aktif
   const isSeedMode = seedValue && seedValue !== href
 
-  // Başlangıç değeri: seed varsa onu kullan, yoksa href
   const initialHref = seedValue || href
-  const initialType = detectType(initialHref)
-  const initialValue = cleanValue(initialHref, initialType)
+  const initialType = linkType || detectType(initialHref)
+  const initialValue =
+    isSeedMode && seedValue
+      ? seedValue // seedValue zaten temiz
+      : cleanValue(initialHref, initialType)
 
   const currentData: LinkData = savedData ?? {
     type: initialType,
     value: initialValue,
   }
 
-  // Kullanıcı gerçekten bir edit yaptı mı kontrolü
-  // Normal mode: savedData varsa ve dolu ise → success
-  // Seed mode: seedValue ile başladıysa ve içerik doluysa → success
   const hasUserEdit = savedData !== undefined && savedData.value.length > 0
   const hasSeedContent = isSeedMode && currentData.value.length > 0
-
   const isEditedAndFilled = hasUserEdit || hasSeedContent
-
   const finalHref = buildHref(currentData.type, currentData.value)
 
   const handleLinkClick = (e: React.MouseEvent) => {
@@ -101,11 +77,24 @@ export const EditableLink = ({ href, seedValue, className, editKey }: EditableLi
     setIsModalOpen(false)
   }
 
+  const getStatusStyles = () => {
+    if (!editable) return ''
+
+    if (isModalOpen) {
+      return 'border border-black border-dashed bg-black/70 text-white px-2 py-1 outline-none min-w-10 z-20 relative'
+    }
+
+    if (isEditedAndFilled) {
+      return 'border border-dashed border-gray-400 bg-gray-300 px-2 py-0'
+    }
+
+    return 'border border-dashed border-amber-400 bg-amber-100 px-2 py-0 min-w-10'
+  }
+
   useEffect(() => {
     if (isSeedMode && savedData === undefined && seedValue) {
-      const seedType = detectType(seedValue)
-      const seedCleanValue = cleanValue(seedValue, seedType)
-      setEdit(editKey, { value: seedCleanValue, type: seedType })
+      const seedType = detectType(seedValue, href)
+      setEdit(editKey, { value: seedValue, type: seedType })
     }
   }, [])
 
@@ -123,20 +112,6 @@ export const EditableLink = ({ href, seedValue, className, editKey }: EditableLi
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [isModalOpen])
-
-  const getStatusStyles = () => {
-    if (!editable) return ''
-
-    if (isModalOpen) {
-      return 'border border-black border-dashed bg-black/70 text-white px-2 py-1 outline-none min-w-10 z-20 relative'
-    }
-
-    if (isEditedAndFilled) {
-      return 'border border-dashed border-gray-400 bg-gray-300 px-2 py-0'
-    }
-
-    return 'border border-dashed border-amber-400 bg-amber-100 px-2 py-0 min-w-10'
-  }
 
   return (
     <>
@@ -216,4 +191,32 @@ export const EditableLink = ({ href, seedValue, className, editKey }: EditableLi
         )}
     </>
   )
+}
+
+const detectType = (href: string, fallbackHref?: string): LinkTypeMode => {
+  // İlk href'i kontrol et
+  if (href.startsWith('mailto:')) return 'mailto'
+  if (href.startsWith('tel:')) return 'tel'
+  if (href.startsWith('http')) return 'https'
+
+  // Eğer prefix yoksa ve fallback varsa, ondan çıkar
+  if (fallbackHref) {
+    if (fallbackHref.startsWith('mailto:')) return 'mailto'
+    if (fallbackHref.startsWith('tel:')) return 'tel'
+  }
+
+  return 'https'
+}
+
+const cleanValue = (href: string, type: LinkTypeMode): string => {
+  if (type === 'mailto') return href.replace('mailto:', '')
+  if (type === 'tel') return href.replace('tel:', '')
+  return href.replace(/^https?:\/\//, '')
+}
+
+const buildHref = (type: LinkTypeMode, value: string): string => {
+  if (!value) return '#'
+  if (type === 'mailto') return `mailto:${value}`
+  if (type === 'tel') return `tel:${value}`
+  return value.startsWith('http') ? value : `https://${value}`
 }

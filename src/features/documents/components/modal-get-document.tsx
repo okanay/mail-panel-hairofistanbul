@@ -72,7 +72,7 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
   const allItems = data?.pages.flatMap((page) => page.items) || []
 
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[90vh] md:w-5xl md:max-w-xl md:rounded-lg md:shadow-2xl">
+    <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white sm:h-auto sm:max-h-[90vh] sm:w-5xl sm:max-w-xl sm:rounded-lg sm:shadow-2xl">
       {/* Header */}
       <div className="flex shrink-0 items-center justify-between border-b border-gray-100 bg-white px-6 py-4">
         <div>
@@ -122,7 +122,7 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                   {page.items.map((item) => (
                     <div
                       key={item.id}
-                      className="group transition-[colors,opacity relative flex items-center justify-between overflow-hidden rounded-lg border border-gray-200 bg-white px-4 py-4"
+                      className="group relative flex flex-wrap items-start justify-between gap-x-6 gap-y-2 overflow-hidden rounded-lg border border-gray-200 bg-white px-4 py-4 transition-[colors_opacity] sm:items-center"
                     >
                       {/* Left */}
                       <div className="flex min-w-0 flex-col items-start gap-1">
@@ -138,37 +138,35 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                           </span>
                         </div>
                         {item.hash && (
-                          <p className="line-clamp-2 text-xs text-gray-600">{item.hash}</p>
+                          <p className="line-clamp-1 text-xs text-gray-600">{item.hash}</p>
                         )}
                       </div>
 
                       {/* Right */}
-                      <div>
-                        <div className="flex gap-2">
-                          <Link
-                            to={`/docs/${item.language}/${item.content_type}` as any}
-                            search={
-                              {
-                                language: item.language,
-                                hash: item.hash,
-                                editable: 'yes',
-                                showMenu: 'yes',
-                              } as any
-                            }
-                            reloadDocument={true}
-                            replace={true}
-                            className="transiton-colors flex h-9 flex-1 items-center justify-center gap-1.5 rounded-md border border-gray-200 bg-white px-4 text-xs font-medium text-gray-800 duration-300 hover:border-primary hover:bg-primary hover:text-white"
-                          >
-                            <Eye className="size-3.5" />
-                            Görüntüle
-                          </Link>
-                          <button
-                            onClick={() => handleDelete(item.hash)}
-                            className="transiton-colors flex size-9 items-center justify-center rounded-md border border-red-200 bg-white text-red-600 duration-300 hover:bg-red-50"
-                          >
-                            <Trash2 className="size-3.5" />
-                          </button>
-                        </div>
+                      <div className="flex gap-2">
+                        <Link
+                          to={`/docs/${item.language}/${item.content_type}` as any}
+                          search={
+                            {
+                              language: item.language,
+                              hash: item.hash,
+                              editable: 'yes',
+                              showMenu: 'yes',
+                            } as any
+                          }
+                          reloadDocument={true}
+                          replace={true}
+                          className="transiton-colors flex w-full items-center justify-center gap-1.5 rounded-md border border-gray-200 bg-white px-4 py-2 text-xs font-medium text-gray-800 duration-300 hover:border-primary hover:bg-primary hover:text-white"
+                        >
+                          <Eye className="size-3.5" />
+                          Görüntüle
+                        </Link>
+                        <button
+                          onClick={() => handleDelete(item.hash)}
+                          className="transiton-colors flex w-full items-center justify-center rounded-md border border-red-200 bg-white px-4 py-2 text-red-600 duration-300 hover:bg-red-50"
+                        >
+                          <Trash2 className="size-3.5" />
+                        </button>
                       </div>
                     </div>
                   ))}

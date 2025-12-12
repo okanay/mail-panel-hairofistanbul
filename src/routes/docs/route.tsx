@@ -12,6 +12,10 @@ export const validation = z.object({
     .union([z.literal('yes'), z.literal('no')])
     .optional()
     .catch(undefined),
+  hideMenu: z
+    .union([z.literal('yes'), z.literal('no')])
+    .optional()
+    .catch(undefined),
 })
 
 export const Route = createFileRoute('/docs')({
@@ -32,16 +36,6 @@ export const Route = createFileRoute('/docs')({
       return {
         store: undefined,
       }
-    }
-  },
-  head: () => {
-    return {
-      meta: [
-        {
-          name: 'viewport',
-          content: 'width=1280, user-scalable=yes',
-        },
-      ],
     }
   },
   component: RouteComponent,

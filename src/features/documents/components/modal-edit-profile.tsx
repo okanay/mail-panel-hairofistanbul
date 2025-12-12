@@ -69,7 +69,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
   }
 
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-lg md:max-w-lg md:rounded-lg md:shadow-2xl">
+    <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-lg md:max-w-lg md:rounded-lg md:shadow-2xl">
       {/* Header */}
       <div className="flex shrink-0 items-center justify-between border-b border-gray-100 px-6 py-4">
         <div>
@@ -86,7 +86,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
       </div>
 
       {/* Content */}
-      <div className="relative flex-1 overflow-y-auto bg-gray-50/50 px-6 py-6">
+      <div className="relative overflow-y-auto bg-gray-50/50 px-6 py-6">
         {/* Loading Overlay */}
         {isPending && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-sm">
@@ -260,7 +260,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
       </div>
 
       {/* Footer */}
-      <div className="flex shrink-0 gap-3 border-t border-gray-100 bg-white p-4">
+      <div className="flex shrink-0 gap-3 border-t border-gray-100 bg-white px-6 py-4">
         <button
           type="button"
           onClick={onClose}

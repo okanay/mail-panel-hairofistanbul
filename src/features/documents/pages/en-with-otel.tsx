@@ -9,9 +9,121 @@ import { EditableContainer } from '../components/editable-container'
 export const WithOtelPageEN = () => {
   const { user } = useAuth()
 
+  // Form Data Definition
+  const formData: DocumentFormData = [
+    {
+      name: 'Müşteri Adı',
+      editKey: 'd1-p1-k1',
+      defaultValue: 'Mr. Customer-Name',
+      inputMode: 'text',
+    },
+    {
+      name: 'Operasyon Tarihi',
+      editKey: 'd1-p1-k2',
+      defaultValue: 'Tuesday, 28 July 1998',
+      inputMode: 'text',
+    },
+    {
+      name: 'Varış Günü',
+      editKey: 'd1-p1-k3',
+      defaultValue: '(Monday, 21 April 1997)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Otel Bilgileri',
+      description:
+        'Stil vermek istiyorsanız, <b>Kalın Metin</b> <u>Altı Çizgili Metin</u> <i>Italic Metin</i>',
+      editKey: 'd2-p1-k4',
+      defaultValue: `Our team will greet you at Istanbul Airport (IST), Gate 8, in front of Simit Saray Café. A personal interpreter will provide a procedural overview and answer any initial questions. Following this, you will be privately transferred to your accommodation at the <b>5-star Crowne Plaza Istanbul Florya.</b>`,
+      inputMode: 'textarea',
+    },
+    {
+      name: 'Prosedür Günü',
+      editKey: 'd1-p2-k1',
+      defaultValue: '(Thursday, 26 March 2026)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Prosedür Sonrası Kontrol Günü',
+      editKey: 'd1-p2-k2',
+      defaultValue: '(Saturday, 28 March 2026)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Ayrılış Günü',
+      editKey: 'd1-p2-k3',
+      defaultValue: '(Sunday, 29 March 2026)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Toplam Paket Değeri',
+      editKey: 'd1-p3-k2-e1',
+      defaultValue: '$4,300',
+      inputMode: 'text',
+    },
+    {
+      name: 'Toplam Paket Değerini Gizle',
+      editKey: 'd1-p3-k1-h1',
+      defaultValue: false,
+      inputMode: 'toggle',
+    },
+    {
+      name: 'Depozito Miktarı',
+      editKey: 'd1-p3-k4-e2',
+      defaultValue: '€500 (Non-refundable)',
+      inputMode: 'text',
+    },
+    {
+      name: 'Alınan Depozitoyu Gizle',
+      editKey: 'd1-p3-k3-h2',
+      defaultValue: false,
+      inputMode: 'toggle',
+    },
+    {
+      name: 'Kalan Bakiye',
+      editKey: 'd1-p3-k6-e3',
+      defaultValue: '€3,800',
+      inputMode: 'text',
+    },
+    {
+      name: 'Kalan Bakiyeyi Gizle',
+      editKey: 'd1-p3-k5-h3',
+      defaultValue: false,
+      inputMode: 'toggle',
+    },
+    {
+      name: 'Bakiye Son Ödeme Tarihini Gizle',
+      editKey: 'd1-p3-k7-h4',
+      defaultValue: false,
+      inputMode: 'toggle',
+    },
+    {
+      name: 'Temsilci Adı',
+      editKey: 'd1-p4-k1',
+      defaultValue: 'YOUR-NAME',
+      seedValue: user?.name,
+      inputMode: 'text',
+    },
+    {
+      name: 'İletişim Telefonu',
+      editKey: 'd1-p4-k2',
+      defaultValue: {
+        value: '+90 532 650 00 00',
+        type: 'tel',
+      } as LinkData,
+      seedValue: user?.phone
+        ? ({
+            value: user.phone,
+            type: 'tel',
+          } as LinkData)
+        : undefined,
+      inputMode: 'link',
+    },
+  ]
+
   return (
     <div className="flex flex-col bg-gray-50 text-black md:items-center md:justify-center">
-      <EditorMenu />
+      <EditorMenu formData={formData} />
       <EditablePage index={0} className="text-[10px] leading-relaxed">
         <header className="flex flex-col gap-y-1">
           <h1 className="font-semibold">

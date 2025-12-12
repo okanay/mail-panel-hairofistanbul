@@ -89,9 +89,9 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
   const showError = emailError !== null
 
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-lg md:max-w-lg md:rounded-lg md:shadow-2xl">
+    <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-lg md:max-w-lg md:rounded-lg md:shadow-2xl">
       {/* Header */}
-      <div className="flex shrink-0 items-center justify-between border-b border-gray-100 px-4 py-4">
+      <div className="flex shrink-0 items-center justify-between border-b border-gray-100 px-6 py-4">
         <div>
           <h2 className="text-lg font-bold text-gray-950">Mail Gönder</h2>
           <p className="mt-0.5 text-xs text-gray-500">Dokümanınızı PDF olarak gönderin</p>
@@ -105,7 +105,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
       </div>
 
       {/* Content */}
-      <div className="relative flex-1 overflow-y-auto bg-gray-50/50 px-4 py-4">
+      <div className="relative overflow-y-auto bg-gray-50/50 px-6 py-4">
         {/* Loading State */}
         {isProcessing && (
           <div className="z-10 flex h-40 items-center justify-center bg-white/80 backdrop-blur-sm">
@@ -233,7 +233,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                   <textarea
                     {...field}
                     id="emailDescription"
-                    rows={12}
+                    rows={14}
                     placeholder="Mail içeriğini giriniz"
                     className={`w-full resize-none rounded-lg border bg-white px-3 py-2.5 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 ${
                       errors.emailDescription
@@ -252,7 +252,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
       </div>
 
       {/* Footer */}
-      <div className="shrink-0 border-t border-gray-100 bg-white p-4">
+      <div className="shrink-0 border-t border-gray-100 bg-white px-6 py-4">
         <button
           type="submit"
           form="mail-form"
