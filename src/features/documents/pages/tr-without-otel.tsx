@@ -136,12 +136,11 @@ export const WithoutOtelPageTR = () => {
           </h1>
 
           <p>
-            Bu mesajın sizi iyi bulduğunu umuyoruz. Hair of İstanbul ailesinin tamamı adına, sizin
-            saç nakli işleminizin{' '}
+            Hair of İstanbul ailesinin tamamı adına, sizin saç nakli işleminizin{' '}
             <EditableText editKey="d2-p1-k2" className="font-bold">
               {'Salı, 28 Temmuz 1998'}
             </EditableText>{' '}
-            tarihine planlandığını resmi olarak onaylamaktan mutluluk duyuyoruz. Bu e-posta,
+            tarihine planlandığını resmi olarak onaylamaktan mutluluk duyuyoruz. Bu belge,
             randevunuzun kapsamlı onaylaması ve rehber niteliğindedir. Sorunsuz ve başarılı bir
             deneyim sağlamak için, lütfen aşağıdaki bilgileri dikkatle incelemenizi rica ediyoruz.
           </p>

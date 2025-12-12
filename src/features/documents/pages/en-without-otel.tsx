@@ -141,8 +141,8 @@ export const WithoutOtelPageEN = () => {
             <EditableText editKey="d2-p1-k2" className="font-bold">
               {'Tuesday, 28 July 1998'}
             </EditableText>
-            .This email serves as your comprehensive appointment confirmation and guide. To ensure a
-            seamless and successful experience, we kindly ask you to review the following
+            .This document serves as your comprehensive appointment confirmation and guide. To
+            ensure a seamless and successful experience, we kindly ask you to review the following
             information carefully.
           </p>
         </header>
