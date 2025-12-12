@@ -22,6 +22,7 @@ import { useProfileEditModal } from './modal-edit-profile'
 import { useDocumentHistoryModal } from './modal-get-document'
 import { useMailModal } from './modal-send-mail'
 import { useFormModeModal } from './modal-form-mode'
+import { useDownloadModal } from './modal-download-modal'
 
 interface Props {
   formData?: DocumentFormData
@@ -43,21 +44,15 @@ export const EditorMenu = ({ formData }: Props) => {
   const { openDocumentHistoryModal } = useDocumentHistoryModal()
   const { openProfileEditModal } = useProfileEditModal()
   const { openFormModeModal } = useFormModeModal()
+  const { openDownloadModal } = useDownloadModal()
 
   const { mutate: downloadPdf } = useSendEmail({
     store,
     onSuccess: (data) => {
       if (data.url) {
-        const link = document.createElement('a')
-        link.href = data.url
-        link.target = '_blank'
-        link.rel = 'noopener noreferrer'
-        link.download = `${config.type}-${config.language}.pdf`
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
+        openDownloadModal(data.url)
+        setIsDownloading(false)
       }
-      setIsDownloading(false)
     },
     onError: () => {
       setIsDownloading(false)
@@ -67,7 +62,7 @@ export const EditorMenu = ({ formData }: Props) => {
   const mode = search.editable === 'yes'
   const showMenu = search.showMenu === 'yes'
   const isLoading = query.isFetching || isDownloading
-  const loadingMessage = query.isFetching ? 'Kaydediliyor...' : 'PDF İndiriliyor...'
+  const loadingMessage = query.isFetching ? 'Kaydediliyor...' : 'PDF Oluşturuluyor...'
 
   const handleDownload = async () => {
     const data = await query.refetch()
