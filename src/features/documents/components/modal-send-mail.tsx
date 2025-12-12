@@ -238,7 +238,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                     id="emailDescription"
                     rows={14}
                     placeholder="Mail içeriğini giriniz"
-                    className={`w-full resize-none rounded-lg border bg-white px-3 py-2.5 text-sm transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 ${
+                    className={`w-full resize-none rounded-lg border bg-white px-3 py-2.5 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm ${
                       errors.emailDescription
                         ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                         : 'border-gray-200'

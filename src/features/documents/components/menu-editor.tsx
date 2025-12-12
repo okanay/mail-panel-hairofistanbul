@@ -141,119 +141,113 @@ export const EditorMenu = ({ formData }: Props) => {
           {/* User Profile */}
           <div
             hidden={hideMenu}
-            className="flex items-center gap-3 rounded-tl-lg border border-gray-200 bg-white p-3"
+            className="flex w-full flex-col items-start gap-2 rounded-tl-lg border border-gray-200 bg-white p-3"
           >
-            <button
-              onClick={openProfileEditModal}
-              disabled={query.isFetching}
-              className="flex size-8 items-center justify-center rounded-lg bg-white text-gray-600 transition-opacity duration-300 hover:border-primary hover:bg-primary hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              <Settings className="size-4" />
-            </button>
-            <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-semibold text-gray-900">
-                {user?.name || 'Kullanıcı'}
-              </p>
-              <p className="truncate text-xs text-gray-500">@{user?.username}</p>
+            <div className="flex w-full items-start justify-between gap-2">
+              <button
+                onClick={openProfileEditModal}
+                disabled={query.isFetching}
+                className="flex size-8 items-center justify-center rounded-lg border-primary bg-primary text-white transition-opacity duration-300 hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-75"
+              >
+                <Settings className="size-4" />
+              </button>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-semibold text-gray-900">
+                  {user?.name || 'Kullanıcı'}
+                </p>
+                <p className="truncate text-xs text-gray-500">@{user?.username}</p>
+              </div>
             </div>
-          </div>
-          <button
-            onClick={handleHide}
-            data-hidden={hideMenu}
-            className="absolute top-0 -right-15.5 rounded-r-lg border border-gray-200 bg-white px-4 py-2 text-sm font-bold text-gray-800 transition-opacity duration-300 hover:bg-gray-100 data-[hidden=true]:-right-18 data-[hidden=true]:rounded-l-lg data-[hidden=true]:border-l"
-          >
-            {hideMenu ? 'Göster' : 'Gizle'}
-          </button>
-        </div>
 
-        {/* Main Menu */}
-        <div
-          hidden={hideMenu}
-          className="pointer-events-auto flex w-fit min-w-52 flex-col gap-1 border-x border-gray-200 bg-white py-2"
-        >
-          {/* Navigation Section */}
-          <div className="space-y-0.5 px-2">
             <Link
               to="/"
               search={(prev) => ({
                 ...prev,
                 hash: undefined,
               })}
-              className="flex h-9 items-center gap-2.5 rounded-md px-3 text-sm font-medium text-gray-700 transition-opacity hover:bg-gray-100"
+              className="flex h-9 w-full items-center gap-2.5 rounded-md px-3 text-sm font-medium text-gray-700 transition-opacity hover:bg-gray-100"
             >
-              <Home className="size-4" />
+              <Home className="-ml-1 size-4" />
               <span>Anasayfa</span>
             </Link>
-          </div>
 
-          <hr className="my-1 border-gray-200" />
-
-          {/* Document Actions Section */}
-          <div className="space-y-0.5 px-2">
-            <MenuButton
-              onClick={handleOpenFormMode}
-              icon={<FormInput className="size-4" />}
-              label="Form Modu"
-            />
-
-            <MenuButton
-              onClick={handleToggleEditMode}
-              icon={mode ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
-              label={mode ? 'Görüntüle' : 'Düzenle'}
-            />
-
-            <MenuButton
-              onClick={openDocumentHistoryModal}
-              disabled={query.isFetching}
-              icon={<History className="size-4" />}
-              label="Geçmiş"
-            />
-
-            <MenuButton
-              onClick={() => query.refetch()}
-              disabled={query.isFetching}
-              icon={<Save className="size-4" />}
-              label="Kaydet"
-            />
-
-            <MenuButton
-              onClick={handleDownload}
-              disabled={isLoading}
-              icon={<Download className="size-4" />}
-              label="Belgeyi İndir"
-            />
-          </div>
-
-          <hr className="my-1 border-gray-200" />
-
-          {/* Language Section */}
-          <div className="space-y-1.5 px-4 py-1.5">
-            <p className="text-xs font-semibold tracking-wider text-gray-500 uppercase">Dil</p>
-            <div className="grid grid-cols-2 gap-2">
-              <LanguageButton
-                language="tr"
-                isActive={config.language === 'tr'}
-                onClick={() => handleToggleLanguage('tr')}
-              />
-              <LanguageButton
-                language="en"
-                isActive={config.language === 'en'}
-                onClick={() => handleToggleLanguage('en')}
-              />
-            </div>
-          </div>
-
-          <hr className="my-1 border-gray-200" />
-
-          {/* Account Section */}
-          <div className="space-y-0.5 px-2">
             <MenuButton
               onClick={handleLogout}
               disabled={query.isFetching}
-              icon={<LogOut className="size-4" />}
+              icon={<LogOut className="-ml-1 size-4" />}
               label="Çıkış Yap"
               variant="danger"
             />
+          </div>
+
+          {/* Account Section */}
+          <button
+            onClick={handleHide}
+            data-hidden={hideMenu}
+            className="absolute top-0 -right-15.25 rounded-r-lg bg-primary px-4 py-2 text-sm font-bold text-white transition-opacity duration-300 hover:opacity-75 data-[hidden=true]:-right-18 data-[hidden=true]:rounded-l-lg data-[hidden=true]:border-l"
+          >
+            {hideMenu ? 'Göster' : 'Gizle'}
+          </button>
+
+          {/* Main Menu */}
+          <div
+            hidden={hideMenu}
+            className="pointer-events-auto flex w-fit min-w-52 flex-col gap-1 border-x border-gray-200 bg-white py-2"
+          >
+            {/* Document Actions Section */}
+            <div className="space-y-0.5 px-2">
+              <MenuButton
+                onClick={handleOpenFormMode}
+                icon={<FormInput className="size-4" />}
+                label="Form Modu"
+              />
+
+              <MenuButton
+                onClick={handleToggleEditMode}
+                icon={mode ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
+                label={mode ? 'Görüntüle' : 'Düzenle'}
+              />
+
+              <MenuButton
+                onClick={openDocumentHistoryModal}
+                disabled={query.isFetching}
+                icon={<History className="size-4" />}
+                label="Geçmiş"
+              />
+
+              <MenuButton
+                onClick={() => query.refetch()}
+                disabled={query.isFetching}
+                icon={<Save className="size-4" />}
+                label="Kaydet"
+              />
+
+              <MenuButton
+                onClick={handleDownload}
+                disabled={isLoading}
+                icon={<Download className="size-4" />}
+                label="Belgeyi İndir"
+              />
+            </div>
+
+            <hr className="my-1 border-gray-200" />
+
+            {/* Language Section */}
+            <div className="space-y-1.5 px-4 py-1.5">
+              <p className="text-xs font-semibold tracking-wider text-gray-500 uppercase">Dil</p>
+              <div className="grid grid-cols-2 gap-2">
+                <LanguageButton
+                  language="tr"
+                  isActive={config.language === 'tr'}
+                  onClick={() => handleToggleLanguage('tr')}
+                />
+                <LanguageButton
+                  language="en"
+                  isActive={config.language === 'en'}
+                  onClick={() => handleToggleLanguage('en')}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
@@ -262,7 +256,7 @@ export const EditorMenu = ({ formData }: Props) => {
           hidden={hideMenu}
           onClick={openMailModal}
           disabled={query.isFetching}
-          className="flex h-11 items-center justify-center gap-2 rounded-b-lg border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex h-11 items-center justify-center gap-2 rounded-b-lg border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white transition-opacity hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-75"
         >
           <Mail className="size-4" />
           <span>Mail Gönder</span>
@@ -282,7 +276,7 @@ type MenuButtonProps = {
 
 const MenuButton = ({ onClick, disabled, icon, label, variant = 'default' }: MenuButtonProps) => {
   const baseClasses =
-    'flex h-9 w-full items-center gap-2.5 rounded-md px-3 text-sm font-medium transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-50'
+    'flex h-9 w-full items-center gap-2.5 rounded-md px-3 text-sm font-medium transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-75'
   const variantClasses =
     variant === 'danger' ? 'text-red-600 hover:bg-red-50' : 'text-gray-700 hover:bg-gray-100'
 
@@ -304,7 +298,7 @@ const LanguageButton = ({ language, isActive, onClick }: LanguageButtonProps) =>
   <button
     onClick={onClick}
     disabled={isActive}
-    className="flex h-8 items-center justify-center rounded-md border border-gray-200 bg-white text-xs font-semibold text-gray-700 transition-[colors_opacity] duration-300 hover:bg-gray-100 disabled:cursor-not-allowed disabled:bg-primary disabled:text-white disabled:hover:bg-primary disabled:hover:opacity-90"
+    className="flex h-8 items-center justify-center rounded-md border border-gray-200 bg-white text-xs font-semibold text-gray-700 transition-[colors_opacity] duration-300 hover:bg-gray-100 disabled:cursor-not-allowed disabled:bg-primary disabled:text-white disabled:hover:bg-primary disabled:hover:opacity-75"
   >
     {language.toUpperCase()}
   </button>
