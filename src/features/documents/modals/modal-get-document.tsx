@@ -1,7 +1,7 @@
 import { StoreEmailMeta } from '@/api/db/schema/store'
 import { useGlobalModalStore } from '@/features/modals/store'
 import { Link } from '@tanstack/react-router'
-import { Eye, FileText, Loader2, Mail, MailOpen, NotebookPen, Trash2, X } from 'lucide-react'
+import { Eye, FileText, Loader2, MailOpen, NotebookPen, Trash2, X } from 'lucide-react'
 import { Fragment } from 'react'
 import { useDeleteDocument } from '../queries/use-delete-document'
 import { useDocumentHistory } from '../queries/use-get-document'
@@ -34,7 +34,7 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
   const handleDelete = (hash: string) => {
     openConfirmationModal({
       title: 'Dokümanı Sil',
-      description: `Doküman kaydını silmek istediğinize emin misiniz? Bu işlem geri alınamaz, geçmişte oluşturulan PDF belgeleri korunmaya devam eder.`,
+      description: `Doküman kaydını silmek istediğinize emin misiniz? Geçmişte oluşturulan PDF belgeleri korunmaya devam eder.`,
       confirmText: 'Sil',
       cancelText: 'İptal',
       variant: 'danger',
@@ -178,14 +178,6 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                             <span className="text-xs font-medium text-blue-700">
                               {getContentTypeText(item.content_type as DocumentContentType)}
                             </span>
-                            {item.email_meta && (
-                              <>
-                                <span className="flex items-center gap-1 text-xs font-medium text-green-600">
-                                  <Mail className="size-3" />
-                                  Gönderildi
-                                </span>
-                              </>
-                            )}
                           </div>
                         </div>
                       </div>
