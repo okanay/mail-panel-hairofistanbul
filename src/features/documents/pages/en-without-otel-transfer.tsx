@@ -387,9 +387,7 @@ export const WithoutOtelTransferPageEN = () => {
             </h2>
 
             <div className="mt-4">
-              <h3 className="mb-2 text-[11px] font-bold text-black">
-                Your All-Inclusive Package Covers:
-              </h3>
+              <h3 className="mb-2 font-bold text-black">Your All-Inclusive Package Covers:</h3>
               <ul className="ml-4 list-disc space-y-1">
                 <li>Hair Transplant procedure using the FUE technique.</li>
                 <li>Dedicated interpreter services.</li>
@@ -406,7 +404,7 @@ export const WithoutOtelTransferPageEN = () => {
         <article className="flex flex-col gap-y-6">
           <section>
             <div>
-              <h3 className="mb-2 text-[12px] font-bold text-black">Financial Terms:</h3>
+              <h3 className="mb-2 font-bold text-black">Financial Terms:</h3>
               <ul className="ml-4 list-disc space-y-1">
                 <li>
                   <HideableText editKey="d3-p3-f1-h1">
