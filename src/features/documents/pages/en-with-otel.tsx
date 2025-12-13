@@ -171,7 +171,7 @@ export const WithOtelPageEN = () => {
   return (
     <div className="flex flex-col bg-gray-50 text-black md:items-center md:justify-center">
       <EditorMenu formData={formData} />
-      <EditablePage index={0} className="text-[10px] leading-relaxed">
+      <EditablePage index={0} className="text-[10.5px] leading-relaxed">
         <header className="flex flex-col gap-y-1">
           <h1 className="font-semibold">
             Dear <EditableText editKey="d1-p1-k1">{'Mr. Customer-Name'}</EditableText>,
@@ -198,7 +198,10 @@ export const WithOtelPageEN = () => {
 
             <div className="mt-2 flex flex-col gap-y-4">
               <div>
-                <h3 className="font-bold text-primary">■ Pre-Procedure Screening</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span>{' '}
+                  Pre-Procedure Screening
+                </h3>
                 <p>
                   We will conduct mandatory HIV and Hepatitis B/C blood tests at our clinic on the
                   day of your procedure. A positive result for either condition will regrettably
@@ -207,7 +210,10 @@ export const WithOtelPageEN = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Procedure Contraindications:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Procedure
+                  Contraindications:
+                </h3>
                 <p>
                   If you have a history of Epilepsy, keloid scarring (anywhere on your body), or
                   Diabetes,{' '}
@@ -220,7 +226,10 @@ export const WithOtelPageEN = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Required Medical Disclosure:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Required
+                  Medical Disclosure:
+                </h3>
                 <p>
                   You are required to inform your dedicated customer representative via WhatsApp if
                   you have any other chronic medical conditions, such as:
@@ -236,7 +245,10 @@ export const WithOtelPageEN = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Potential Postponement:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Potential
+                  Postponement:
+                </h3>
                 <p>
                   If active eczema or seborrheic dermatitis is present in the donor or recipient
                   areas, the procedure may need to be postponed by 3–5 days to allow the skin to
@@ -272,7 +284,10 @@ export const WithOtelPageEN = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Hotel Address:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Hotel
+                  Address:
+                </h3>
                 <p>
                   <EditableText editKey="d1-p1-k5">
                     {
@@ -283,7 +298,9 @@ export const WithOtelPageEN = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Web Address:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Web Address:
+                </h3>
                 <p>
                   <EditableLink
                     editKey="d1-p1-k6"
@@ -294,7 +311,10 @@ export const WithOtelPageEN = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Package Inclusions:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Package
+                  Inclusions:
+                </h3>
                 <p>
                   <EditableText editKey="d1-p1-k7">
                     {
@@ -305,7 +325,9 @@ export const WithOtelPageEN = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Exclusions:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Exclusions:
+                </h3>
                 <p>
                   <EditableText editKey="d1-p1-k8">
                     {'Minibar, massage, laundry, room service, and other ancillary charges.'}
@@ -314,7 +336,10 @@ export const WithOtelPageEN = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Extended Stays:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Extended
+                  Stays:
+                </h3>
                 {/* Tek parça (HTML destekli) editable alan */}
                 <p>
                   <EditableText editKey="d1-p1-k9">
@@ -329,7 +354,7 @@ export const WithOtelPageEN = () => {
         </article>
       </EditablePage>
 
-      <EditablePage index={1} className="text-[10px] leading-relaxed">
+      <EditablePage index={1} className="text-[10.5px] leading-relaxed">
         <article className="flex flex-col gap-y-6">
           <section>
             <h2 className="text-[14px]">
@@ -343,17 +368,26 @@ export const WithOtelPageEN = () => {
 
             <div className="mt-3 flex flex-col gap-y-3">
               <div>
-                <h3 className="font-bold text-primary">■ Pre-procedure checks:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span>{' '}
+                  Pre-procedure checks:
+                </h3>
                 <p>ECG and comprehensive blood work.</p>
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Consultation:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span>{' '}
+                  Consultation:
+                </h3>
                 <p>An in-depth discussion with our doctor.</p>
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Design Session:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Design
+                  Session:
+                </h3>
                 <p>A custom hairline design created with our aesthetic team.</p>
               </div>
             </div>
@@ -390,17 +424,26 @@ export const WithOtelPageEN = () => {
 
             <div className="mt-3 flex flex-col gap-y-3">
               <div>
-                <h3 className="font-bold text-primary">■ Pre-procedure checks:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span>{' '}
+                  Pre-procedure checks:
+                </h3>
                 <p>ECG and comprehensive blood work.</p>
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Consultation:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span>{' '}
+                  Consultation:
+                </h3>
                 <p>An in-depth discussion with our doctor.</p>
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Design Session:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Design
+                  Session:
+                </h3>
                 <p>A custom hairline design created with our aesthetic team.</p>
               </div>
             </div>
@@ -426,7 +469,10 @@ export const WithOtelPageEN = () => {
 
             <div className="mt-3 flex flex-col gap-y-4">
               <div>
-                <h3 className="font-bold text-primary">■ Substance Abstinence:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Substance
+                  Abstinence:
+                </h3>
                 <p>
                   Refrain from consuming alcohol for <span className="font-bold">one week</span>{' '}
                   before the procedure, as it can thin the blood.
@@ -434,7 +480,10 @@ export const WithOtelPageEN = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Medication Management:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Medication
+                  Management:
+                </h3>
                 <p>
                   Discontinue all blood-thinning medications (e.g., aspirin, ibuprofen) for{' '}
                   <span className="font-bold">one week</span> prior.
@@ -452,14 +501,17 @@ export const WithOtelPageEN = () => {
         </article>
       </EditablePage>
 
-      <EditablePage index={2} className="text-[10px] leading-relaxed">
+      <EditablePage index={2} className="text-[10.5px] leading-relaxed">
         <article className="flex flex-col gap-y-6">
           <section className="flex flex-col gap-y-4">
             {/* Logo Placeholder (Optional based on layout) */}
             {/* <div className="flex justify-center mb-4"><Logo /></div> */}
 
             <div>
-              <h3 className="font-bold text-primary">■ Hair Preparation:</h3>
+              <h3 className="font-bold text-primary">
+                <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Hair
+                Preparation:
+              </h3>
               <p>
                 Do not cut, trim, or shave your hair (including the back and sides) for one month
                 before your appointment. This allows for an accurate assessment and the best
@@ -468,7 +520,10 @@ export const WithOtelPageEN = () => {
             </div>
 
             <div>
-              <h3 className="font-bold text-primary">■ Medical Disclosure:</h3>
+              <h3 className="font-bold text-primary">
+                <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Medical
+                Disclosure:
+              </h3>
               <p>
                 Please inform us of all regular medications (name and dose) and any known medical
                 conditions.
@@ -476,7 +531,10 @@ export const WithOtelPageEN = () => {
             </div>
 
             <div>
-              <h3 className="font-bold text-primary">■ Travel Logistics:</h3>
+              <h3 className="font-bold text-primary">
+                <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Travel
+                Logistics:
+              </h3>
               <p>
                 Book your return flight with checked baggage. The provided aftercare shampoo and
                 medical foam exceed 100ml and cannot be carried in cabin luggage.
@@ -484,7 +542,9 @@ export const WithOtelPageEN = () => {
             </div>
 
             <div>
-              <h3 className="font-bold text-primary">■ Attire:</h3>
+              <h3 className="font-bold text-primary">
+                <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Attire:
+              </h3>
               <p>
                 Wear loose, comfortable clothing with a wide neck or front zipper (e.g., a
                 button-down shirt) on the procedure day and following days to avoid contact with the
@@ -493,7 +553,9 @@ export const WithOtelPageEN = () => {
             </div>
 
             <div>
-              <h3 className="font-bold text-primary">■ Comfort Item:</h3>
+              <h3 className="font-bold text-primary">
+                <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Comfort Item:
+              </h3>
               <p>
                 We highly recommend bringing a U-shaped travel pillow for sleeping during the
                 initial recovery nights to support proper head elevation.
@@ -508,81 +570,76 @@ export const WithOtelPageEN = () => {
             </h2>
 
             <div className="mt-4">
-              <h3 className="mb-2 text-[11px] font-bold text-black">
-                Your All-Inclusive Package Covers:
-              </h3>
+              <h3 className="mb-2 font-bold text-black">Your All-Inclusive Package Covers:</h3>
               <ul className="ml-4 list-disc space-y-1">
-                <ul className="ml-4 list-disc space-y-1">
-                  <li>Hair Transplant procedure using the FUE technique.</li>
-                  <li>All private transfers (Airport ⇄ Hotel ⇄ Clinic).</li>
-                  <li>Dedicated interpreter services.</li>
-                  <li>
-                    <EditableText editKey="d1-p3-i1">
-                      {'3 nights at Crowne Plaza Istanbul Florya (5-star).'}
-                    </EditableText>
-                  </li>
-                  <li>All post-procedure medications.</li>
-                  <li>One (1) PRP session.</li>
-                  <li>Post-care kit (Shampoo & Foam Spray).</li>
-                </ul>
+                <li>Hair Transplant procedure using the FUE technique.</li>
+                <li>All private transfers (Airport ⇄ Hotel ⇄ Clinic).</li>
+                <li>Dedicated interpreter services.</li>
+                <li>
+                  <EditableText editKey="d1-p3-i1">
+                    {'3 nights at Crowne Plaza Istanbul Florya (5-star).'}
+                  </EditableText>
+                </li>
+                <li>All post-procedure medications.</li>
+                <li>One (1) PRP session.</li>
+                <li>Post-care kit (Shampoo & Foam Spray).</li>
               </ul>
             </div>
 
-            {/* FINANCIAL TERMS (EDITABLE AREA) */}
             <div className="mt-4">
-              <h3 className="mb-2 text-[12px] font-bold text-black">Financial Terms:</h3>
-              <ul className="flex flex-col gap-y-1">
-                <HideableText editKey="d1-p3-f1-h1">
-                  <li>
-                    <span className="font-bold">• Total Package Value: </span>
+              <h3 className="mb-2 font-bold text-black">Financial Terms:</h3>
+              <ul className="ml-4 list-disc space-y-1">
+                <li>
+                  <HideableText editKey="d1-p3-f1-h1">
+                    <span className="font-bold">Total Package Value: </span>
                     <EditableText editKey="d1-p3-f1-e1">{'$4,300'}</EditableText>
-                  </li>
-                </HideableText>
+                  </HideableText>
+                </li>
 
-                <HideableText editKey="d1-p3-f2-h2">
-                  <li>
-                    <span className="font-bold">• Deposit Received: </span>
+                <li>
+                  <HideableText editKey="d1-p3-f2-h2">
+                    <span className="font-bold">Deposit Received: </span>
                     <EditableText editKey="d1-p3-f2-e2">{'€500 (Non-refundable)'}</EditableText>
-                  </li>
-                </HideableText>
+                  </HideableText>
+                </li>
 
-                <HideableText editKey="d1-p3-f3-h3">
-                  <li>
-                    <span className="font-bold">• Outstanding Balance: </span>
+                <li>
+                  <HideableText editKey="d1-p3-f3-h3">
+                    <span className="font-bold">Outstanding Balance: </span>
                     <EditableText editKey="d1-p3-f3-e3">{'€3,800'}</EditableText>
-                  </li>
-                </HideableText>
+                  </HideableText>
+                </li>
 
-                <HideableText editKey="d1-p3-f4-h4">
-                  <li>
-                    <span className="font-bold">• Balance Due Date: </span>
+                <li>
+                  <HideableText editKey="d1-p3-f4-h4">
+                    <span className="font-bold">Balance Due Date: </span>
                     <EditableText editKey="d1-p3-f4-e4">
                       {'In full on the day of the procedure.'}
                     </EditableText>
-                  </li>
-                </HideableText>
+                  </HideableText>
+                </li>
               </ul>
             </div>
 
             <div className="mt-4">
-              <h3 className="mb-1 font-bold text-primary">■ Payment Details:</h3>
-              <ul className="flex flex-col gap-y-2">
+              <h3 className="mb-2 font-bold text-black">Payment Details:</h3>
+              <ul className="ml-4 list-disc space-y-1">
                 <li>
-                  <span className="font-bold">• Accepted Methods: </span>
+                  <span className="font-bold">Accepted Methods: </span>
                   Cash (EUR/USD/GBP), Major Cryptocurrencies, Debit/Credit Card, or Bank Transfer.
                 </li>
                 <li>
-                  <span className="font-bold">• Important Note: </span>
+                  <span className="font-bold">Important Note: </span>
                   Payments via card are subject to a mandatory{' '}
                   <span className="font-bold">10% VAT.</span>
                 </li>
                 <li>
-                  <span className="font-bold">• Accepted Currencies: </span>
+                  <span className="font-bold">Accepted Currencies: </span>
                   EUR, USD, GBP, CAD, AUD, CHF, TRY. *We cannot accept: Scottish/Irish Pounds,
                   old-series US banknotes, or €500 denominations.*
                 </li>
                 <li>
-                  <span className="font-bold">• Prior to Travel: </span>
+                  <span className="font-bold">Prior to Travel: </span>
                   Please ensure your payment card is enabled for international transactions and has
                   a sufficient limit to cover the balance.
                 </li>
@@ -592,7 +649,7 @@ export const WithOtelPageEN = () => {
         </article>
       </EditablePage>
 
-      <EditablePage index={3} className="text-[10px] leading-relaxed">
+      <EditablePage index={3} className="text-[10.5px] leading-relaxed">
         <article className="flex flex-col gap-y-6">
           <section>
             <h2 className="mb-3 font-custom-commuters text-[14px] text-primary uppercase">
@@ -606,19 +663,28 @@ export const WithOtelPageEN = () => {
 
             <div className="flex flex-col gap-y-3">
               <div>
-                <h3 className="font-bold text-primary">■ Rescheduling:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span>{' '}
+                  Rescheduling:
+                </h3>
                 <p>
                   Written notice via WhatsApp at least 14 days prior to your original appointment.
                 </p>
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Medical Emergency:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Medical
+                  Emergency:
+                </h3>
                 <p>Provision of a verifiable medical certificate.</p>
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Flight Cancellation:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Flight
+                  Cancellation:
+                </h3>
                 <p>Provision of official airline documentation</p>
               </div>
 

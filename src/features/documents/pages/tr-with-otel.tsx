@@ -171,7 +171,7 @@ export const WithOtelPageTR = () => {
   return (
     <div className="flex flex-col bg-gray-50 text-black md:items-center md:justify-center">
       <EditorMenu formData={formData} />
-      <EditablePage index={0} className="text-[10px] leading-relaxed">
+      <EditablePage index={0} className="text-[10.5px] leading-relaxed">
         <header className="flex flex-col gap-y-1">
           <h1 className="font-semibold">
             Sayın <EditableText editKey="d1-p1-k1">{'MÜŞTERİ-ADI'}</EditableText>,
@@ -197,7 +197,10 @@ export const WithOtelPageTR = () => {
 
             <div className="mt-2 flex flex-col gap-y-4">
               <div>
-                <h3 className="font-bold text-primary">■ Operasyon Öncesi Tarama</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Operasyon
+                  Öncesi Tarama
+                </h3>
                 <p>
                   İşlem günü kliniğimizde zorunlu HIV ve Hepatit B/C kan testleri yapılacaktır. Her
                   iki hastalıktan birinin pozitif sonucu çıkması, maalesef işlemin yapılmasını
@@ -206,7 +209,10 @@ export const WithOtelPageTR = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ İşlem Kontrendikasyonları:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> İşlem
+                  Kontrendikasyonları:
+                </h3>
                 <p>
                   Epilepsi öyküsü, keloid yara izleri (vücudunuzun herhangi bir yerinde) veya
                   Diyabet tanısına sahipseniz,{' '}
@@ -218,7 +224,10 @@ export const WithOtelPageTR = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Gerekli Tıbbi Açıklama:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Gerekli
+                  Tıbbi Açıklama:
+                </h3>
                 <p>
                   Herhangi bir kronik hastalık durumunda, lütfen WhatsApp aracılığıyla adanmış
                   müşteri temsilcinize bilgi vermeniz gerekmektedir:
@@ -234,7 +243,10 @@ export const WithOtelPageTR = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Olası Erteleme:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Olası
+                  Erteleme:
+                </h3>
                 <p>
                   Donor veya alıcı bölgede aktif egzama veya seboreik dermatit varsa, işlemin 3–5
                   gün ertelenmesi gerekebilir ve cildinin tamamen iyileşmesine izin verilmelidir. Bu
@@ -271,7 +283,9 @@ export const WithOtelPageTR = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Otel Adresi:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Otel Adresi:
+                </h3>
                 <p>
                   <EditableText editKey="d1-p1-k5">
                     {
@@ -282,7 +296,9 @@ export const WithOtelPageTR = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Web Adresi:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Web Adresi:
+                </h3>
                 <p>
                   <EditableLink
                     editKey="d1-p1-k6"
@@ -293,7 +309,10 @@ export const WithOtelPageTR = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Paket Kapsamı:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Paket
+                  Kapsamı:
+                </h3>
                 <p>
                   <EditableText editKey="d1-p1-k7">
                     {
@@ -304,7 +323,10 @@ export const WithOtelPageTR = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Kapsam Dışı Hizmetler:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Kapsam Dışı
+                  Hizmetler:
+                </h3>
                 <p>
                   <EditableText editKey="d1-p1-k8">
                     {'Mini bar, masaj, çamaşır servisi, oda servisi ve diğer ek ücretler.'}
@@ -313,7 +335,10 @@ export const WithOtelPageTR = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Uzatılmış Konaklama:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Uzatılmış
+                  Konaklama:
+                </h3>
                 {/* Tek parça editable alan */}
                 <p>
                   <EditableText editKey="d1-p1-k9">
@@ -328,7 +353,7 @@ export const WithOtelPageTR = () => {
         </article>
       </EditablePage>
 
-      <EditablePage index={1} className="text-[10px] leading-relaxed">
+      <EditablePage index={1} className="text-[10.5px] leading-relaxed">
         <article className="flex flex-col gap-y-6">
           <section>
             <h2 className="text-[14px]">
@@ -342,17 +367,25 @@ export const WithOtelPageTR = () => {
 
             <div className="mt-3 flex flex-col gap-y-3">
               <div>
-                <h3 className="font-bold text-primary">■ Operasyon öncesi kontroller:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Operasyon
+                  öncesi kontroller:
+                </h3>
                 <p>EKG ve kapsamlı kan testi.</p>
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Danışmanlık:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Danışmanlık:
+                </h3>
                 <p>Doktorumuzla derinlemesine bir görüşme.</p>
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Tasarım Oturumu:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Tasarım
+                  Oturumu:
+                </h3>
                 <p>Estetik ekibimiz tarafından özel saç çizgisi tasarımı.</p>
               </div>
             </div>
@@ -389,17 +422,25 @@ export const WithOtelPageTR = () => {
 
             <div className="mt-3 flex flex-col gap-y-3">
               <div>
-                <h3 className="font-bold text-primary">■ Operasyon öncesi kontroller:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Operasyon
+                  öncesi kontroller:
+                </h3>
                 <p>EKG ve kapsamlı kan testi.</p>
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Danışmanlık:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Danışmanlık:
+                </h3>
                 <p>Doktorumuzla derinlemesine bir görüşme.</p>
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Tasarım Oturumu:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Tasarım
+                  Oturumu:
+                </h3>
                 <p>Estetik ekibimiz tarafından özel saç çizgisi tasarımı.</p>
               </div>
             </div>
@@ -426,7 +467,10 @@ export const WithOtelPageTR = () => {
 
             <div className="mt-3 flex flex-col gap-y-4">
               <div>
-                <h3 className="font-bold text-primary">■ Madde Kullanımı Abstinansı:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Madde
+                  Kullanımı Abstinansı:
+                </h3>
                 <p>
                   İşlemden <span className="font-bold">bir hafta</span> önce alkol tüketiminden
                   kaçının, çünkü kanı seyreltebilir.
@@ -434,7 +478,10 @@ export const WithOtelPageTR = () => {
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ İlaç Yönetimi:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> İlaç
+                  Yönetimi:
+                </h3>
                 <p>
                   Tüm kan sulandırıcı ilaçları (örneğin aspirin, ibuprofen) önceki{' '}
                   <span className="font-bold">bir hafta</span> boyunca kesiniz.
@@ -452,11 +499,13 @@ export const WithOtelPageTR = () => {
         </article>
       </EditablePage>
 
-      <EditablePage index={2} className="text-[10px] leading-relaxed">
+      <EditablePage index={2} className="text-[10.5px] leading-relaxed">
         <article className="flex flex-col gap-y-6">
           <section className="flex flex-col gap-y-4">
             <div>
-              <h3 className="font-bold text-primary">■ Saç Hazırlığı:</h3>
+              <h3 className="font-bold text-primary">
+                <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Saç Hazırlığı:
+              </h3>
               <p>
                 Randevunuzdan bir ay öncesine kadar saçınızı (arka ve yanları da dahil) kesmeyin,
                 kesmez veya traş etmeyin. Bu, doğru bir değerlendirmeye ve en iyi saç çizgisi
@@ -465,7 +514,10 @@ export const WithOtelPageTR = () => {
             </div>
 
             <div>
-              <h3 className="font-bold text-primary">■ Tıbbi Açıklama:</h3>
+              <h3 className="font-bold text-primary">
+                <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Tıbbi
+                Açıklama:
+              </h3>
               <p>
                 Lütfen tüm düzenli ilaçlarınızı (adı ve dozu) ve bilinen tıbbi koşullarınızı bize
                 bilgilendiriniz.
@@ -473,7 +525,10 @@ export const WithOtelPageTR = () => {
             </div>
 
             <div>
-              <h3 className="font-bold text-primary">■ Seyahat Lojistiği:</h3>
+              <h3 className="font-bold text-primary">
+                <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Seyahat
+                Lojistiği:
+              </h3>
               <p>
                 Kontrol bagajlı dönüş uçuşunuzu rezerve ediniz. Sağlanan bakım şampuanı ve tıbbi
                 köpük 100ml'i aşarken kabin bagajında taşınamaz.
@@ -481,7 +536,9 @@ export const WithOtelPageTR = () => {
             </div>
 
             <div>
-              <h3 className="font-bold text-primary">■ Kıyafet:</h3>
+              <h3 className="font-bold text-primary">
+                <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Kıyafet:
+              </h3>
               <p>
                 İşlem günü ve takip eden günlerde geniş veya ön fermuarlı bol kıyafet giyin
                 (örneğin, cepli gömlek) ve işlenen alanla temas etmeyin.
@@ -489,7 +546,10 @@ export const WithOtelPageTR = () => {
             </div>
 
             <div>
-              <h3 className="font-bold text-primary">■ Rahatlık Eşyası:</h3>
+              <h3 className="font-bold text-primary">
+                <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Rahatlık
+                Eşyası:
+              </h3>
               <p>
                 İlk iyileşme gecelerinde başın düzgün şekilde yükseltilmesini desteklemek için U
                 şeklinde bir seyahat yastığı getirmenizi şiddetle tavsiye ederiz.
@@ -504,81 +564,77 @@ export const WithOtelPageTR = () => {
             </h2>
 
             <div className="mt-4">
-              <h3 className="mb-2 text-[11px] font-bold text-black">
-                Hepsi Dahil Paketiniz Kapsar:
-              </h3>
+              <h3 className="mb-2 font-bold text-black">Paketiniz Dahilindeki Hizmetler:</h3>
               <ul className="ml-4 list-disc space-y-1">
-                <ul className="ml-4 list-disc space-y-1">
-                  <li>FUE tekniği kullanılarak Saç Nakli işlemi.</li>
-                  <li>Tüm özel transferler (Havalimanı ⇄ Otel ⇄ Klinik).</li>
-                  <li>Profesyonel tercüman hizmeti.</li>
-                  <li>
-                    <EditableText editKey="d1-p3-i1">
-                      {"Crowne Plaza İstanbul Florya'da 3 gece (5 yıldızlı)"}
-                    </EditableText>
-                  </li>
-                  <li>Tüm operasyon sonrası ilaçlar.</li>
-                  <li>Bir (1) PRP seansı.</li>
-                  <li>Bakım kiti (Şampuan ve Köpük Spreyi).</li>
-                </ul>
+                <li>FUE tekniği kullanılarak Saç Nakli işlemi.</li>
+                <li>Tüm özel transferler (Havalimanı ⇄ Otel ⇄ Klinik).</li>
+                <li>Profesyonel tercüman hizmeti.</li>
+                <li>
+                  <EditableText editKey="d1-p3-i1">
+                    {"Crowne Plaza İstanbul Florya'da 3 gece (5 yıldızlı)"}
+                  </EditableText>
+                </li>
+                <li>Tüm operasyon sonrası ilaçlar.</li>
+                <li>Bir (1) PRP seansı.</li>
+                <li>Bakım kiti (Şampuan ve Köpük Spreyi).</li>
               </ul>
             </div>
 
             <div className="mt-4">
-              <h3 className="mb-2 text-[12px] font-bold text-black">Finansal Şartlar:</h3>
-              <ul className="flex flex-col gap-y-1">
-                <HideableText editKey="d1-p3-f1-h1">
-                  <li>
-                    <span className="font-bold">• Toplam Paket Değeri: </span>
+              <h3 className="mb-2 font-bold text-black">Finansal Şartlar:</h3>
+              <ul className="ml-4 list-disc space-y-1">
+                <li>
+                  <HideableText editKey="d1-p3-f1-h1">
+                    <span className="font-bold">Toplam Paket Değeri: </span>
                     <EditableText editKey="d1-p3-f1-e1">{'$4,300'}</EditableText>
-                  </li>
-                </HideableText>
+                  </HideableText>
+                </li>
 
-                <HideableText editKey="d1-p3-f2-h2">
-                  <li>
-                    <span className="font-bold">• Alınan Depozito: </span>
+                <li>
+                  <HideableText editKey="d1-p3-f2-h2">
+                    <span className="font-bold">Alınan Depozito: </span>
                     <EditableText editKey="d1-p3-f2-e2">{'€500 (İade Edilemez)'}</EditableText>
-                  </li>
-                </HideableText>
+                  </HideableText>
+                </li>
 
-                <HideableText editKey="d1-p3-f3-h3">
-                  <li>
-                    <span className="font-bold">• Kalan Bakiye: </span>
+                <li>
+                  <HideableText editKey="d1-p3-f3-h3">
+                    <span className="font-bold">Kalan Bakiye: </span>
                     <EditableText editKey="d1-p3-f3-e3">{'€3,800'}</EditableText>
-                  </li>
-                </HideableText>
+                  </HideableText>
+                </li>
 
-                <HideableText editKey="d1-p3-f4-h4">
-                  <li>
-                    <span className="font-bold">• Son Ödeme Tarihi: </span>
+                <li>
+                  <HideableText editKey="d1-p3-f4-h4">
+                    <span className="font-bold">Son Ödeme Tarihi: </span>
                     <EditableText editKey="d1-p3-f4-e4">
                       {'İşlem günü tamamı ödenmelidir.'}
                     </EditableText>
-                  </li>
-                </HideableText>
+                  </HideableText>
+                </li>
               </ul>
             </div>
 
             <div className="mt-4">
-              <h3 className="mb-1 font-bold text-primary">■ Ödeme Detayları:</h3>
-              <ul className="flex flex-col gap-y-2">
+              <h3 className="mb-2 font-bold text-black">Ödeme Detayları:</h3>
+              <ul className="ml-4 list-disc space-y-1">
                 <li>
-                  <span className="font-bold">• Kabul Edilen Yöntemler: </span>
+                  <span className="font-bold">Kabul Edilen Yöntemler: </span>
                   Nakit (EUR/USD/GBP), Başlıca Kripto Paralar, Banka/Kredi Kartı veya Banka
                   Transferi.
                 </li>
                 <li>
-                  <span className="font-bold">• Önemli Not: </span>
+                  <span className="font-bold">Önemli Not: </span>
                   Kart aracılığıyla yapılan ödemeler zorunlu{' '}
                   <span className="font-bold">%10 KDV</span> uygulamasına tabidir.
                 </li>
                 <li>
-                  <span className="font-bold">• Kabul Edilen Para Birimleri: </span>
+                  <span className="font-bold">Kabul Edilen Para Birimleri: </span>
                   EUR, USD, GBP, CAD, AUD, CHF, TRY. *Kabul edemiyoruz: İskoç/İrlanda Sterlini, eski
                   dizi ABD banknotları veya €500 değerleri.*
                 </li>
                 <li>
-                  <span className="font-bold">• Seyahat Öncesi: </span>
+                  <span className="font-bold">Seyahat Öncesi: </span>
                   Lütfen ödeme kartınızın uluslararası işlemler için etkinleştirildiğinden ve
                   bakiyeyi karşılamak için yeterli limitinin olduğundan emin olunuz.
                 </li>
@@ -588,7 +644,7 @@ export const WithOtelPageTR = () => {
         </article>
       </EditablePage>
 
-      <EditablePage index={3} className="text-[10px] leading-relaxed">
+      <EditablePage index={3} className="text-[10.5px] leading-relaxed">
         <article className="flex flex-col gap-y-6">
           <section>
             <h2 className="mb-3 font-custom-commuters text-[14px] text-primary uppercase">
@@ -602,19 +658,27 @@ export const WithOtelPageTR = () => {
 
             <div className="flex flex-col gap-y-3">
               <div>
-                <h3 className="font-bold text-primary">■ Yeniden Zamanlama:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Yeniden
+                  Zamanlama:
+                </h3>
                 <p>
                   Orijinal randevunuzdan en az 14 gün önce WhatsApp aracılığıyla yazılı bildirim.
                 </p>
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Tıbbi Acil Durum:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Tıbbi Acil
+                  Durum:
+                </h3>
                 <p>Doğrulanabilir bir tıbbi sertifikanın sağlanması.</p>
               </div>
 
               <div>
-                <h3 className="font-bold text-primary">■ Uçuş İptali:</h3>
+                <h3 className="font-bold text-primary">
+                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Uçuş İptali:
+                </h3>
                 <p>Resmi havayolu belgesi sunumu</p>
               </div>
 
