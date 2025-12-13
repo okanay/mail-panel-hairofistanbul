@@ -197,7 +197,7 @@ export const WithoutOtelTransferPageTR = () => {
           <section>
             <h2 className="font-custom-commuters text-[14px] text-primary">
               <span className="font-bold">2. RANDEVUNUZ</span>
-              <span className="block">PROGRAMME VE İTİNERARY</span>
+              <span className="block">PROGRAM VE GÜZERGAH</span>
             </h2>
 
             <div className="mt-2 flex flex-col gap-y-5">
