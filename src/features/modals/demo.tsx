@@ -1,11 +1,12 @@
 import { X } from 'lucide-react'
 import { useGlobalModalStore } from './store'
+import DropdownDemo from '../dropdowns/demo'
 
-interface TestModalProps {
+interface Props {
   onClose: () => void
 }
 
-export function TestModal({ onClose }: TestModalProps) {
+export function ModalDemo({ onClose }: Props) {
   return (
     <div className="flex h-screen w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-lg md:max-w-lg md:rounded-lg md:shadow-2xl">
       {/* Header */}
@@ -21,16 +22,24 @@ export function TestModal({ onClose }: TestModalProps) {
           <X className="size-4 text-gray-500 transition-colors group-hover:text-red-600" />
         </button>
       </div>
+
+      <DropdownDemo />
     </div>
   )
 }
 
-export const useTestModal = () => {
+export const useDemoModal = () => {
   const { open } = useGlobalModalStore()
 
-  const openTestModal = () => {
-    open(TestModal as any, {})
+  const openDemoModal = (_: Omit<Props, 'onClose'>) => {
+    open(ModalDemo as any, {})
   }
 
-  return { openTestModal }
+  return { openDemoModal }
+}
+
+export const DemoDropdownAndModalFeature = () => {
+  const { openDemoModal } = useDemoModal()
+
+  return <button onClick={openDemoModal}>Open Demo Modal</button>
 }

@@ -1,94 +1,163 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import { createStore, StoreApi, useStore } from 'zustand'
-import { immer } from 'zustand/middleware/immer'
-import type { GlobalModalStore, ModalComponentProps, ModalInstance } from './types'
+import { ModalWrapper } from './wrapper'
 
-const GlobalModalStoreContext = createContext<StoreApi<GlobalModalStore> | undefined>(undefined)
+// ============================================================================
+// TYPES
+// ============================================================================
 
-export function GlobalModalStoreProvider({ children }: { children: React.ReactNode }) {
+export interface ModalComponentProps {
+  onClose: () => void
+  [key: string]: unknown
+}
+
+export interface ModalInstance {
+  id: string
+  component: React.ComponentType<ModalComponentProps>
+  props: Record<string, unknown>
+  resolve?: (data?: unknown) => void
+  reject?: (error?: unknown) => void
+  zIndex: number
+  createdAt: number
+  closeOnOutsideClick?: boolean
+}
+
+export interface ModalStore {
+  stack: ModalInstance[]
+  nextZIndex: number
+  open: <T = unknown>(
+    component: React.ComponentType<ModalComponentProps>,
+    props?: Record<string, unknown>,
+    options?: { closeOnOutsideClick?: boolean },
+  ) => Promise<T>
+  close: (id: string, data?: unknown) => void
+  closeTop: (data?: unknown) => void
+  clear: () => void
+  isOpen: (id?: string) => boolean
+  getTopModal: () => ModalInstance | null
+}
+
+// ============================================================================
+// STORE
+// ============================================================================
+
+const ModalStoreContext = createContext<StoreApi<ModalStore> | undefined>(undefined)
+
+export function ModalStoreProvider({ children }: { children: React.ReactNode }) {
   const [store] = useState(() =>
-    createStore<GlobalModalStore>()(
-      immer((set, get) => ({
-        stack: [],
-        nextZIndex: 1000,
-        open: <T = unknown,>(
-          component: React.ComponentType<ModalComponentProps>,
-          props: Record<string, unknown> = {},
-        ): Promise<T> => {
-          return new Promise<T>((resolve, reject) => {
-            const modalId = `modal_${Date.now()}_${Math.random().toString(36).slice(2)}`
+    createStore<ModalStore>()((set, get) => ({
+      stack: [],
+      nextZIndex: 1000,
 
-            const newModal: ModalInstance = {
-              id: modalId,
-              component,
-              props,
-              resolve: resolve as (data?: unknown) => void,
-              reject: reject as (error?: unknown) => void,
-              zIndex: get().nextZIndex,
-              createdAt: Date.now(),
-            }
+      open: <T = unknown,>(
+        component: React.ComponentType<ModalComponentProps>,
+        props: Record<string, unknown> = {},
+        options: { closeOnOutsideClick?: boolean } = {},
+      ): Promise<T> => {
+        return new Promise<T>((resolve, reject) => {
+          const modalId = `modal_${Date.now()}_${Math.random().toString(36).slice(2)}`
 
-            set((state) => {
-              state.stack.push(newModal)
-              state.nextZIndex += 10
-            })
-          })
-        },
-
-        close: (id: string, data?: unknown) => {
-          const modal = get().stack.find((m) => m.id === id)
-          if (!modal) return
-
-          modal.resolve?.(data)
-
-          set((state) => {
-            const index = state.stack.findIndex((m) => m.id === id)
-            if (index !== -1) {
-              state.stack.splice(index, 1)
-            }
-          })
-        },
-
-        closeTop: (data?: unknown) => {
-          const topModal = get().getTopModal()
-          if (topModal) {
-            get().close(topModal.id, data)
+          const newModal: ModalInstance = {
+            id: modalId,
+            component,
+            props,
+            resolve: resolve as (data?: unknown) => void,
+            reject: reject as (error?: unknown) => void,
+            zIndex: get().nextZIndex,
+            createdAt: Date.now(),
+            closeOnOutsideClick: options.closeOnOutsideClick ?? false,
           }
-        },
 
-        clear: () => {
-          get().stack.forEach((modal) => {
-            modal.reject?.(new Error('Modal cleared'))
-          })
+          set((state) => ({
+            stack: [...state.stack, newModal],
+            nextZIndex: state.nextZIndex + 10,
+          }))
+        })
+      },
 
-          set((state) => {
-            state.stack = []
-            state.nextZIndex = 1000
-          })
-        },
+      close: (id: string, data?: unknown) => {
+        const modal = get().stack.find((m) => m.id === id)
+        if (!modal) return
 
-        isOpen: (id?: string) => {
-          const { stack } = get()
-          return id ? stack.some((m) => m.id === id) : stack.length > 0
-        },
+        modal.resolve?.(data)
 
-        getTopModal: () => {
-          const { stack } = get()
-          return stack[stack.length - 1] ?? null
-        },
-      })),
-    ),
+        set((state) => ({
+          stack: state.stack.filter((m) => m.id !== id),
+        }))
+      },
+
+      closeTop: (data?: unknown) => {
+        const topModal = get().getTopModal()
+        if (topModal) {
+          get().close(topModal.id, data)
+        }
+      },
+
+      clear: () => {
+        get().stack.forEach((modal) => {
+          modal.reject?.(new Error('Modal cleared'))
+        })
+
+        set({
+          stack: [],
+          nextZIndex: 1000,
+        })
+      },
+
+      isOpen: (id?: string) => {
+        const { stack } = get()
+        return id ? stack.some((m) => m.id === id) : stack.length > 0
+      },
+
+      getTopModal: () => {
+        const { stack } = get()
+        return stack[stack.length - 1] ?? null
+      },
+    })),
   )
 
+  // Scroll lock
+  useEffect(() => {
+    if (store.getState().stack.length > 0) {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+      document.body.style.overflow = 'hidden'
+      document.body.style.paddingRight = `${scrollbarWidth}px`
+    } else {
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+    }
+  }, [store.getState().stack.length])
+
+  // Outside click (optional)
+  useEffect(() => {
+    const handleOutsideClick = (event: MouseEvent) => {
+      const topModal = store.getState().getTopModal()
+      if (!topModal?.closeOnOutsideClick) return
+
+      const path = event.composedPath() as HTMLElement[]
+      const clickedModalLayer = path.some((el) => el.dataset?.modalLayer !== undefined)
+
+      if (!clickedModalLayer) {
+        store.getState().closeTop()
+      }
+    }
+
+    document.addEventListener('mousedown', handleOutsideClick, true)
+    return () => document.removeEventListener('mousedown', handleOutsideClick, true)
+  }, [store])
+
   return (
-    <GlobalModalStoreContext.Provider value={store}>{children}</GlobalModalStoreContext.Provider>
+    <ModalStoreContext.Provider value={store}>
+      {children}
+      <ModalWrapper />
+    </ModalStoreContext.Provider>
   )
 }
 
 export function useGlobalModalStore() {
-  const context = useContext(GlobalModalStoreContext)
+  const context = useContext(ModalStoreContext)
   if (!context) {
-    throw new Error('useGlobalModalStore must be used within GlobalModalStoreProvider')
+    throw new Error('useGlobalModalStore must be used within ModalStoreProvider')
   }
   return useStore(context)
 }

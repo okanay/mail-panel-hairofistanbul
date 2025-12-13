@@ -6,6 +6,7 @@ import { z } from 'zod/v4'
 import { useState } from 'react'
 import { useAuth } from '@/providers/auth'
 import { useUpdateProfile } from '../queries/use-update-user'
+import { DemoDropdownAndModalFeature } from '@/features/modals/demo'
 
 const profileFormSchema = z.object({
   name: z.string().min(1, 'İsim zorunludur').max(100, 'İsim en fazla 100 karakter olabilir'),
@@ -118,6 +119,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
 
         {/* Form */}
         <form id="profile-form" onSubmit={handleSubmit(onSubmit)} className="space-y-5">
+          <DemoDropdownAndModalFeature />
           {/* Name */}
           <div className="space-y-2">
             <label

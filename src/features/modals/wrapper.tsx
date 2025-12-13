@@ -1,32 +1,24 @@
-import { ClientOnly } from '@tanstack/react-router'
-import { useEffect, useRef, useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { modalManager } from './manager'
-import { useGlobalModalStore } from './store'
-import type { ModalComponentProps, ModalInstance } from './types'
+import { ModalComponentProps, ModalInstance, useGlobalModalStore } from './store'
 
 const ANIMATION_DURATION = 200
-const GLOBAL_MODAL_PREFIX = 'global-modal-'
 
-export function GlobalModalProvider() {
+export function ModalWrapper() {
   const { stack } = useGlobalModalStore()
-
-  useModalManagerSync(stack)
 
   if (stack.length === 0) return null
 
   return createPortal(
-    <ClientOnly fallback={null}>
-      <div
-        id="global-modal-container"
-        className="pointer-events-none fixed inset-0 z-1000"
-        data-modal-count={stack.length}
-      >
-        {stack.map((modal) => (
-          <ModalLayer key={modal.id} modal={modal} />
-        ))}
-      </div>
-    </ClientOnly>,
+    <div
+      id="global-modal-container"
+      className="pointer-events-none fixed inset-0 z-1000"
+      data-modal-count={stack.length}
+    >
+      {stack.map((modal) => (
+        <ModalLayer key={modal.id} modal={modal} />
+      ))}
+    </div>,
     document.body,
   )
 }
@@ -43,13 +35,12 @@ function ModalLayer({ modal }: { modal: ModalInstance }) {
     isClosingRef.current = true
     setIsClosing(true)
 
-    // Animation bitince DOM'dan kaldır
     setTimeout(() => {
       close(modal.id)
     }, ANIMATION_DURATION)
   }
 
-  // Mount animasyonu
+  // Mount animation
   useEffect(() => {
     requestAnimationFrame(() => {
       setIsMounted(true)
@@ -66,6 +57,7 @@ function ModalLayer({ modal }: { modal: ModalInstance }) {
   return (
     <div
       data-modal-id={modal.id}
+      data-modal-layer
       role="dialog"
       aria-modal="true"
       style={{ zIndex: modal.zIndex }}
@@ -95,34 +87,4 @@ function ModalLayer({ modal }: { modal: ModalInstance }) {
       </div>
     </div>
   )
-}
-
-function useModalManagerSync(stack: ModalInstance[]) {
-  useEffect(() => {
-    const currentIds = stack.map((m) => m.id)
-    const activeModals = modalManager.getActiveModals()['body'] ?? []
-    const globalModalIds = activeModals.filter((id) => id.startsWith(GLOBAL_MODAL_PREFIX))
-
-    // Kapatılacak modaller
-    globalModalIds.forEach((globalId) => {
-      const actualId = globalId.replace(GLOBAL_MODAL_PREFIX, '')
-      if (!currentIds.includes(actualId)) {
-        modalManager.closeModal(globalId, 'body')
-      }
-    })
-
-    // Açılacak modaller
-    currentIds.forEach((id) => {
-      const globalId = `${GLOBAL_MODAL_PREFIX}${id}`
-      if (!modalManager.isModalOpen(globalId, 'body')) {
-        modalManager.openModal(globalId, 'body')
-      }
-    })
-
-    return () => {
-      currentIds.forEach((id) => {
-        modalManager.closeModal(`${GLOBAL_MODAL_PREFIX}${id}`, 'body')
-      })
-    }
-  }, [stack])
 }
