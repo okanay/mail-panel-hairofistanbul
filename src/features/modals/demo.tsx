@@ -8,7 +8,7 @@ interface Props {
 
 export function ModalDemo({ onClose }: Props) {
   return (
-    <div className="flex h-screen w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-lg md:max-w-lg md:rounded-lg md:shadow-2xl">
+    <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-lg md:rounded-lg md:shadow-2xl">
       {/* Header */}
       <div className="flex shrink-0 items-center justify-between border-b border-gray-100 px-4 py-4">
         <div>
@@ -41,5 +41,9 @@ export const useDemoModal = () => {
 export const DemoDropdownAndModalFeature = () => {
   const { openDemoModal } = useDemoModal()
 
-  return <button onClick={openDemoModal}>Open Demo Modal</button>
+  return (
+    <button type="button" onClick={openDemoModal}>
+      Open Demo Modal
+    </button>
+  )
 }
