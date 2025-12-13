@@ -1,23 +1,17 @@
-import { X, FileText, Loader2 } from 'lucide-react'
+import { useGlobalModalStore } from '@/features/modals/store'
+import { Loader2, NotepadText, X } from 'lucide-react'
 import { useState } from 'react'
 import { useEditDocument } from '../queries/use-edit-document'
-import { useGlobalModalStore } from '@/features/modals/store'
+import { EditNoteValidation } from '@/api/handlers/store-edit'
 
-interface EditDocumentModalProps {
-  hash: string
-  currentTitle?: string
-  currentDescription?: string
+interface Props {
+  params: EditNoteValidation
   onClose: () => void
 }
 
-export function EditDocumentModal({
-  hash,
-  currentTitle = '',
-  currentDescription = '',
-  onClose,
-}: EditDocumentModalProps) {
-  const [title, setTitle] = useState(currentTitle)
-  const [description, setDescription] = useState(currentDescription)
+export function EditDocumentModal({ params, onClose }: Props) {
+  const [title, setTitle] = useState(params.title)
+  const [description, setDescription] = useState(params.description)
   const { mutate: editDocument, isPending } = useEditDocument()
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -25,9 +19,9 @@ export function EditDocumentModal({
 
     editDocument(
       {
-        hash,
-        title: title.trim() || undefined,
-        description: description.trim() || undefined,
+        hash: params.hash,
+        title: title?.trim(),
+        description: description?.trim(),
       },
       {
         onSuccess: () => {
@@ -43,7 +37,7 @@ export function EditDocumentModal({
       <div className="flex shrink-0 items-center justify-between border-b border-gray-100 bg-white px-6 py-4">
         <div className="flex items-center gap-3">
           <div className="flex size-10 items-center justify-center rounded-full bg-primary/10">
-            <FileText className="size-5 text-primary" />
+            <NotepadText className="size-5 text-primary" />
           </div>
           <div>
             <h2 className="text-lg font-bold text-gray-800">Not Ekle</h2>
@@ -68,7 +62,7 @@ export function EditDocumentModal({
           <input
             id="title"
             type="text"
-            value={title}
+            value={title || ''}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Doküman başlığı"
             className="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm text-gray-800 transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
@@ -82,7 +76,7 @@ export function EditDocumentModal({
           </label>
           <textarea
             id="description"
-            value={description}
+            value={description || ''}
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Doküman açıklaması"
             rows={4}
@@ -124,7 +118,7 @@ export function EditDocumentModal({
 export const useEditDocumentModal = () => {
   const { open } = useGlobalModalStore()
 
-  const openEditDocumentModal = (props: Omit<EditDocumentModalProps, 'onClose'>) => {
+  const openEditDocumentModal = (props: Omit<Props, 'onClose'>) => {
     open(EditDocumentModal as any, props)
   }
 

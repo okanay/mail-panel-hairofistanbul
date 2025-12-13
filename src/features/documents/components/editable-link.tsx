@@ -1,8 +1,8 @@
 import { useState, useRef, useEffect } from 'react'
-import { createPortal } from 'react-dom'
 import { twMerge } from 'tailwind-merge'
 import { useDocumentStore } from '@/features/documents/store'
 import { useSearch } from '@tanstack/react-router'
+import { SafePortal } from '@/components/safe-portal'
 
 interface EditableLinkProps {
   href: string
@@ -129,8 +129,8 @@ export const EditableLink = ({
         {currentData.value || <span className="italic opacity-50">Empty Link</span>}
       </a>
 
-      {isModalOpen &&
-        createPortal(
+      {isModalOpen && (
+        <SafePortal>
           <div
             data-modal="editable-link"
             className="absolute z-50 w-64 rounded-md border border-gray-200 bg-white p-4 shadow-lg"
@@ -186,9 +186,10 @@ export const EditableLink = ({
                 Cancel
               </button>
             </div>
-          </div>,
-          document.body,
-        )}
+          </div>
+          ,
+        </SafePortal>
+      )}
     </>
   )
 }

@@ -62,6 +62,7 @@ export const getDocumentHistoryServerFn = createServerFn()
           description: documentStoreTable.description,
           language: documentStoreTable.language,
           content_type: documentStoreTable.content_type,
+          email_meta: documentStoreTable.email_meta,
           created_at: documentStoreTable.created_at,
           updated_at: documentStoreTable.updated_at,
         })

@@ -1,9 +1,10 @@
+import { SafePortal } from '@/components/safe-portal'
 import { useDocumentStore } from '@/features/documents/store'
 import { useSearch } from '@tanstack/react-router'
 import DOMPurify from 'dompurify'
 import { Command } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-import { createPortal } from 'react-dom'
+
 import { twMerge } from 'tailwind-merge'
 
 interface EditableTextProps {
@@ -225,9 +226,8 @@ export const EditableText = ({
         )}
       />
 
-      {isFocused &&
-        editable &&
-        createPortal(
+      {isFocused && editable && (
+        <SafePortal>
           <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 rounded-lg border border-gray-200 bg-white p-3 shadow-xl">
             <div className="flex items-center gap-2 border-b border-gray-100 pb-2">
               <span className="text-xs font-semibold tracking-wider text-gray-500 uppercase">
@@ -301,9 +301,9 @@ export const EditableText = ({
             <div className="mt-1 border-t border-gray-100 pt-2">
               <p className="text-[10px] text-gray-400">Stil uygulamak için metin seçin</p>
             </div>
-          </div>,
-          document.body,
-        )}
+          </div>
+        </SafePortal>
+      )}
     </>
   )
 }

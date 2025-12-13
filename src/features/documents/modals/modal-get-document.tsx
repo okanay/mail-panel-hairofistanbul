@@ -1,6 +1,7 @@
+import { StoreEmailMeta } from '@/api/db/schema/store'
 import { useGlobalModalStore } from '@/features/modals/store'
 import { Link } from '@tanstack/react-router'
-import { Eye, FileText, Loader2, NotebookPen, Trash2, X } from 'lucide-react'
+import { Eye, FileText, Loader2, Mail, MailOpen, NotebookPen, Trash2, X } from 'lucide-react'
 import { Fragment } from 'react'
 import { useDeleteDocument } from '../queries/use-delete-document'
 import { useDocumentHistory } from '../queries/use-get-document'
@@ -11,6 +12,16 @@ interface DocumentHistoryModalProps {
   onClose: () => void
 }
 
+const formatDate = (date: Date) => {
+  return new Intl.DateTimeFormat('tr-TR', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  }).format(new Date(date))
+}
+
 export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, error } =
     useDocumentHistory({ limit: 5 })
@@ -18,16 +29,7 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
   const { mutate: deleteDocument } = useDeleteDocument()
   const { openConfirmationModal } = useConfirmationModal()
   const { openEditDocumentModal } = useEditDocumentModal()
-
-  const formatDate = (date: Date) => {
-    return new Intl.DateTimeFormat('tr-TR', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    }).format(new Date(date))
-  }
+  const { open } = useGlobalModalStore()
 
   const handleDelete = (hash: string) => {
     openConfirmationModal({
@@ -53,10 +55,16 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
     description?: string | null
   }) => {
     openEditDocumentModal({
-      hash: item.hash,
-      currentTitle: item.title || undefined,
-      currentDescription: item.description || undefined,
+      params: {
+        hash: item.hash,
+        title: item.title,
+        description: item.description,
+      },
     })
+  }
+
+  const handleEmailInfo = (emailMeta: StoreEmailMeta | null, documentHash: string) => {
+    open(EmailInfoModal as any, { emailMeta, documentHash })
   }
 
   const getLanguageText = (value: DocumentLanguage) => {
@@ -136,17 +144,10 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                   {page.items.map((item) => (
                     <div
                       key={item.id}
-                      className="group relative flex flex-wrap items-start justify-between gap-x-6 gap-y-2 overflow-hidden rounded-lg border border-gray-200 bg-white px-4 py-4 transition-[colors_opacity] sm:items-start"
+                      className="group relative flex flex-wrap items-start justify-between gap-x-6 gap-y-2 overflow-hidden rounded-lg border border-gray-200 bg-white px-4 py-4 transition-[colors_opacity] sm:items-center"
                     >
                       {/* Left */}
                       <div className="flex min-w-0 flex-1 items-start gap-3">
-                        <button
-                          onClick={() => handleEdit(item)}
-                          className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-600 transition-colors hover:border-primary hover:bg-primary hover:text-white"
-                        >
-                          <NotebookPen className="size-4" />
-                        </button>
-
                         <div className="flex min-w-0 flex-col gap-1.5">
                           {/* Title & Description */}
                           {(item.title || item.description) && (
@@ -164,7 +165,7 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                             </div>
                           )}
 
-                          {/* Meta Info */}
+                          {/* Document Meta Info */}
                           <div className="flex flex-wrap items-center gap-2">
                             <div className="flex items-center gap-1.5 text-xs text-gray-600">
                               {formatDate(item.created_at)}
@@ -177,12 +178,15 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                             <span className="text-xs font-medium text-blue-700">
                               {getContentTypeText(item.content_type as DocumentContentType)}
                             </span>
+                            {item.email_meta && (
+                              <>
+                                <span className="flex items-center gap-1 text-xs font-medium text-green-600">
+                                  <Mail className="size-3" />
+                                  Gönderildi
+                                </span>
+                              </>
+                            )}
                           </div>
-
-                          {/* Hash */}
-                          {item.hash && (
-                            <p className="line-clamp-1 text-xs text-gray-500">{item.hash}</p>
-                          )}
                         </div>
                       </div>
 
@@ -200,14 +204,28 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                           }
                           reloadDocument={true}
                           replace={true}
-                          className="transiton-colors flex items-center justify-center gap-1.5 rounded-md border border-gray-200 bg-white px-4 py-2 text-xs font-medium text-gray-800 duration-300 hover:border-primary hover:bg-primary hover:text-white"
+                          className="flex size-8 items-center justify-center rounded-lg border border-primary-200 bg-primary-50 text-primary-600 transition-colors hover:border-primary-400 hover:bg-primary-100"
                         >
                           <Eye className="size-3.5" />
-                          Görüntüle
                         </Link>
                         <button
+                          onClick={() => handleEdit(item)}
+                          className="flex size-8 items-center justify-center rounded-lg border border-gray-200 bg-gray-50 text-gray-600 transition-colors hover:border-gray-400 hover:bg-gray-100"
+                        >
+                          <NotebookPen className="size-4" />
+                        </button>
+
+                        {item.email_meta && (
+                          <button
+                            onClick={() => handleEmailInfo(item.email_meta, item.hash)}
+                            className="flex size-8 items-center justify-center rounded-lg border border-blue-200 bg-blue-50 text-blue-600 transition-colors hover:border-blue-400 hover:bg-blue-100"
+                          >
+                            <MailOpen className="size-4" />
+                          </button>
+                        )}
+                        <button
                           onClick={() => handleDelete(item.hash)}
-                          className="transiton-colors flex items-center justify-center rounded-md border border-red-200 bg-white px-4 py-2 text-red-600 duration-300 hover:bg-red-50"
+                          className="flex size-8 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 text-rose-600 transition-colors hover:border-rose-400 hover:bg-rose-100"
                         >
                           <Trash2 className="size-3.5" />
                         </button>
@@ -240,6 +258,93 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
           </div>
         )}
       </div>
+    </div>
+  )
+}
+
+// Info Modal Component - Local kullanım
+interface EmailInfoModalProps {
+  emailMeta: StoreEmailMeta
+  documentHash: string
+  onClose: () => void
+}
+
+function EmailInfoModal({ emailMeta, onClose }: EmailInfoModalProps) {
+  return (
+    <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white sm:h-auto sm:w-xl sm:rounded-lg sm:shadow-2xl">
+      {/* Header */}
+      <div className="flex shrink-0 items-center justify-between border-b border-gray-100 bg-white px-6 py-4">
+        <div className="flex items-center gap-3">
+          <div>
+            <h2 className="text-lg font-bold text-gray-800">Email Bilgileri</h2>
+            <p className="mt-0.5 text-xs text-gray-600">Son gönderim detayları</p>
+          </div>
+        </div>
+        <button
+          onClick={onClose}
+          className="group flex size-8 items-center justify-center rounded-full border border-gray-100 bg-gray-50 transition-colors hover:border-gray-200 hover:bg-red-50"
+        >
+          <X className="size-4 text-gray-800 transition-colors group-hover:text-red-600" />
+        </button>
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col gap-3 p-6">
+        <div className="grid grid-cols-2 gap-3">
+          {/* PDF URL */}
+          <div className="flex items-start gap-3 rounded-lg border border-blue-200 bg-blue-50 p-3">
+            <div className="flex min-w-0 flex-col gap-1.5">
+              <p className="text-xs font-medium text-blue-900">PDF Dosyası</p>
+              <a
+                href={emailMeta.pdf_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="truncate text-sm text-blue-600 hover:underline"
+              >
+                {emailMeta.pdf_url}
+              </a>
+            </div>
+          </div>
+          {/* Gönderim Tarihi */}
+          <div className="flex items-start gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3">
+            <div className="flex min-w-0 flex-col gap-1.5">
+              <p className="text-xs font-medium text-gray-600">Gönderim Tarihi</p>
+              <p className="text-sm text-gray-800">{formatDate(new Date(emailMeta.sent_at))}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Email Adresi */}
+        <div className="flex items-start gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3">
+          <div className="flex min-w-0 flex-col gap-0.5">
+            <p className="text-xs font-medium text-gray-600">Alıcı Email</p>
+            <p className="truncate text-sm text-gray-800">{emailMeta.email_address}</p>
+          </div>
+        </div>
+
+        {/* Email Başlığı */}
+        <div className="flex items-start gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3">
+          <div className="flex min-w-0 flex-col gap-0.5">
+            <p className="text-xs font-medium text-gray-600">Email Başlığı</p>
+            <p className="text-sm text-gray-800">{emailMeta.email_title}</p>
+          </div>
+        </div>
+
+        {/* Email Açıklaması */}
+        {emailMeta.email_description && (
+          <div className="flex items-start gap-3 rounded-lg border border-gray-200 bg-gray-50 p-3">
+            <div className="flex min-w-0 flex-col gap-0.5">
+              <p className="text-xs font-medium text-gray-600">Email Açıklaması</p>
+              <p className="text-sm whitespace-pre-wrap text-gray-800">
+                {emailMeta.email_description}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Footer */}
+      <div className="shrink-0 border-t border-gray-100 bg-white px-6 py-4"></div>
     </div>
   )
 }

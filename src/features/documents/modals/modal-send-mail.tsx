@@ -8,6 +8,7 @@ import { useSaveDocument } from '../queries/use-save-document'
 import { useSendEmail } from '../queries/use-send-email'
 import { DocumentStore, useDocumentStore } from '../store'
 import { useState } from 'react'
+import { useUpdateEmailMeta } from '../queries/use-update-email-meta'
 
 const mailFormSchema = z.object({
   sendMail: z.literal(true),
@@ -33,6 +34,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
   const search = useSearch({ from: store.config.from })
   const [emailData, setEmailData] = useState<any>(null)
   const [emailError, setEmailError] = useState<string | null>(null)
+  const { mutate: updateEmailMeta } = useUpdateEmailMeta()
 
   const {
     control,
@@ -55,6 +57,16 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
     onSuccess: (data) => {
       setEmailData(data)
       setEmailError(null)
+      updateEmailMeta({
+        hash: search.hash!,
+        emailMeta: {
+          sent_at: Date.now(),
+          pdf_url: data.url,
+          email_address: watch('emailAddress') || 'Email Adresi Eklenmedi.',
+          email_title: watch('emailTitle') || 'Başlık Eklenmedi.',
+          email_description: watch('emailDescription') || 'Açıklama Eklenmedi.',
+        },
+      })
     },
     onError: (error) => {
       setEmailError(error.message)
