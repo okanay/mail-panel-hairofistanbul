@@ -42,8 +42,15 @@ export const DemoDropdownAndModalFeature = () => {
   const { openDemoModal } = useDemoModal()
 
   return (
-    <button type="button" onClick={openDemoModal}>
-      Open Demo Modal
-    </button>
+    <div className="mt-4 -mb-2 flex w-full flex-col items-end justify-end gap-y-2">
+      <p className="text-xs text-gray-500">Test Operation</p>
+      <button
+        type="button"
+        onClick={openDemoModal}
+        className="h-10 w-fit rounded-md bg-gray-500 px-6 text-sm font-bold text-white hover:bg-gray-700 focus:ring-2 focus:ring-gray-500 focus:ring-offset-2 focus:outline-none"
+      >
+        Open Test
+      </button>
+    </div>
   )
 }

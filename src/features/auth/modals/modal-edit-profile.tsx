@@ -119,7 +119,6 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
 
         {/* Form */}
         <form id="profile-form" onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-          <DemoDropdownAndModalFeature />
           {/* Name */}
           <div className="space-y-2">
             <label
@@ -259,6 +258,8 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
             </div>
           </div>
         </form>
+
+        <DemoDropdownAndModalFeature />
       </div>
 
       {/* Footer */}

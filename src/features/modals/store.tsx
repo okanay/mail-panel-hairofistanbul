@@ -116,9 +116,11 @@ export function ModalStoreProvider({ children }: { children: React.ReactNode }) 
     })),
   )
 
+  const stackLength = useStore(store, (state) => state.stack.length)
+
   // Scroll lock
   useEffect(() => {
-    if (store.getState().stack.length > 0) {
+    if (stackLength > 0) {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
       document.body.style.overflow = 'hidden'
       document.body.style.paddingRight = `${scrollbarWidth}px`
@@ -126,9 +128,15 @@ export function ModalStoreProvider({ children }: { children: React.ReactNode }) 
       document.body.style.overflow = ''
       document.body.style.paddingRight = ''
     }
-  }, [store.getState().stack.length])
 
-  // Outside click (optional)
+    // Cleanup
+    return () => {
+      document.body.style.overflow = ''
+      document.body.style.paddingRight = ''
+    }
+  }, [stackLength])
+
+  // Outside click
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       const topModal = store.getState().getTopModal()
