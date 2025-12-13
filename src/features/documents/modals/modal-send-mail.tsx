@@ -93,7 +93,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
       {/* Header */}
       <div className="flex shrink-0 items-center justify-between border-b border-gray-100 px-6 py-4">
         <div>
-          <h2 className="text-lg font-bold text-gray-950">Mail Gönder</h2>
+          <h2 className="text-xl font-bold text-gray-950">Mail Gönder</h2>
           <p className="mt-0.5 text-xs text-gray-500">Dokümanınızı PDF olarak gönderin</p>
         </div>
         <button

@@ -1,10 +1,11 @@
 import { useGlobalModalStore } from '@/features/modals/store'
 import { Link } from '@tanstack/react-router'
-import { X, FileText, Loader2, Eye, Trash2 } from 'lucide-react'
+import { Eye, FileText, Loader2, NotebookPen, Trash2, X } from 'lucide-react'
 import { Fragment } from 'react'
-import { useDocumentHistory } from '../queries/use-get-document'
 import { useDeleteDocument } from '../queries/use-delete-document'
+import { useDocumentHistory } from '../queries/use-get-document'
 import { useConfirmationModal } from './modal-confirmation'
+import { useEditDocumentModal } from './modal-edit-document'
 
 interface DocumentHistoryModalProps {
   onClose: () => void
@@ -16,6 +17,7 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
 
   const { mutate: deleteDocument } = useDeleteDocument()
   const { openConfirmationModal } = useConfirmationModal()
+  const { openEditDocumentModal } = useEditDocumentModal()
 
   const formatDate = (date: Date) => {
     return new Intl.DateTimeFormat('tr-TR', {
@@ -42,6 +44,18 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
           })
         })
       },
+    })
+  }
+
+  const handleEdit = (item: {
+    hash: string
+    title?: string | null
+    description?: string | null
+  }) => {
+    openEditDocumentModal({
+      hash: item.hash,
+      currentTitle: item.title || undefined,
+      currentDescription: item.description || undefined,
     })
   }
 
@@ -122,24 +136,54 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                   {page.items.map((item) => (
                     <div
                       key={item.id}
-                      className="group relative flex flex-wrap items-start justify-between gap-x-6 gap-y-2 overflow-hidden rounded-lg border border-gray-200 bg-white px-4 py-4 transition-[colors_opacity] sm:items-center"
+                      className="group relative flex flex-wrap items-start justify-between gap-x-6 gap-y-2 overflow-hidden rounded-lg border border-gray-200 bg-white px-4 py-4 transition-[colors_opacity] sm:items-start"
                     >
                       {/* Left */}
-                      <div className="flex min-w-0 flex-col items-start gap-1">
-                        <div className="flex items-center gap-2">
-                          <div className="flex items-center gap-1.5 rounded-lg text-xs">
-                            {formatDate(item.created_at)}
+                      <div className="flex min-w-0 flex-1 items-start gap-3">
+                        <button
+                          onClick={() => handleEdit(item)}
+                          className="mt-0.5 flex size-8 shrink-0 items-center justify-center rounded-lg border border-gray-200 bg-white text-gray-600 transition-colors hover:border-primary hover:bg-primary hover:text-white"
+                        >
+                          <NotebookPen className="size-4" />
+                        </button>
+
+                        <div className="flex min-w-0 flex-col gap-1.5">
+                          {/* Title & Description */}
+                          {(item.title || item.description) && (
+                            <div className="flex flex-col gap-1">
+                              {item.title && (
+                                <p className="line-clamp-1 text-sm font-semibold text-gray-800">
+                                  {item.title}
+                                </p>
+                              )}
+                              {item.description && (
+                                <p className="line-clamp-2 text-xs text-gray-600">
+                                  {item.description}
+                                </p>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Meta Info */}
+                          <div className="flex flex-wrap items-center gap-2">
+                            <div className="flex items-center gap-1.5 text-xs text-gray-600">
+                              {formatDate(item.created_at)}
+                            </div>
+                            <span className="size-1 rounded-full bg-gray-300" />
+                            <p className="text-xs text-gray-600">
+                              {getLanguageText(item.language as DocumentLanguage)}
+                            </p>
+                            <span className="size-1 rounded-full bg-gray-300" />
+                            <span className="text-xs font-medium text-blue-700">
+                              {getContentTypeText(item.content_type as DocumentContentType)}
+                            </span>
                           </div>
-                          <p className="text-xs text-gray-800">
-                            {getLanguageText(item.language as DocumentLanguage)}
-                          </p>
-                          <span className="shrink-0 rounded-full text-xs font-medium text-blue-700">
-                            {getContentTypeText(item.content_type as DocumentContentType)}
-                          </span>
+
+                          {/* Hash */}
+                          {item.hash && (
+                            <p className="line-clamp-1 text-xs text-gray-500">{item.hash}</p>
+                          )}
                         </div>
-                        {item.hash && (
-                          <p className="line-clamp-1 text-xs text-gray-600">{item.hash}</p>
-                        )}
                       </div>
 
                       {/* Right */}
@@ -156,14 +200,14 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                           }
                           reloadDocument={true}
                           replace={true}
-                          className="transiton-colors flex w-full items-center justify-center gap-1.5 rounded-md border border-gray-200 bg-white px-4 py-2 text-xs font-medium text-gray-800 duration-300 hover:border-primary hover:bg-primary hover:text-white"
+                          className="transiton-colors flex items-center justify-center gap-1.5 rounded-md border border-gray-200 bg-white px-4 py-2 text-xs font-medium text-gray-800 duration-300 hover:border-primary hover:bg-primary hover:text-white"
                         >
                           <Eye className="size-3.5" />
                           Görüntüle
                         </Link>
                         <button
                           onClick={() => handleDelete(item.hash)}
-                          className="transiton-colors flex w-full items-center justify-center rounded-md border border-red-200 bg-white px-4 py-2 text-red-600 duration-300 hover:bg-red-50"
+                          className="transiton-colors flex items-center justify-center rounded-md border border-red-200 bg-white px-4 py-2 text-red-600 duration-300 hover:bg-red-50"
                         >
                           <Trash2 className="size-3.5" />
                         </button>

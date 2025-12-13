@@ -80,7 +80,7 @@ const FormHeader = ({ onClose }: FormHeaderProps) => {
   return (
     <div className="flex shrink-0 items-center justify-between border-b border-gray-100 px-6 py-4">
       <div>
-        <h2 className="text-lg font-bold text-gray-950">Form Modu</h2>
+        <h2 className="text-xl font-bold text-gray-950">Form Modu</h2>
         <p className="mt-0.5 text-xs text-gray-500">Doküman içeriğini düzenleyin</p>
       </div>
       <button

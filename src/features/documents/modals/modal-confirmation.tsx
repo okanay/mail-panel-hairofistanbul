@@ -73,7 +73,7 @@ export function ConfirmationModal({
             <AlertTriangle className={`size-5 ${styles.icon}`} />
           </div>
           <div>
-            <h2 className="text-lg font-bold text-gray-950">{title}</h2>
+            <h2 className="text-xl font-bold text-gray-950">{title}</h2>
             <p className="mt-1 text-sm text-gray-600">{description}</p>
           </div>
         </div>
