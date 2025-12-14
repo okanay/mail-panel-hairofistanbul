@@ -20,8 +20,7 @@ export interface ModalInstance {
   reject?: (error?: unknown) => void
   zIndex: number
   createdAt: number
-  closeOnOutsideClick?: boolean
-  isMotion?: boolean // Yeni field
+  isMotion?: boolean
 }
 
 export interface ModalStore {
@@ -32,15 +31,19 @@ export interface ModalStore {
   open: <T = unknown>(
     component: React.ComponentType<ModalComponentProps>,
     props?: Record<string, unknown>,
-    options?: { closeOnOutsideClick?: boolean; isMotion?: boolean },
+    options?: { isMotion?: boolean },
   ) => Promise<T>
+  isOpen: (id?: string) => boolean
 
   close: (id: string, data?: unknown) => void
   closeTop: (data?: unknown) => void
   clear: () => void
-  isOpen: (id?: string) => boolean
+
   getTopModal: () => ModalInstance | null
-  getAllStack: () => ModalInstance[] // Tüm stack'leri birleştirir (z-index için)
+  getAllStack: () => ModalInstance[]
+
+  modalPending: boolean
+  setModalPending: (value: boolean) => void
 }
 
 // ============================================================================
@@ -55,6 +58,13 @@ export function ModalStoreProvider({ children }: { children: React.ReactNode }) 
       normalStack: [],
       motionStack: [],
       nextZIndex: 1000,
+
+      modalPending: false,
+      setModalPending: (value: boolean) => {
+        set(() => ({
+          modalPending: value,
+        }))
+      },
 
       open: <T = unknown,>(
         component: React.ComponentType<ModalComponentProps>,
@@ -73,7 +83,6 @@ export function ModalStoreProvider({ children }: { children: React.ReactNode }) 
             reject: reject as (error?: unknown) => void,
             zIndex: get().nextZIndex,
             createdAt: Date.now(),
-            closeOnOutsideClick: options.closeOnOutsideClick ?? false,
             isMotion,
           }
 
@@ -156,24 +165,6 @@ export function ModalStoreProvider({ children }: { children: React.ReactNode }) 
     }
   }, [totalStackLength])
 
-  // Outside click
-  useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
-      const topModal = store.getState().getTopModal()
-      if (!topModal?.closeOnOutsideClick) return
-
-      const path = event.composedPath() as HTMLElement[]
-      const clickedModalLayer = path.some((el) => el.dataset?.modalLayer !== undefined)
-
-      if (!clickedModalLayer) {
-        store.getState().closeTop()
-      }
-    }
-
-    document.addEventListener('mousedown', handleOutsideClick, true)
-    return () => document.removeEventListener('mousedown', handleOutsideClick, true)
-  }, [store])
-
   return (
     <ModalStoreContext.Provider value={store}>
       {children}
@@ -183,10 +174,12 @@ export function ModalStoreProvider({ children }: { children: React.ReactNode }) 
   )
 }
 
-export function useGlobalModalStore() {
+export function useModalStore() {
   const context = useContext(ModalStoreContext)
+
   if (!context) {
     throw new Error('useGlobalModalStore must be used within ModalStoreProvider')
   }
+
   return useStore(context)
 }

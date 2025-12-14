@@ -1,6 +1,6 @@
 import { StoreEmailMeta } from '@/api/db/schema/store'
 import { EditNoteValidation } from '@/api/handlers/store-edit'
-import { useGlobalModalStore } from '@/features/modals/store'
+import { useModalStore } from '@/features/modals/store'
 import { Link } from '@tanstack/react-router'
 import { Eye, FileText, Loader2, MailOpen, NotebookPen, NotepadText, Trash2, X } from 'lucide-react'
 import { Fragment, useState } from 'react'
@@ -23,6 +23,30 @@ const formatDate = (date: Date) => {
   }).format(new Date(date))
 }
 
+const getLanguageText = (value: DocumentLanguage) => {
+  switch (value) {
+    case 'tr':
+      return 'Türkçe'
+    case 'en':
+      return 'İngilizce'
+    default:
+      return value
+  }
+}
+
+const getContentTypeText = (value: DocumentContentType) => {
+  switch (value) {
+    case 'with-otel':
+      return 'Tam Paket'
+    case 'without-otel':
+      return 'Transfer Paketi'
+    case 'without-otel-transfer':
+      return 'Sadece İşlem'
+    default:
+      return value
+  }
+}
+
 export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading, isError, error } =
     useDocumentHistory({ limit: 5 })
@@ -30,7 +54,7 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
   const { mutate: deleteDocument } = useDeleteDocument()
   const { openConfirmationModal } = useConfirmationModal()
   const { openEditDocumentModal } = useEditDocumentModal()
-  const { open } = useGlobalModalStore()
+  const { open } = useModalStore()
 
   const handleDelete = (hash: string) => {
     openConfirmationModal({
@@ -66,30 +90,6 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
 
   const handleEmailInfo = (emailMeta: StoreEmailMeta | null, documentHash: string) => {
     open(EmailInfoModal as any, { emailMeta, documentHash })
-  }
-
-  const getLanguageText = (value: DocumentLanguage) => {
-    switch (value) {
-      case 'tr':
-        return 'Türkçe'
-      case 'en':
-        return 'İngilizce'
-      default:
-        return value
-    }
-  }
-
-  const getContentTypeText = (value: DocumentContentType) => {
-    switch (value) {
-      case 'with-otel':
-        return 'Tam Paket'
-      case 'without-otel':
-        return 'Transfer Paketi'
-      case 'without-otel-transfer':
-        return 'Sadece İşlem'
-      default:
-        return value
-    }
   }
 
   const allItems = data?.pages.flatMap((page) => page.items) || []
@@ -454,7 +454,7 @@ export function EditDocumentModal({ params, onClose }: EditDocumentProps) {
 }
 
 export const useEditDocumentModal = () => {
-  const { open } = useGlobalModalStore()
+  const { open } = useModalStore()
 
   const openEditDocumentModal = (props: Omit<EditDocumentProps, 'onClose'>) => {
     open(EditDocumentModal as any, props)
@@ -464,7 +464,7 @@ export const useEditDocumentModal = () => {
 }
 
 export const useDocumentHistoryModal = () => {
-  const { open } = useGlobalModalStore()
+  const { open } = useModalStore()
 
   const openDocumentHistoryModal = () => {
     open(DocumentHistoryModal as any, {})

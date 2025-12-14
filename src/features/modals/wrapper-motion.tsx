@@ -1,6 +1,6 @@
 import { AnimatePresence, TargetAndTransition, Transition, VariantLabels } from 'framer-motion'
 import * as m from 'framer-motion/m'
-import { ModalComponentProps, ModalInstance, useGlobalModalStore } from './store'
+import { ModalComponentProps, ModalInstance, useModalStore } from './store'
 import { SafePortal } from '@/components/safe-portal'
 
 interface MotionConfig {
@@ -11,7 +11,7 @@ interface MotionConfig {
 }
 
 export function ModalWrapperMotion() {
-  const store = useGlobalModalStore()
+  const store = useModalStore()
   const motionStack = store.motionStack
 
   return (
@@ -26,13 +26,16 @@ export function ModalWrapperMotion() {
 }
 
 function ModalLayerMotion({ modal }: { modal: ModalInstance }) {
-  const { close } = useGlobalModalStore()
+  const { close, modalPending } = useModalStore()
 
-  const Component = modal.component
+  const ModalComponent = modal.component
 
   const modalProps: ModalComponentProps & { motionConfig?: MotionConfig } = {
     ...modal.props,
-    onClose: () => close(modal.id),
+    onClose: () => {
+      if (modalPending) return
+      close(modal.id)
+    },
     motionConfig: modal.props.motionConfig as MotionConfig,
   }
 
@@ -45,6 +48,7 @@ function ModalLayerMotion({ modal }: { modal: ModalInstance }) {
 
   return (
     <m.div
+      data-pending={modalPending}
       data-modal-id={modal.id}
       data-modal-layer
       role="dialog"
@@ -61,6 +65,7 @@ function ModalLayerMotion({ modal }: { modal: ModalInstance }) {
       >
         {/* Backdrop */}
         <m.div
+          onClick={modalProps.onClose}
           className="absolute inset-0 bg-black/50"
           style={{ pointerEvents: 'auto' }}
           initial={{ opacity: 0 }}
@@ -74,7 +79,7 @@ function ModalLayerMotion({ modal }: { modal: ModalInstance }) {
           style={{ pointerEvents: 'auto' }}
           {...(modalProps.motionConfig || defaultMotionConfig)}
         >
-          <Component {...modalProps} />
+          <ModalComponent {...modalProps} />
         </m.div>
       </m.div>
     </m.div>
@@ -82,13 +87,12 @@ function ModalLayerMotion({ modal }: { modal: ModalInstance }) {
 }
 
 export function useMotionModal() {
-  const { open } = useGlobalModalStore()
+  const { open } = useModalStore()
 
   const openMotion = <T = unknown,>(
     component: React.ComponentType<ModalComponentProps>,
     props?: Record<string, unknown>,
     options?: {
-      closeOnOutsideClick?: boolean
       motionConfig?: MotionConfig
     },
   ): Promise<T> => {
@@ -99,7 +103,6 @@ export function useMotionModal() {
         motionConfig: options?.motionConfig,
       },
       {
-        closeOnOutsideClick: options?.closeOnOutsideClick,
         isMotion: true,
       },
     )

@@ -1,4 +1,4 @@
-import { useGlobalModalStore } from '@/features/modals/store'
+import { useModalStore } from '@/features/modals/store'
 import { X } from 'lucide-react'
 
 interface DownloadModalProps {
@@ -58,7 +58,7 @@ export function DownloadModal({ onClose, url }: DownloadModalProps) {
 }
 
 export const useDownloadModal = () => {
-  const { open } = useGlobalModalStore()
+  const { open } = useModalStore()
 
   const openDownloadModal = (url: string) => {
     open(DownloadModal as any, { url })

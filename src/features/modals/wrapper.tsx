@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { ModalComponentProps, ModalInstance, useGlobalModalStore } from './store'
+import { ModalComponentProps, ModalInstance, useModalStore } from './store'
 
 const ANIMATION_DURATION = 200
 
 export function ModalWrapper() {
-  const store = useGlobalModalStore()
-  const normalStack = store.normalStack // Sadece normalStack'i dinle
+  const store = useModalStore()
+  const normalStack = store.normalStack
 
   if (normalStack.length === 0) return null
 
@@ -25,13 +25,13 @@ export function ModalWrapper() {
 }
 
 function ModalLayer({ modal }: { modal: ModalInstance }) {
-  const { close } = useGlobalModalStore()
+  const { close, modalPending } = useModalStore()
   const [isClosing, setIsClosing] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const isClosingRef = useRef(false)
 
   const handleClose = () => {
-    if (isClosingRef.current) return
+    if (isClosingRef.current || modalPending) return
 
     isClosingRef.current = true
     setIsClosing(true)
@@ -41,7 +41,6 @@ function ModalLayer({ modal }: { modal: ModalInstance }) {
     }, ANIMATION_DURATION)
   }
 
-  // Mount animation
   useEffect(() => {
     requestAnimationFrame(() => {
       setIsMounted(true)
@@ -57,17 +56,17 @@ function ModalLayer({ modal }: { modal: ModalInstance }) {
 
   return (
     <div
+      data-pending={modalPending}
       data-modal-id={modal.id}
       data-modal-layer
       role="dialog"
       aria-modal="true"
       style={{ zIndex: modal.zIndex }}
       className="fixed inset-0 flex h-dvh w-screen items-center justify-center p-0 md:p-4"
-      data-mounted={isMounted}
-      data-closing={isClosing}
     >
       {/* Backdrop */}
       <div
+        onClick={handleClose}
         className="absolute inset-0 bg-black/50 transition-opacity duration-200"
         style={{
           opacity: isMounted && !isClosing ? 1 : 0,

@@ -1,4 +1,4 @@
-import { useGlobalModalStore } from '@/features/modals/store'
+import { useModalStore } from '@/features/modals/store'
 import { useState } from 'react'
 import { DocumentStore } from '../store'
 import { Info, X } from 'lucide-react'
@@ -355,7 +355,7 @@ const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
 // ============================================================================
 
 export const useFormModeModal = () => {
-  const { open } = useGlobalModalStore()
+  const { open } = useModalStore()
 
   const openFormModeModal = ({
     formData,

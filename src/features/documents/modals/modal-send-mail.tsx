@@ -1,4 +1,4 @@
-import { useGlobalModalStore } from '@/features/modals/store'
+import { useModalStore } from '@/features/modals/store'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useSearch } from '@tanstack/react-router'
 import { Loader2, X } from 'lucide-react'
@@ -292,7 +292,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
 }
 
 export const useMailModal = () => {
-  const { open } = useGlobalModalStore()
+  const { open } = useModalStore()
   const store = useDocumentStore()
   const [query] = useSaveDocument()
 

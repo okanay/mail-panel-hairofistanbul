@@ -1,4 +1,4 @@
-import { useGlobalModalStore } from '@/features/modals/store'
+import { useModalStore } from '@/features/modals/store'
 import { X, Loader2, User, Mail, Phone, Check, Lock, EyeOff, Eye } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -289,7 +289,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
 // 4. MODAL HOOK - useProfileEditModal.ts
 // ============================================
 export const useProfileEditModal = () => {
-  const { open } = useGlobalModalStore()
+  const { open } = useModalStore()
 
   const openProfileEditModal = () => {
     open(ProfileEditModal as any, {})

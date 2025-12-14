@@ -1,5 +1,5 @@
 import { X } from 'lucide-react'
-import { useGlobalModalStore } from './store'
+import { useModalStore } from './store'
 import DropdownDemo from '../dropdowns/demo'
 import { useMotionModal } from './wrapper-motion'
 
@@ -30,7 +30,7 @@ export function ModalDemo({ onClose }: Props) {
 }
 
 export const useDemoNormalModal = () => {
-  const { open } = useGlobalModalStore()
+  const { open } = useModalStore()
 
   const openDemoModal = (_?: Omit<Props, 'onClose'>) => {
     open(ModalDemo as any, {})
