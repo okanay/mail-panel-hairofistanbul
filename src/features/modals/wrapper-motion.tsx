@@ -1,6 +1,5 @@
 import { AnimatePresence, TargetAndTransition, Transition, VariantLabels } from 'framer-motion'
 import * as m from 'framer-motion/m'
-import { createPortal } from 'react-dom'
 import { ModalComponentProps, ModalInstance, useGlobalModalStore } from './store'
 import { SafePortal } from '@/components/safe-portal'
 
