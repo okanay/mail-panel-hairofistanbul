@@ -17,6 +17,7 @@ interface DropdownRenderProps {
 
 interface DropdownRenderContentProps {
   triggerWidth: number
+  close: () => void
 }
 
 interface DropdownWrapperProps {
@@ -116,6 +117,11 @@ function DropdownPortal({
   const [triggerWidth, setTriggerWidth] = useState(0)
   const [isPositioned, setIsPositioned] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
+  const dropdownStore = useDropdownStore()
+
+  const close = () => {
+    dropdownStore.close(dropdownId)
+  }
 
   useEffect(() => {
     if (!triggerElement || !contentRef.current) return
@@ -174,7 +180,7 @@ function DropdownPortal({
       }}
       className={className}
     >
-      {typeof children === 'function' ? children({ triggerWidth }) : children}
+      {typeof children === 'function' ? children({ triggerWidth, close }) : children}
     </div>
   )
 }

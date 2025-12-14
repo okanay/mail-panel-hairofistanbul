@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 
 import { twMerge } from 'tailwind-merge'
 
-interface EditableTextProps {
+export interface EditableTextProps {
   children: string
   seedText?: string | null | undefined
   className?: string

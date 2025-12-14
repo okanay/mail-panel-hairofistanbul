@@ -40,15 +40,18 @@ export default function DropdownDemo() {
               )}
               className="ml-4 rounded-lg border border-gray-200 bg-white shadow-lg"
             >
-              {({ triggerWidth: layer2 }) => (
+              {({ triggerWidth: layer2, close }) => (
                 <div
                   style={{
                     width: layer2,
                   }}
                   className="space-y-1"
                 >
-                  <button className="w-full rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100">
-                    🇹🇷 Türkiye
+                  <button
+                    onClick={close}
+                    className="w-full rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100"
+                  >
+                    🇹🇷 Türkiye with Close
                   </button>
                   <button className="w-full rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100">
                     🇺🇸 USA

@@ -4,12 +4,12 @@ import { useDocumentStore } from '@/features/documents/store'
 import { useSearch } from '@tanstack/react-router'
 import { SafePortal } from '@/components/safe-portal'
 
-interface EditableLinkProps {
+export interface EditableLinkProps {
   href: string
   seedValue?: string | null | undefined
   className?: string
   editKey: string
-  linkType?: LinkTypeMode
+  linkType?: LinkData['type']
 }
 
 export const EditableLink = ({
@@ -29,7 +29,7 @@ export const EditableLink = ({
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 })
   const [formValue, setFormValue] = useState('')
-  const [formType, setFormType] = useState<LinkTypeMode>('https')
+  const [formType, setFormType] = useState<LinkData['type']>('https')
 
   const isSeedMode = seedValue && seedValue !== href
 
@@ -194,7 +194,7 @@ export const EditableLink = ({
   )
 }
 
-const detectType = (href: string, fallbackHref?: string): LinkTypeMode => {
+const detectType = (href: string, fallbackHref?: string): LinkData['type'] => {
   // İlk href'i kontrol et
   if (href.startsWith('mailto:')) return 'mailto'
   if (href.startsWith('tel:')) return 'tel'
@@ -209,13 +209,13 @@ const detectType = (href: string, fallbackHref?: string): LinkTypeMode => {
   return 'https'
 }
 
-const cleanValue = (href: string, type: LinkTypeMode): string => {
+const cleanValue = (href: string, type: LinkData['type']): string => {
   if (type === 'mailto') return href.replace('mailto:', '')
   if (type === 'tel') return href.replace('tel:', '')
   return href.replace(/^https?:\/\//, '')
 }
 
-const buildHref = (type: LinkTypeMode, value: string): string => {
+const buildHref = (type: LinkData['type'], value: string): string => {
   if (!value) return '#'
   if (type === 'mailto') return `mailto:${value}`
   if (type === 'tel') return `tel:${value}`

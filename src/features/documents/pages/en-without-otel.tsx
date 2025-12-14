@@ -1,16 +1,17 @@
 import { useAuth } from '@/providers/auth'
+import { EditableContainer } from '../components/editable-container'
+import { EditableHide } from '../components/editable-hide'
 import { EditableLink } from '../components/editable-link'
 import { EditablePage } from '../components/editable-page'
-import { EditableText } from '../components/editable-text'
-import { HideableText } from '../components/hideable-text'
+import { EditableTextField } from '../components/editable-wrapper'
 import { EditorMenu } from '../components/menu-editor'
-import { EditableContainer } from '../components/editable-container'
+import { useField } from '../hooks/use-field'
 
 export const WithoutOtelPageEN = () => {
   const { user } = useAuth()
 
   // Form Data Definition for WithoutOtelPageTR
-  const formData: DocumentFormData = [
+  const formData = [
     {
       name: 'Müşteri Adı',
       editKey: 'd2-p1-k1',
@@ -124,7 +125,9 @@ export const WithoutOtelPageEN = () => {
         : undefined,
       inputMode: 'link',
     },
-  ]
+  ] as const satisfies FormFieldConfig[]
+
+  const f = useField(formData)
 
   return (
     <div className="flex flex-col bg-gray-50 text-black md:items-center md:justify-center">
@@ -132,15 +135,13 @@ export const WithoutOtelPageEN = () => {
       <EditablePage index={0} className="text-[10.5px] leading-relaxed">
         <header className="flex flex-col gap-y-1">
           <h1 className="font-semibold">
-            Dear <EditableText editKey="d2-p1-k1">{'Mr. Customer-Name'}</EditableText>,
+            Dear <EditableTextField field={f('d2-p1-k1')} className="font-bold" />,
           </h1>
 
           <p>
             We hope this message finds you well. On behalf of the entire team at Hair of Istanbul,
             we are delighted to formally confirm your scheduled hair transplant procedure for{' '}
-            <EditableText editKey="d2-p1-k2" className="font-bold">
-              {'Tuesday, 28 July 1998'}
-            </EditableText>
+            <EditableTextField field={f('d2-p1-k2')} className="font-bold" />
             .This document serves as your comprehensive appointment confirmation and guide. To
             ensure a seamless and successful experience, we kindly ask you to review the following
             information carefully.
@@ -148,7 +149,7 @@ export const WithoutOtelPageEN = () => {
         </header>
 
         <article className="mt-6 flex flex-col gap-y-6">
-          {/* SECTION 1: CRITICAL INFO (Aynen korundu) */}
+          {/* SECTION 1: CRITICAL INFO */}
           <section>
             <h2 className="font-custom-commuters text-[14px] text-primary">
               <span className="font-bold">1. CRITICAL MEDICAL INFORMATION</span>
@@ -156,7 +157,7 @@ export const WithoutOtelPageEN = () => {
             </h2>
 
             <p className="my-2">
-              Your safety is our highest priority. Please note the following mandatory conditions: 
+              Your safety is our highest priority. Please note the following mandatory conditions:
             </p>
 
             <div className="flex flex-col gap-y-4">
@@ -222,7 +223,7 @@ export const WithoutOtelPageEN = () => {
             </div>
           </section>
 
-          {/* SECTION 2: SCHEDULE (Otel bilgileri çıkarıldı, Day 2 buraya alındı) */}
+          {/* SECTION 2: SCHEDULE */}
           <section>
             <h2 className="font-custom-commuters text-[14px] text-primary">
               <span className="font-bold">2. YOUR APPOINTMENT</span>
@@ -230,35 +231,28 @@ export const WithoutOtelPageEN = () => {
             </h2>
 
             <div className="mt-2 flex flex-col gap-y-4">
-              {/* DAY 1 - OTELSİZ VERSİYON */}
+              {/* DAY 1 */}
               <div>
                 <h2 className="text-[14px]">
                   <span className="font-bold">Day 1: Arrival & Welcome </span>
-                  {/* 3. Day 1 Tarihi Editlenebilir */}
-                  <EditableText editKey="d2-p1-k3">{'(Thursday, 26 March 2026)'}</EditableText>
+                  <EditableTextField field={f('d2-p1-k3')} />
                 </h2>
                 <EditableContainer className="mt-2">
                   <p>
-                    <EditableText editKey="d2-p1-k4" focusClassName="py-0 text-xs/6">
-                      {`Our team will greet you at Istanbul Airport (IST), Gate 8, in front of Simit
-                    Saray Café. A personal interpreter will provide a procedural overview and answer
-                    any initial questions.`}
-                    </EditableText>
+                    <EditableTextField field={f('d2-p1-k4')} focusClassName="py-0 text-xs/6" />
                   </p>
                 </EditableContainer>
-                {/* Otelsiz versiyon için özel uyarı notu */}
                 <p className="mt-1 font-semibold text-black italic">
                   Please ensure you have made your own hotel arrangements for the duration of your
                   stay.
                 </p>
               </div>
 
-              {/* DAY 2 - BURAYA TAŞINDI (Çünkü yer açıldı) */}
+              {/* DAY 2 */}
               <div>
                 <h2 className="text-[14px]">
                   <span className="font-bold">Day 2: Procedure Day </span>
-                  {/* 4. Day 2 Tarihi Editlenebilir */}
-                  <EditableText editKey="d2-p1-k5">{'(Friday, 27 March 2026)'}</EditableText>
+                  <EditableTextField field={f('d2-p1-k5')} />
                 </h2>
                 <p>
                   You will be collected from your hotel and taken to our clinic. The day will
@@ -296,7 +290,7 @@ export const WithoutOtelPageEN = () => {
 
       <EditablePage index={1} className="text-[10.5px] leading-relaxed">
         <article className="flex flex-col gap-y-6">
-          {/* Day 2 Detay Metni (Önceki sayfadan devam eden kısım) */}
+          {/* Day 2 Detay */}
           <section>
             <p>
               The procedure will only commence after satisfactory medical clearance and your final
@@ -311,8 +305,7 @@ export const WithoutOtelPageEN = () => {
           <section>
             <h2 className="text-[14px]">
               <span className="font-bold">Day 3: Post and Procedure Check </span>
-              {/* Day 3 Tarihi Editlenebilir */}
-              <EditableText editKey="d2-p1-k6">{'(Saturday, 28 March 2026)'}</EditableText>
+              <EditableTextField field={f('d2-p1-k6')} />
             </h2>
             <p>
               You will return to the clinic for the removal of the donor area bandage and a progress
@@ -324,8 +317,7 @@ export const WithoutOtelPageEN = () => {
           <section>
             <h2 className="text-[14px]">
               <span className="font-bold"> Day 4: Aftercare & Departure </span>
-              {/* Day 4 Tarihi Editlenebilir */}
-              <EditableText editKey="d2-p1-k7">{'(Sunday, 29 March 2026)'}</EditableText>
+              <EditableTextField field={f('d2-p1-k7')} />
             </h2>
             <p>
               Your final visit includes your first professional hair wash and a detailed tutorial on
@@ -472,33 +464,31 @@ export const WithoutOtelPageEN = () => {
               <h3 className="mb-2 font-bold text-black">Financial Terms:</h3>
               <ul className="ml-4 list-disc space-y-1">
                 <li>
-                  <HideableText editKey="d2-p3-f1-h1">
+                  <EditableHide editKey={f('d2-p3-f1-h1').editKey}>
                     <span className="font-bold">Total Package Value: </span>
-                    <EditableText editKey="d2-p3-f1-e1">{'$4,300'}</EditableText>
-                  </HideableText>
+                    <EditableTextField field={f('d2-p3-f1-e1')} />
+                  </EditableHide>
                 </li>
 
                 <li>
-                  <HideableText editKey="d2-p3-f2-h2">
+                  <EditableHide editKey={f('d2-p3-f2-h2').editKey}>
                     <span className="font-bold">Deposit Received: </span>
-                    <EditableText editKey="d2-p3-f2-e2">{'€500 (Non-refundable)'}</EditableText>
-                  </HideableText>
+                    <EditableTextField field={f('d2-p3-f2-e2')} />
+                  </EditableHide>
                 </li>
 
                 <li>
-                  <HideableText editKey="d2-p3-f3-h3">
+                  <EditableHide editKey={f('d2-p3-f3-h3').editKey}>
                     <span className="font-bold">Outstanding Balance: </span>
-                    <EditableText editKey="d2-p3-f3-e3">{'€3,800'}</EditableText>
-                  </HideableText>
+                    <EditableTextField field={f('d2-p3-f3-e3')} />
+                  </EditableHide>
                 </li>
 
                 <li>
-                  <HideableText editKey="d2-p3-f4-h4">
+                  <EditableHide editKey={f('d2-p3-f4-h4').editKey}>
                     <span className="font-bold">Balance Due Date: </span>
-                    <EditableText editKey="d2-p3-f4-e4">
-                      {'In full on the day of the procedure.'}
-                    </EditableText>
-                  </HideableText>
+                    <EditableTextField field={f('d2-p3-f4-e4')} />
+                  </EditableHide>
                 </li>
               </ul>
             </div>
@@ -602,11 +592,8 @@ export const WithoutOtelPageEN = () => {
               {/* Logo */}
               <img src="/logo-x.svg" alt="Hair Of Istanbul" className="h-24 w-28" />
 
-              {/* EDITABLE SIGNATURE NAME */}
               <div className="border-l border-gray-200 py-4 pl-4 text-[16px] font-bold text-black">
-                <EditableText seedText={user?.name} editKey="d2-p3-k8">
-                  {'YOUR-NAME'}
-                </EditableText>
+                <EditableTextField field={f('d2-p3-k8')} />
               </div>
             </div>
 
@@ -615,12 +602,10 @@ export const WithoutOtelPageEN = () => {
               <div className="flex flex-col gap-y-1">
                 <h4 className="mb-1 font-bold text-black">Contact</h4>
 
-                {/* Editable Phone */}
                 <EditableLink
-                  seedValue={user?.phone}
-                  editKey="d2-p3-k9"
-                  href="tel:+90 532 650 00 00"
-                  className="underline"
+                  editKey={f('d2-p3-k9').editKey}
+                  href={f('d2-p3-k9').defaultValue.value}
+                  seedValue={(f('d2-p3-k9').seedValue as LinkData)?.value}
                 />
 
                 <a href="https://www.hairofistanbul.com" className="underline">

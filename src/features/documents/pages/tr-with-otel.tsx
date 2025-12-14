@@ -1,16 +1,16 @@
 import { useAuth } from '@/providers/auth'
+import { EditableContainer } from '../components/editable-container'
+import { EditableHide } from '../components/editable-hide'
 import { EditableLink } from '../components/editable-link'
 import { EditablePage } from '../components/editable-page'
-import { EditableText } from '../components/editable-text'
-import { HideableText } from '../components/hideable-text'
+import { EditableTextField } from '../components/editable-wrapper'
 import { EditorMenu } from '../components/menu-editor'
-import { EditableContainer } from '../components/editable-container'
+import { useField } from '../hooks/use-field'
 
 export const WithOtelPageTR = () => {
   const { user } = useAuth()
 
-  // Form Data Definition for WithOtelPageTR
-  const formData: DocumentFormData = [
+  const formData = [
     {
       name: 'Müşteri Adı',
       editKey: 'd1-p1-k1',
@@ -166,7 +166,9 @@ export const WithOtelPageTR = () => {
         : undefined,
       inputMode: 'link',
     },
-  ]
+  ] as const satisfies FormFieldConfig[]
+
+  const f = useField(formData)
 
   return (
     <div className="flex flex-col bg-gray-50 text-black md:items-center md:justify-center">
@@ -174,17 +176,15 @@ export const WithOtelPageTR = () => {
       <EditablePage index={0} className="text-[10.5px] leading-relaxed">
         <header className="flex flex-col gap-y-1">
           <h1 className="font-semibold">
-            Sayın <EditableText editKey="d1-p1-k1">{'MÜŞTERİ-ADI'}</EditableText>,
+            Sayın <EditableTextField field={f('d1-p1-k1')} className="font-bold" />,
           </h1>
 
           <p>
             Hair of İstanbul ailesinin tamamı adına, saç nakli işleminizin{' '}
-            <EditableText editKey="d1-p1-k2" className="font-bold">
-              {'Salı, 28 Temmuz 1998'}
-            </EditableText>{' '}
-            tarihine planlandığını resmi olarak onaylamaktan mutluluk duyuyoruz. Bu belge,
-            randevunuzun kapsamlı onaylaması ve rehber niteliğindedir. Sorunsuz ve başarılı bir
-            deneyim sağlamak için, lütfen aşağıdaki bilgileri dikkatle incelemenizi rica ediyoruz.
+            <EditableTextField field={f('d1-p1-k2')} className="font-bold" /> tarihine planlandığını
+            resmi olarak onaylamaktan mutluluk duyuyoruz. Bu belge, randevunuzun kapsamlı onaylaması
+            ve rehber niteliğindedir. Sorunsuz ve başarılı bir deneyim sağlamak için, lütfen
+            aşağıdaki bilgileri dikkatle incelemenizi rica ediyoruz.
           </p>
         </header>
 
@@ -267,17 +267,12 @@ export const WithOtelPageTR = () => {
               <div>
                 <h2 className="text-[14px]">
                   <span className="font-bold"> Gün 1: Varış & </span>
-                  <EditableText editKey="d1-p1-k3">{'(Pazartesi, 21 Nisan 1997)'}</EditableText>
+                  <EditableTextField field={f('d1-p1-k3')} />
                 </h2>
 
                 <EditableContainer className="mt-2">
                   <p>
-                    <EditableText editKey="d1-p1-k4" focusClassName="py-0 text-xs/6">
-                      {` Ekibimiz sizi İstanbul Havalimanı (IST) Kapı 8'de, Simit Saray Café'nin önünde
-                      karşılayacaktır. Kişisel bir tercüman, işlem hakkında bilgi verecek ve ilk
-                      sorularınızı cevaplayacaktır. Daha sonra size <strong>5 yıldızlı Crowne Plaza İstanbul
-                      Florya</strong> otelinde özel transfer yapılacaktır.`}
-                    </EditableText>
+                    <EditableTextField field={f('d1-p1-k4')} focusClassName="py-0 text-xs/6" />
                   </p>
                 </EditableContainer>
               </div>
@@ -287,11 +282,7 @@ export const WithOtelPageTR = () => {
                   <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Otel Adresi:
                 </h3>
                 <p>
-                  <EditableText editKey="d1-p1-k5">
-                    {
-                      'Şenlikköy Mahallesi Yeşilköy Halkalı Cad 95 Florya, 34290 Bakırköy/İstanbul, Türkiye.'
-                    }
-                  </EditableText>
+                  <EditableTextField field={f('d1-p1-k5')} />
                 </p>
               </div>
 
@@ -301,8 +292,8 @@ export const WithOtelPageTR = () => {
                 </h3>
                 <p>
                   <EditableLink
-                    editKey="d1-p1-k6"
-                    href="https://www.cpistanbulflorya.com/"
+                    editKey={f('d1-p1-k6').editKey}
+                    href={f('d1-p1-k6').defaultValue.value}
                     className="underline transition-colors hover:text-primary"
                   />
                 </p>
@@ -314,11 +305,7 @@ export const WithOtelPageTR = () => {
                   Kapsamı:
                 </h3>
                 <p>
-                  <EditableText editKey="d1-p1-k7">
-                    {
-                      '3 gece konaklama, günlük kahvaltı ve spa, fitness merkezi, yüzme havuzu, Türk Hamamı ve sauna erişimi.'
-                    }
-                  </EditableText>
+                  <EditableTextField field={f('d1-p1-k7')} />
                 </p>
               </div>
 
@@ -328,9 +315,7 @@ export const WithOtelPageTR = () => {
                   Hizmetler:
                 </h3>
                 <p>
-                  <EditableText editKey="d1-p1-k8">
-                    {'Mini bar, masaj, çamaşır servisi, oda servisi ve diğer ek ücretler.'}
-                  </EditableText>
+                  <EditableTextField field={f('d1-p1-k8')} />
                 </p>
               </div>
 
@@ -339,13 +324,8 @@ export const WithOtelPageTR = () => {
                   <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Uzatılmış
                   Konaklama:
                 </h3>
-                {/* Tek parça editable alan */}
                 <p>
-                  <EditableText editKey="d1-p1-k9">
-                    {
-                      'Ek geceler <span class="font-bold">tek kişilik için €135 ve çift kişilik için €160 gece fiyatından</span>, doğrudan sizin tarafınızdan ödenecektir.'
-                    }
-                  </EditableText>
+                  <EditableTextField field={f('d1-p1-k9')} />
                 </p>
               </div>
             </div>
@@ -358,7 +338,7 @@ export const WithOtelPageTR = () => {
           <section>
             <h2 className="text-[14px]">
               <span className="font-bold">Gün 2: Varış ve Karşılama </span>
-              <EditableText editKey="d1-p2-k1">{'(Perşembe, 26 Mart 2026)'}</EditableText>
+              <EditableTextField field={f('d1-p2-k1')} />
             </h2>
             <p>
               Otelinizdeki odanızdan alınarak kliniğimize götürüleceksiniz. Gün aşağıdaki şekilde
@@ -402,7 +382,7 @@ export const WithOtelPageTR = () => {
           <section>
             <h2 className="text-[14px]">
               <span className="font-bold">Gün 3: Operasyon Sonrası Kontrol </span>
-              <EditableText editKey="d1-p2-k2">{'(Cumartesi, 28 Mart 2026)'}</EditableText>
+              <EditableTextField field={f('d1-p2-k2')} />
             </h2>
             <p>
               Klinik kontrol için geri döneceksiniz. Donor bölgesindeki bandajın çıkarılması ve
@@ -413,7 +393,7 @@ export const WithOtelPageTR = () => {
           <section>
             <h2 className="text-[14px]">
               <span className="font-bold"> Gün 4: Bakım ve Ayrılış </span>
-              <EditableText editKey="d1-p2-k3">{'(Pazar, 29 Mart 2026)'}</EditableText>
+              <EditableTextField field={f('d1-p2-k3')} />
             </h2>
             <p>
               Otelinizdeki odanızdan alınarak kliniğimize götürüleceksiniz. Gün aşağıdaki şekilde
@@ -570,9 +550,7 @@ export const WithOtelPageTR = () => {
                 <li>Tüm özel transferler (Havalimanı ⇄ Otel ⇄ Klinik).</li>
                 <li>Profesyonel tercüman hizmeti.</li>
                 <li>
-                  <EditableText editKey="d1-p3-i1">
-                    {"Crowne Plaza İstanbul Florya'da 3 gece (5 yıldızlı)"}
-                  </EditableText>
+                  <EditableTextField field={f('d1-p3-i1')} />
                 </li>
                 <li>Tüm operasyon sonrası ilaçlar.</li>
                 <li>Bir (1) PRP seansı.</li>
@@ -584,33 +562,31 @@ export const WithOtelPageTR = () => {
               <h3 className="mb-2 font-bold text-black">Finansal Şartlar:</h3>
               <ul className="ml-4 list-disc space-y-1">
                 <li>
-                  <HideableText editKey="d1-p3-f1-h1">
+                  <EditableHide editKey={f('d1-p3-f1-h1').editKey}>
                     <span className="font-bold">Toplam Paket Değeri: </span>
-                    <EditableText editKey="d1-p3-f1-e1">{'$4,300'}</EditableText>
-                  </HideableText>
+                    <EditableTextField field={f('d1-p3-f1-e1')} />
+                  </EditableHide>
                 </li>
 
                 <li>
-                  <HideableText editKey="d1-p3-f2-h2">
+                  <EditableHide editKey={f('d1-p3-f2-h2').editKey}>
                     <span className="font-bold">Alınan Depozito: </span>
-                    <EditableText editKey="d1-p3-f2-e2">{'€500 (İade Edilemez)'}</EditableText>
-                  </HideableText>
+                    <EditableTextField field={f('d1-p3-f2-e2')} />
+                  </EditableHide>
                 </li>
 
                 <li>
-                  <HideableText editKey="d1-p3-f3-h3">
+                  <EditableHide editKey={f('d1-p3-f3-h3').editKey}>
                     <span className="font-bold">Kalan Bakiye: </span>
-                    <EditableText editKey="d1-p3-f3-e3">{'€3,800'}</EditableText>
-                  </HideableText>
+                    <EditableTextField field={f('d1-p3-f3-e3')} />
+                  </EditableHide>
                 </li>
 
                 <li>
-                  <HideableText editKey="d1-p3-f4-h4">
+                  <EditableHide editKey={f('d1-p3-f4-h4').editKey}>
                     <span className="font-bold">Son Ödeme Tarihi: </span>
-                    <EditableText editKey="d1-p3-f4-e4">
-                      {'İşlem günü tamamı ödenmelidir.'}
-                    </EditableText>
-                  </HideableText>
+                    <EditableTextField field={f('d1-p3-f4-e4')} />
+                  </EditableHide>
                 </li>
               </ul>
             </div>
@@ -713,9 +689,7 @@ export const WithOtelPageTR = () => {
               <img src="/logo-x.svg" alt="Hair Of Istanbul" className="h-24 w-28" />
 
               <div className="border-l border-gray-200 py-4 pl-4 text-[16px] font-bold text-black">
-                <EditableText seedText={user?.name} editKey="d1-p4-k1">
-                  {'AD-SOYAD'}
-                </EditableText>
+                <EditableTextField field={f('d1-p4-k1')} />
               </div>
             </div>
 
@@ -724,9 +698,9 @@ export const WithOtelPageTR = () => {
                 <h4 className="mb-1 font-bold text-black">İletişim</h4>
 
                 <EditableLink
-                  seedValue={user?.phone}
-                  editKey="d1-p4-k2"
-                  href="tel:+90 532 650 00 00"
+                  editKey={f('d1-p4-k2').editKey}
+                  href={f('d1-p4-k2').defaultValue.value}
+                  seedValue={(f('d1-p4-k2').seedValue as LinkData)?.value}
                 />
 
                 <a href="https://www.hairofistanbul.com" className="underline">

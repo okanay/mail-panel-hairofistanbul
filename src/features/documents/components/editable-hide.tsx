@@ -3,13 +3,13 @@ import { twMerge } from 'tailwind-merge'
 import { useDocumentStore } from '@/features/documents/store'
 import { useSearch } from '@tanstack/react-router'
 
-interface HideableTextProps {
+export interface EditableHideProps {
   children: React.ReactNode
   className?: string
   editKey: string
 }
 
-export const HideableText = ({ children, className, editKey }: HideableTextProps) => {
+export const EditableHide = ({ children, className, editKey }: EditableHideProps) => {
   const search = useSearch({ from: '/docs' })
   const editable = search.editable === 'yes'
   const { edits, setEdit } = useDocumentStore()
