@@ -1,7 +1,6 @@
 import { SafePortal } from '@/components/safe-portal'
 import { useDocumentStore } from '@/features/documents/store'
 import { useSearch } from '@tanstack/react-router'
-import DOMPurify from 'dompurify'
 import { Command } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
@@ -22,54 +21,40 @@ export const EditableText = ({
   focusClassName,
   editKey,
 }: EditableTextProps) => {
+  const [isFocused, setIsFocused] = useState(false)
+  const contentRef = useRef<HTMLSpanElement>(null)
+
   const search = useSearch({ from: '/docs' })
   const editable = search.editable === 'yes'
+
   const { edits, setEdit } = useDocumentStore()
   const savedValue = edits[editKey] as string | undefined
-  const contentRef = useRef<HTMLSpanElement>(null)
-  const [isFocused, setIsFocused] = useState(false)
-  const isUpdatingRef = useRef(false)
 
   const isSeedMode = seedText && seedText !== children
   const initialHTML = seedText || children
   const currentHTML = savedValue !== undefined ? savedValue : initialHTML
 
-  const sanitizeHTML = (html: string): string => {
-    return DOMPurify.sanitize(html, {
-      ALLOWED_TAGS: ['strong', 'em', 'u', 'br', 'span', 'b', 'i', 'mark', 'sub', 'sup', 's', 'del'],
-      ALLOWED_ATTR: ['class', 'data-style'],
-      KEEP_CONTENT: true,
-    })
-  }
-
   const getTextContent = (html: string): string => {
     const temp = document.createElement('div')
-    temp.innerHTML = sanitizeHTML(html)
+    temp.innerHTML = html
     return temp.textContent?.trim() || ''
   }
-
   const handleBlur = () => {
     setIsFocused(false)
     if (!contentRef.current) return
 
-    isUpdatingRef.current = true
-
     const rawHTML = contentRef.current.innerHTML.trim()
-    const cleanHTML = sanitizeHTML(rawHTML)
     const textContent = contentRef.current.textContent?.trim() || ''
 
-    if (cleanHTML !== currentHTML) {
-      setEdit(editKey, cleanHTML)
+    // sanitizeHTML artık store'da yapılıyor
+    if (rawHTML !== currentHTML) {
+      setEdit(editKey, rawHTML) // Store içinde sanitize olacak
     }
 
     if (!textContent && contentRef.current.innerHTML !== '') {
       contentRef.current.innerHTML = ''
       setEdit(editKey, '')
     }
-
-    setTimeout(() => {
-      isUpdatingRef.current = false
-    }, 0)
   }
 
   const saveAndBlur = () => {
@@ -93,13 +78,13 @@ export const EditableText = ({
 
     if (existingSpan && contentRef.current?.contains(existingSpan)) {
       const parent = existingSpan.parentNode
-      const fragment = document.createDocumentFragment()
+      if (!parent) return
 
+      const fragment = document.createDocumentFragment()
       while (existingSpan.firstChild) {
         fragment.appendChild(existingSpan.firstChild)
       }
-
-      parent?.replaceChild(fragment, existingSpan)
+      parent.replaceChild(fragment, existingSpan)
     } else {
       const span = document.createElement('span')
       span.className = className
@@ -107,7 +92,8 @@ export const EditableText = ({
 
       try {
         range.surroundContents(span)
-      } catch {
+      } catch (error) {
+        // Handle cases where surroundContents might fail
         const contents = range.extractContents()
         span.appendChild(contents)
         range.insertNode(span)
@@ -117,8 +103,7 @@ export const EditableText = ({
     selection.removeAllRanges()
 
     if (contentRef.current) {
-      const cleanHTML = sanitizeHTML(contentRef.current.innerHTML)
-      setEdit(editKey, cleanHTML)
+      setEdit(editKey, contentRef.current.innerHTML)
     }
   }
 
@@ -140,60 +125,63 @@ export const EditableText = ({
   }
 
   useEffect(() => {
-    if (!contentRef.current || isFocused || isUpdatingRef.current) return
-
-    if (contentRef.current.innerHTML !== currentHTML) {
-      const cleanHTML = sanitizeHTML(currentHTML)
-      contentRef.current.innerHTML = cleanHTML
+    if (savedValue === undefined && seedText) {
+      setEdit(editKey, seedText)
     }
-  }, [currentHTML, isFocused])
+  }, [isSeedMode, savedValue, seedText, editKey])
 
   useEffect(() => {
-    if (isSeedMode && savedValue === undefined && seedText) {
-      const cleanHTML = sanitizeHTML(seedText)
-      setEdit(editKey, cleanHTML)
+    if (!contentRef.current || isFocused) return
+
+    if (contentRef.current.innerHTML !== currentHTML) {
+      contentRef.current.innerHTML = currentHTML
     }
-  }, [isSeedMode, savedValue, seedText, editKey, setEdit])
+  }, [currentHTML, isFocused])
 
   useEffect(() => {
     if (!contentRef.current || !editable) return
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      const isModifier = e.metaKey || e.ctrlKey
       const key = e.key.toLowerCase()
+      const hasShift = e.shiftKey
+      const isModifier = e.metaKey || e.ctrlKey
 
-      // Enter tuşu - shift ile br, normal ile save
       if (key === 'enter') {
         e.preventDefault()
-        if (e.shiftKey) {
-        } else {
-          saveAndBlur()
-        }
+        saveAndBlur()
         return
       }
 
-      // Modifier tuşu yoksa style işlemleri yapma
       if (!isModifier) return
 
-      // Style toggle işlemleri
-      let shouldPrevent = false
+      switch (key) {
+        case 'b':
+          if (!hasShift) {
+            e.preventDefault()
+            toggleStyle('font-bold', 'bold')
+          }
+          break
 
-      if (key === 'b' && !e.shiftKey) {
-        shouldPrevent = true
-        toggleStyle('font-bold', 'apply-bold')
-      } else if (key === 'i' && !e.shiftKey) {
-        shouldPrevent = true
-        toggleStyle('italic', 'apply-italic')
-      } else if (key === 'u' && !e.shiftKey) {
-        shouldPrevent = true
-        toggleStyle('underline', 'apply-underline')
-      } else if (key === 'p' && e.shiftKey) {
-        shouldPrevent = true
-        toggleStyle('text-primary decoration-primary', 'apply-color')
-      }
+        case 'i':
+          if (!hasShift) {
+            e.preventDefault()
+            toggleStyle('italic', 'italic')
+          }
+          break
 
-      if (shouldPrevent) {
-        e.preventDefault()
+        case 'u':
+          if (!hasShift) {
+            e.preventDefault()
+            toggleStyle('underline', 'underline')
+          }
+          break
+
+        case 'p':
+          if (hasShift) {
+            e.preventDefault()
+            toggleStyle('text-primary decoration-primary', 'brand-color')
+          }
+          break
       }
     }
 
@@ -203,7 +191,7 @@ export const EditableText = ({
     return () => {
       element.removeEventListener('keydown', handleKeyDown)
     }
-  }, [editable, toggleStyle])
+  }, [editable])
 
   const currentTextContent = getTextContent(currentHTML)
   const hasUserEdit = savedValue !== undefined && currentTextContent.length > 0
