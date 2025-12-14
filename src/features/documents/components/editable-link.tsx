@@ -120,7 +120,7 @@ export const EditableLink = ({
         href={finalHref}
         onClick={handleLinkClick}
         className={twMerge(
-          'rounded-sm px-0.5 underline underline-offset-2 transition-colors',
+          'isolate caret-black transition-[padding] duration-250 ease-in-out focus:ring-0',
           editable && 'cursor-pointer',
           getStatusStyles(),
           className,

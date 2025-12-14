@@ -207,7 +207,7 @@ export const EditableText = ({
         onFocus={() => setIsFocused(true)}
         onBlur={handleBlur}
         className={twMerge(
-          'isolate caret-black transition-[padding] duration-250 ease-in-out',
+          'isolate caret-black transition-[padding] duration-250 ease-in-out focus:ring-0',
           editable && 'cursor-pointer',
           getStatusStyles(),
           className,

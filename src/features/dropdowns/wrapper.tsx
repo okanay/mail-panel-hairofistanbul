@@ -18,6 +18,7 @@ interface DropdownRenderProps {
 interface DropdownRenderContentProps {
   triggerWidth: number
   close: () => void
+  isOpen: boolean
 }
 
 interface DropdownWrapperProps {
@@ -89,6 +90,8 @@ export function DropdownWrapper({
             triggerElement={triggerRef.current}
             zIndex={dropdown?.zIndex ?? 2000}
             className={twMerge(className, dropdownClassName)}
+            isOpen={isOpen}
+            close={close}
           >
             {children}
           </DropdownPortal>,
@@ -104,6 +107,8 @@ interface DropdownPortalProps {
   zIndex: number
   className?: string
   children: React.ReactNode | ((props: DropdownRenderContentProps) => React.ReactNode)
+  isOpen: boolean
+  close: () => void
 }
 
 function DropdownPortal({
@@ -112,16 +117,13 @@ function DropdownPortal({
   zIndex,
   className,
   children,
+  isOpen,
+  close,
 }: DropdownPortalProps) {
   const [position, setPosition] = useState({ top: 0, left: 0 })
   const [triggerWidth, setTriggerWidth] = useState(0)
   const [isPositioned, setIsPositioned] = useState(false)
   const contentRef = useRef<HTMLDivElement>(null)
-  const dropdownStore = useDropdownStore()
-
-  const close = () => {
-    dropdownStore.close(dropdownId)
-  }
 
   useEffect(() => {
     if (!triggerElement || !contentRef.current) return
@@ -135,12 +137,10 @@ function DropdownPortal({
       let top = triggerRect.bottom + window.scrollY + 4
       let left = triggerRect.left + window.scrollX
 
-      // Viewport kontrolü - sağ taşma
       if (left + contentRect.width > window.innerWidth) {
         left = window.innerWidth - contentRect.width - 8
       }
 
-      // Viewport kontrolü - alt taşma
       if (top + contentRect.height > window.innerHeight + window.scrollY) {
         top = triggerRect.top + window.scrollY - contentRect.height - 4
       }
@@ -170,6 +170,8 @@ function DropdownPortal({
       ref={contentRef}
       data-dropdown-layer
       data-dropdown-id={dropdownId}
+      role="dialog"
+      aria-modal="true"
       style={{
         position: 'absolute',
         top: position.top,
@@ -180,7 +182,7 @@ function DropdownPortal({
       }}
       className={className}
     >
-      {typeof children === 'function' ? children({ triggerWidth, close }) : children}
+      {typeof children === 'function' ? children({ triggerWidth, close, isOpen }) : children}
     </div>
   )
 }
