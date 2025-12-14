@@ -5,17 +5,18 @@ import { ModalComponentProps, ModalInstance, useGlobalModalStore } from './store
 const ANIMATION_DURATION = 200
 
 export function ModalWrapper() {
-  const { stack } = useGlobalModalStore()
+  const store = useGlobalModalStore()
+  const normalStack = store.normalStack // Sadece normalStack'i dinle
 
-  if (stack.length === 0) return null
+  if (normalStack.length === 0) return null
 
   return createPortal(
     <div
-      id="global-modal-container"
+      id="modal-normal-container"
       className="pointer-events-none fixed inset-0 z-1000"
-      data-modal-count={stack.length}
+      data-modal-count={normalStack.length}
     >
-      {stack.map((modal) => (
+      {normalStack.map((modal) => (
         <ModalLayer key={modal.id} modal={modal} />
       ))}
     </div>,

@@ -259,7 +259,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
           </div>
         </form>
 
-        <DemoDropdownAndModalFeature />
+        <DemoDropdownAndModalFeature mode="motion" />
       </div>
 
       {/* Footer */}

@@ -1,12 +1,13 @@
 import { getMeByToken } from '@/api/handlers/get-me'
 import { LoginPage } from '@/features/auth/pages/login'
 import { DropdownStoreProvider } from '@/features/dropdowns/store'
+import { ModalStoreProvider } from '@/features/modals/store'
+import { FramerMotion } from '@/providers/framer-motion'
 import type { QueryClient } from '@tanstack/react-query'
 import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/react-router'
 import z from 'zod'
 import globals from '../assets/styles/globals.css?url'
 import { AuthProvider } from '../providers/auth'
-import { ModalStoreProvider } from '@/features/modals/store'
 
 export const validation = z.object({
   language: z
@@ -88,11 +89,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <AuthProvider initialUser={data.user}>
-          <DropdownStoreProvider>
-            <ModalStoreProvider>
-              {data.user || skipLogin === 'yes' ? children : <LoginPage />}
-            </ModalStoreProvider>
-          </DropdownStoreProvider>
+          <FramerMotion>
+            <DropdownStoreProvider>
+              <ModalStoreProvider>
+                {data.user || skipLogin === 'yes' ? children : <LoginPage />}
+              </ModalStoreProvider>
+            </DropdownStoreProvider>
+          </FramerMotion>
         </AuthProvider>
         <Scripts />
       </body>

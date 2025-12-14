@@ -3,38 +3,6 @@ import { DropdownWrapper } from './wrapper'
 export default function DropdownDemo() {
   return (
     <div className="flex items-start justify-center gap-8 bg-gray-50 p-8">
-      {/* Simple Dropdown */}
-      <DropdownWrapper
-        render={({ triggerRef, isOpen, toggle }) => (
-          <button
-            ref={triggerRef}
-            onClick={toggle}
-            className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
-          >
-            Simple Dropdown {isOpen ? '▲' : '▼'}
-          </button>
-        )}
-        className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg"
-      >
-        {({ triggerWidth }) => (
-          <div
-            style={{
-              width: triggerWidth,
-            }}
-          >
-            <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100">
-              Option 1
-            </button>
-            <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100">
-              Option 2
-            </button>
-            <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100">
-              Option 3
-            </button>
-          </div>
-        )}
-      </DropdownWrapper>
-
       {/* Nested Dropdown */}
       <DropdownWrapper
         render={({ triggerRef, isOpen, toggle }) => (
@@ -127,6 +95,38 @@ export default function DropdownDemo() {
 
             <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100">
               Tarih Seç
+            </button>
+          </div>
+        )}
+      </DropdownWrapper>
+
+      {/* Simple Dropdown */}
+      <DropdownWrapper
+        render={({ triggerRef, isOpen, toggle }) => (
+          <button
+            ref={triggerRef}
+            onClick={toggle}
+            className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
+          >
+            Simple Dropdown {isOpen ? '▲' : '▼'}
+          </button>
+        )}
+        className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg"
+      >
+        {({ triggerWidth }) => (
+          <div
+            style={{
+              width: triggerWidth,
+            }}
+          >
+            <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100">
+              Option 1
+            </button>
+            <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100">
+              Option 2
+            </button>
+            <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100">
+              Option 3
             </button>
           </div>
         )}

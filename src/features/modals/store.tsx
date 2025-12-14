@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { createStore, StoreApi, useStore } from 'zustand'
 import { ModalWrapper } from './wrapper'
+import { ModalWrapperMotion } from './wrapper-motion'
 
 // ============================================================================
 // TYPES
@@ -20,21 +21,26 @@ export interface ModalInstance {
   zIndex: number
   createdAt: number
   closeOnOutsideClick?: boolean
+  isMotion?: boolean // Yeni field
 }
 
 export interface ModalStore {
-  stack: ModalInstance[]
+  normalStack: ModalInstance[]
+  motionStack: ModalInstance[]
   nextZIndex: number
+
   open: <T = unknown>(
     component: React.ComponentType<ModalComponentProps>,
     props?: Record<string, unknown>,
-    options?: { closeOnOutsideClick?: boolean },
+    options?: { closeOnOutsideClick?: boolean; isMotion?: boolean },
   ) => Promise<T>
+
   close: (id: string, data?: unknown) => void
   closeTop: (data?: unknown) => void
   clear: () => void
   isOpen: (id?: string) => boolean
   getTopModal: () => ModalInstance | null
+  getAllStack: () => ModalInstance[] // Tüm stack'leri birleştirir (z-index için)
 }
 
 // ============================================================================
@@ -46,16 +52,18 @@ const ModalStoreContext = createContext<StoreApi<ModalStore> | undefined>(undefi
 export function ModalStoreProvider({ children }: { children: React.ReactNode }) {
   const [store] = useState(() =>
     createStore<ModalStore>()((set, get) => ({
-      stack: [],
+      normalStack: [],
+      motionStack: [],
       nextZIndex: 1000,
 
       open: <T = unknown,>(
         component: React.ComponentType<ModalComponentProps>,
         props: Record<string, unknown> = {},
-        options: { closeOnOutsideClick?: boolean } = {},
+        options: { closeOnOutsideClick?: boolean; isMotion?: boolean } = {},
       ): Promise<T> => {
         return new Promise<T>((resolve, reject) => {
           const modalId = `modal_${Date.now()}_${Math.random().toString(36).slice(2)}`
+          const isMotion = options.isMotion ?? false
 
           const newModal: ModalInstance = {
             id: modalId,
@@ -66,23 +74,27 @@ export function ModalStoreProvider({ children }: { children: React.ReactNode }) 
             zIndex: get().nextZIndex,
             createdAt: Date.now(),
             closeOnOutsideClick: options.closeOnOutsideClick ?? false,
+            isMotion,
           }
 
           set((state) => ({
-            stack: [...state.stack, newModal],
+            normalStack: isMotion ? state.normalStack : [...state.normalStack, newModal],
+            motionStack: isMotion ? [...state.motionStack, newModal] : state.motionStack,
             nextZIndex: state.nextZIndex + 10,
           }))
         })
       },
 
       close: (id: string, data?: unknown) => {
-        const modal = get().stack.find((m) => m.id === id)
+        const allStack = get().getAllStack()
+        const modal = allStack.find((m) => m.id === id)
         if (!modal) return
 
         modal.resolve?.(data)
 
         set((state) => ({
-          stack: state.stack.filter((m) => m.id !== id),
+          normalStack: state.normalStack.filter((m) => m.id !== id),
+          motionStack: state.motionStack.filter((m) => m.id !== id),
         }))
       },
 
@@ -94,33 +106,42 @@ export function ModalStoreProvider({ children }: { children: React.ReactNode }) 
       },
 
       clear: () => {
-        get().stack.forEach((modal) => {
+        const allStack = get().getAllStack()
+        allStack.forEach((modal) => {
           modal.reject?.(new Error('Modal cleared'))
         })
 
         set({
-          stack: [],
+          normalStack: [],
+          motionStack: [],
           nextZIndex: 1000,
         })
       },
 
       isOpen: (id?: string) => {
-        const { stack } = get()
-        return id ? stack.some((m) => m.id === id) : stack.length > 0
+        const allStack = get().getAllStack()
+        return id ? allStack.some((m) => m.id === id) : allStack.length > 0
       },
 
       getTopModal: () => {
-        const { stack } = get()
-        return stack[stack.length - 1] ?? null
+        const allStack = get().getAllStack()
+        return allStack[allStack.length - 1] ?? null
+      },
+
+      getAllStack: () => {
+        const { normalStack, motionStack } = get()
+        return [...normalStack, ...motionStack].sort((a, b) => a.zIndex - b.zIndex)
       },
     })),
   )
 
-  const stackLength = useStore(store, (state) => state.stack.length)
+  const normalStackLength = useStore(store, (state) => state.normalStack.length)
+  const motionStackLength = useStore(store, (state) => state.motionStack.length)
+  const totalStackLength = normalStackLength + motionStackLength
 
   // Scroll lock
   useEffect(() => {
-    if (stackLength > 0) {
+    if (totalStackLength > 0) {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
       document.body.style.overflow = 'hidden'
       document.body.style.paddingRight = `${scrollbarWidth}px`
@@ -129,12 +150,11 @@ export function ModalStoreProvider({ children }: { children: React.ReactNode }) 
       document.body.style.paddingRight = ''
     }
 
-    // Cleanup
     return () => {
       document.body.style.overflow = ''
       document.body.style.paddingRight = ''
     }
-  }, [stackLength])
+  }, [totalStackLength])
 
   // Outside click
   useEffect(() => {
@@ -158,6 +178,7 @@ export function ModalStoreProvider({ children }: { children: React.ReactNode }) 
     <ModalStoreContext.Provider value={store}>
       {children}
       <ModalWrapper />
+      <ModalWrapperMotion />
     </ModalStoreContext.Provider>
   )
 }
