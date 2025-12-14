@@ -1,24 +1,26 @@
-import { useMemo } from 'react'
+// <T extends FormFieldConfig[]>
+// "T, FormFieldConfig array'i kurallarına uyan HERHANGİ bir sabit liste olabilir"
+// (API'dan gelmeyen, compile time'da ne olduğunu bildiğimiz)
 
-export const useField = <T extends readonly FormFieldConfig[]>(formData: T) => {
-  type FieldKey = T[number]['editKey']
-  type ExtractField<K extends FieldKey> = Extract<T[number], { editKey: K }>
+// <K extends T[number]['editKey']>
+// "K, T içindeki field'ların editKey'lerinden BİRİ olmalı"
+// (T listesinin keylerinden biri: 'd1-p4-k1' | 'd1-p4-k2' gibi)
 
-  const fieldMap = useMemo(() => {
-    const map = new Map<string, FormFieldConfig>()
-    formData.forEach((field) => {
-      map.set(field.editKey, field)
-    })
-    return map
-  }, [formData])
+export const useField = <T extends FormFieldConfig[]>(formData: T) => {
+  const fieldMap = new Map<string, FormFieldConfig>()
 
-  // Function overload ile tip güvenliği sağlıyoruz
-  function f<K extends FieldKey>(id: K): ExtractField<K> {
-    const field = fieldMap.get(id as string)
+  formData.forEach((field) => {
+    fieldMap.set(field.editKey, field)
+  })
+
+  function f<K extends T[number]['editKey']>(editKey: K): Extract<T[number], { editKey: K }> {
+    const field = fieldMap.get(editKey as string)
+
     if (!field) {
-      throw new Error(`Field with id "${id}" not found in formData`)
+      throw new Error(`Field with id "${editKey}" not found`)
     }
-    return field as ExtractField<K>
+
+    return field as Extract<T[number], { editKey: K }>
   }
 
   return f
