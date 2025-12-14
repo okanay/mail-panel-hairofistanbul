@@ -25,48 +25,37 @@ import { useDownloadModal } from '../modals/modal-download'
 import { useProfileEditModal } from '@/features/auth/modals/modal-edit-profile'
 
 interface Props {
-  formData?: DocumentFormData
+  formData?: FormFieldConfig[]
 }
 
 export const EditorMenu = ({ formData }: Props) => {
+  const { user } = useAuth()
   const store = useDocumentStore()
   const config = store.config
 
   const search = useSearch({ from: config.from })
   const navigate = useNavigate({ from: config.from })
 
-  const { user } = useAuth()
-
-  const [query] = useSaveDocument()
+  const [saveDocument] = useSaveDocument()
   const [hideMenu, setHideMenu] = useState(search.hideMenu === 'yes')
-  const [isDownloading, setIsDownloading] = useState(false)
+
   const { openMailModal } = useMailModal()
   const { openDocumentHistoryModal } = useDocumentHistoryModal()
   const { openProfileEditModal } = useProfileEditModal()
   const { openFormModeModal } = useFormModeModal()
   const { openDownloadModal } = useDownloadModal()
 
-  const { mutate: downloadPdf } = useSendEmail({
+  const { mutate: downloadPdf, isPending } = useSendEmail({
     store,
     onSuccess: (data) => {
       if (data.url) {
         openDownloadModal(data.url)
-        setIsDownloading(false)
       }
-    },
-    onError: () => {
-      setIsDownloading(false)
     },
   })
 
-  const mode = search.editable === 'yes'
-  const showMenu = search.showMenu === 'yes'
-  const isLoading = query.isFetching || isDownloading
-  const loadingMessage = query.isFetching ? 'Kaydediliyor...' : 'PDF Oluşturuluyor...'
-
   const handleDownload = async () => {
-    const data = await query.refetch()
-    setIsDownloading(true)
+    const data = await saveDocument.refetch()
 
     downloadPdf({
       sendMail: false,
@@ -125,6 +114,23 @@ export const EditorMenu = ({ formData }: Props) => {
     })
   }
 
+  const mode = search.editable === 'yes'
+  const showMenu = search.showMenu === 'yes'
+
+  const loadingStates = [
+    {
+      isLoading: saveDocument.isFetching,
+      message: 'Kaydediliyor...',
+    },
+    {
+      isLoading: isPending,
+      message: 'PDF Oluşturuluyor...',
+    },
+  ]
+
+  const isLoading = loadingStates.some((state) => state.isLoading)
+  const loadingMessage = loadingStates.find((state) => state.isLoading)?.message || ''
+
   if (!showMenu) return null
 
   return (
@@ -141,7 +147,7 @@ export const EditorMenu = ({ formData }: Props) => {
             <div className="flex w-full items-start justify-between gap-2">
               <button
                 onClick={openProfileEditModal}
-                disabled={query.isFetching}
+                disabled={isLoading}
                 className="flex size-8 items-center justify-center rounded-lg border-primary bg-primary text-white transition-opacity duration-300 hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-75"
               >
                 <Settings className="size-4" />
@@ -168,7 +174,7 @@ export const EditorMenu = ({ formData }: Props) => {
 
             <MenuButton
               onClick={handleLogout}
-              disabled={query.isFetching}
+              disabled={isLoading}
               icon={<LogOut className="-ml-1 size-4" />}
               label="Çıkış Yap"
               variant="danger"
@@ -205,14 +211,14 @@ export const EditorMenu = ({ formData }: Props) => {
 
               <MenuButton
                 onClick={openDocumentHistoryModal}
-                disabled={query.isFetching}
+                disabled={isLoading}
                 icon={<History className="size-4" />}
                 label="Geçmiş"
               />
 
               <MenuButton
-                onClick={() => query.refetch()}
-                disabled={query.isFetching}
+                onClick={() => saveDocument.refetch()}
+                disabled={isLoading}
                 icon={<Save className="size-4" />}
                 label="Kaydet"
               />
@@ -250,7 +256,7 @@ export const EditorMenu = ({ formData }: Props) => {
         <button
           hidden={hideMenu}
           onClick={openMailModal}
-          disabled={query.isFetching}
+          disabled={isLoading}
           className="flex h-11 items-center justify-center gap-2 rounded-b-lg border border-zinc-950/10 bg-primary px-4 text-sm font-semibold text-white transition-opacity hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-75"
         >
           <Mail className="size-4" />
