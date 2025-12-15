@@ -1,28 +1,16 @@
 import { logoutServerFn } from '@/api/handlers/logout'
+import { useProfileEditModal } from '@/features/auth/modals/modal-edit-profile'
 import { useAuth } from '@/providers/auth'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
-import {
-  Download,
-  Eye,
-  EyeOff,
-  FormInput,
-  History,
-  Home,
-  LogOut,
-  Mail,
-  Save,
-  Settings,
-} from 'lucide-react'
-import { useState } from 'react'
+import { Download, Eye, FormInput, History, Home, LogOut, Mail, Save, Settings } from 'lucide-react'
+import { LoadingIndicator } from '../../../components/loading-indicator'
+import { useDownloadModal } from '../modals/modal-download'
+import { useFormModeModal } from '../modals/modal-form-mode'
+import { useDocumentHistoryModal } from '../modals/modal-history'
+import { useMailModal } from '../modals/modal-send-mail'
 import { useSaveDocument } from '../queries/use-save-document'
 import { useSendEmail } from '../queries/use-send-email'
 import { useDocumentStore } from '../store'
-import { LoadingIndicator } from '../../../components/loading-indicator'
-import { useDocumentHistoryModal } from '../modals/modal-history'
-import { useMailModal } from '../modals/modal-send-mail'
-import { useFormModeModal } from '../modals/modal-form-mode'
-import { useDownloadModal } from '../modals/modal-download'
-import { useProfileEditModal } from '@/features/auth/modals/modal-edit-profile'
 
 interface Props {
   formData?: FormFieldConfig[]
@@ -36,8 +24,10 @@ export const EditorMenu = ({ formData }: Props) => {
   const search = useSearch({ from: config.from })
   const navigate = useNavigate({ from: config.from })
 
+  const isMenuHidden = search.hideMenu === 'yes'
+  const isMenuVisible = search.showMenu === 'yes'
+
   const [saveDocument] = useSaveDocument()
-  const [hideMenu, setHideMenu] = useState(search.hideMenu === 'yes')
 
   const { openMailModal } = useMailModal()
   const { openDocumentHistoryModal } = useDocumentHistoryModal()
@@ -66,11 +56,13 @@ export const EditorMenu = ({ formData }: Props) => {
 
   const handleToggleEditMode = () => {
     navigate({
+      replace: true,
       search: {
         ...search,
-        editable: mode ? 'no' : 'yes',
+        editable: isMenuVisible ? 'no' : 'yes',
+        showMenu: isMenuVisible ? 'no' : 'yes',
+        hideMenu: 'no',
       },
-      replace: true,
     })
   }
 
@@ -104,19 +96,6 @@ export const EditorMenu = ({ formData }: Props) => {
     }
   }
 
-  const handleHide = async () => {
-    setHideMenu(!hideMenu)
-    navigate({
-      search: {
-        ...search,
-        hideMenu: hideMenu ? 'no' : 'yes',
-      },
-    })
-  }
-
-  const mode = search.editable === 'yes'
-  const showMenu = search.showMenu === 'yes'
-
   const loadingStates = [
     {
       isLoading: saveDocument.isFetching,
@@ -131,7 +110,7 @@ export const EditorMenu = ({ formData }: Props) => {
   const isLoading = loadingStates.some((state) => state.isLoading)
   const loadingMessage = loadingStates.find((state) => state.isLoading)?.message || ''
 
-  if (!showMenu) return null
+  if (isMenuHidden) return null
 
   return (
     <div className="pointer-events-none fixed top-0 left-0 z-50 flex w-full justify-start p-4">
@@ -141,8 +120,8 @@ export const EditorMenu = ({ formData }: Props) => {
         <div className="relative">
           {/* User Profile */}
           <div
-            hidden={hideMenu}
-            className="flex w-full flex-col items-start gap-2 rounded-tl-lg border border-gray-200 bg-white p-3"
+            hidden={!isMenuVisible}
+            className="flex w-full flex-col items-start gap-2 rounded-t-lg border border-gray-200 bg-white p-3"
           >
             <div className="flex w-full items-start justify-between gap-2">
               <button
@@ -183,39 +162,21 @@ export const EditorMenu = ({ formData }: Props) => {
 
           {/* Account Section */}
           <button
-            onClick={handleHide}
-            data-hidden={hideMenu}
-            className="absolute top-0 -right-16 rounded-r-lg bg-primary px-4 py-2 text-sm font-semibold text-white transition-opacity duration-300 hover:opacity-75 data-[hidden=true]:-right-18 data-[hidden=true]:rounded-l-lg data-[hidden=true]:border-l"
+            onClick={handleToggleEditMode}
+            data-hidden={!isMenuVisible}
+            hidden={isMenuVisible}
+            className="absolute top-0 left-2 w-fit rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-nowrap text-white transition-opacity duration-300 hover:opacity-75"
           >
-            {hideMenu ? 'Göster' : 'Gizle'}
+            Menüyü Göster
           </button>
 
           {/* Main Menu */}
           <div
-            hidden={hideMenu}
+            hidden={!isMenuVisible}
             className="pointer-events-auto flex w-fit min-w-52 flex-col gap-1 border-x border-gray-200 bg-white py-2"
           >
             {/* Document Actions Section */}
             <div className="space-y-0.5 px-2">
-              <MenuButton
-                onClick={handleOpenFormMode}
-                icon={<FormInput className="size-4" />}
-                label="Form Modu"
-              />
-
-              <MenuButton
-                onClick={handleToggleEditMode}
-                icon={mode ? <Eye className="size-4" /> : <EyeOff className="size-4" />}
-                label={mode ? 'Görüntüle' : 'Düzenle'}
-              />
-
-              <MenuButton
-                onClick={openDocumentHistoryModal}
-                disabled={isLoading}
-                icon={<History className="size-4" />}
-                label="Geçmiş"
-              />
-
               <MenuButton
                 onClick={() => saveDocument.refetch()}
                 disabled={isLoading}
@@ -227,7 +188,26 @@ export const EditorMenu = ({ formData }: Props) => {
                 onClick={handleDownload}
                 disabled={isLoading}
                 icon={<Download className="size-4" />}
-                label="Belgeyi İndir"
+                label="İndir"
+              />
+
+              <MenuButton
+                onClick={handleToggleEditMode}
+                icon={<Eye className="size-4" />}
+                label={'İncele'}
+              />
+
+              <MenuButton
+                onClick={handleOpenFormMode}
+                icon={<FormInput className="size-4" />}
+                label="Form Modu"
+              />
+
+              <MenuButton
+                onClick={openDocumentHistoryModal}
+                disabled={isLoading}
+                icon={<History className="size-4" />}
+                label="Kayıtlı Dosyalar"
               />
             </div>
 
@@ -254,13 +234,13 @@ export const EditorMenu = ({ formData }: Props) => {
 
         {/* Mail Action Button */}
         <button
-          hidden={hideMenu}
+          hidden={!isMenuVisible}
           onClick={openMailModal}
           disabled={isLoading}
-          className="flex h-11 items-center justify-center gap-2 rounded-b-lg border border-zinc-950/10 bg-primary px-4 text-sm font-semibold text-white transition-opacity hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-75"
+          className="flex h-11 items-center justify-center gap-2 rounded-b-lg border border-zinc-950/10 bg-orange-500 px-4 text-sm font-bold text-white transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-80"
         >
-          <Mail className="size-4" />
           <span>Mail Gönder</span>
+          <Mail className="size-4" strokeWidth="2.75" />
         </button>
       </div>
     </div>

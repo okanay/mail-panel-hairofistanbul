@@ -22,7 +22,7 @@
 
 @layer base {
   * {
-    @apply focus:outline-none focus:ring-2 focus:ring-primary  ;
+    @apply focus:outline-none focus:ring-2 focus:ring-orange-500  ;
   }
 
   *::marker {

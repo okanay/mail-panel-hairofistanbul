@@ -88,7 +88,7 @@ export const EditableLink = ({
       return 'border border-dashed border-gray-400 bg-gray-300 px-2 py-0'
     }
 
-    return 'border border-dashed border-amber-400 bg-amber-100 px-2 py-0 min-w-10'
+    return 'border border-dashed border-orange-400 bg-orange-100 px-2 py-0 min-w-10'
   }
 
   useEffect(() => {
