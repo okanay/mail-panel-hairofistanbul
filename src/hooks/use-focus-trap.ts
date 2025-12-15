@@ -30,43 +30,57 @@ export function useFocusTrap({ active, onEscape }: Options) {
         '[tabindex]:not([tabindex^="-"])',
       ].join(',')
 
-      return Array.from(container.querySelectorAll<HTMLElement>(selector)).filter((el) => {
+      // Modal içindeki elementler
+      const modalElements = Array.from(container.querySelectorAll<HTMLElement>(selector))
+
+      // Body'deki açık dropdown elementleri
+      const dropdownElements = Array.from(
+        document.querySelectorAll<HTMLElement>('[data-dropdown-layer] ' + selector),
+      )
+
+      // İkisini birleştir ve görünür olanları filtrele
+      return [...modalElements, ...dropdownElements].filter((el) => {
         return el.offsetParent !== null
       })
     }
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      // ESC tuşu
       if (e.key === 'Escape') {
         e.preventDefault()
         onEscape?.()
         return
       }
 
+      // Tab tuşu değilse devam et
       if (e.key !== 'Tab') return
-
-      const activeElement = document.activeElement as HTMLElement
-      if (activeElement?.closest('[data-dropdown-layer]')) {
-        return
-      }
 
       const focusableElements = getFocusableElements()
       if (focusableElements.length === 0) return
 
       const firstElement = focusableElements[0]
       const lastElement = focusableElements[focusableElements.length - 1]
+      const currentIndex = focusableElements.indexOf(document.activeElement as HTMLElement)
 
+      // Shift + Tab
       if (e.shiftKey) {
-        if (document.activeElement === firstElement) {
+        if (currentIndex === 0) {
           e.preventDefault()
           lastElement.focus()
         }
-      } else {
-        if (document.activeElement === lastElement) {
+      }
+      // Tab
+      else {
+        if (currentIndex === focusableElements.length - 1) {
           e.preventDefault()
           firstElement.focus()
         }
       }
     }
+
+    // İlk focusable elemente focus
+    const focusableElements = getFocusableElements()
+    focusableElements[0]?.focus()
 
     document.addEventListener('keydown', handleKeyDown)
 

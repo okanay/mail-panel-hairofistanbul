@@ -2,6 +2,7 @@ import { AnimatePresence, TargetAndTransition, Transition, VariantLabels } from 
 import * as m from 'framer-motion/m'
 import { ModalComponentProps, ModalInstance, useModalStore } from './store'
 import { SafePortal } from '@/components/safe-portal'
+import { useFocusTrap } from '@/hooks/use-focus-trap'
 
 interface MotionConfig {
   initial?: boolean | TargetAndTransition | VariantLabels | undefined
@@ -26,7 +27,17 @@ export function ModalWrapperMotion() {
 }
 
 function ModalLayerMotion({ modal }: { modal: ModalInstance }) {
-  const { close, modalPending } = useModalStore()
+  const { close, modalPending, isTopModal } = useModalStore()
+  const isTop = isTopModal(modal.id)
+
+  const handleClose = () => {
+    close(modal.id)
+  }
+
+  const trapRef = useFocusTrap({
+    active: isTop,
+    onEscape: handleClose,
+  })
 
   const ModalComponent = modal.component
 
@@ -48,6 +59,7 @@ function ModalLayerMotion({ modal }: { modal: ModalInstance }) {
 
   return (
     <m.div
+      ref={trapRef}
       data-pending={modalPending}
       data-modal-id={modal.id}
       data-modal-layer
