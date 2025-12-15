@@ -29,7 +29,7 @@ const InnerComponent = ({ children, className, editKey }: EditableHideProps) => 
   }
 
   return (
-    <div className="relative inline-block">
+    <div className="relative">
       {editable && (
         <button
           onClick={toggleVisibility}
