@@ -2,7 +2,7 @@ import { useAuth } from '@/providers/auth'
 import { EditableHide } from '../components/editable-hide'
 import { EditableLink } from '../components/editable-link'
 import { EditablePage } from '../components/editable-page'
-import { EditableTextField } from '../components/editable-wrapper'
+import { EditableText } from '../components/editable-text'
 import { EditorMenu } from '../components/menu-editor'
 import { useField } from '../hooks/use-field'
 
@@ -121,13 +121,13 @@ export const WithoutOtelTransferPageEN = () => {
       <EditablePage index={0} className="text-[10.5px] leading-relaxed">
         <header className="flex flex-col gap-y-1">
           <h1 className="font-semibold">
-            Dear <EditableTextField field={f('d3-p1-k1')} className="font-bold" />,
+            Dear <EditableText field={f('d3-p1-k1')} className="font-bold" />,
           </h1>
 
           <p>
             We hope this message finds you well. On behalf of the entire team at Hair of Istanbul,
             we are delighted to formally confirm your scheduled hair transplant procedure for{' '}
-            <EditableTextField field={f('d3-p1-k2')} className="font-bold" />
+            <EditableText field={f('d3-p1-k2')} className="font-bold" />
             .This document serves as your comprehensive appointment confirmation and guide. To
             ensure a seamless and successful experience, we kindly ask you to review the following
             information carefully.
@@ -218,7 +218,7 @@ export const WithoutOtelTransferPageEN = () => {
               <div>
                 <h2 className="text-[14px]">
                   <span className="font-bold">Day 1: Arrival & Welcome </span>
-                  <EditableTextField field={f('d3-p1-k3')} />
+                  <EditableText field={f('d3-p1-k3')} />
                 </h2>
 
                 <p className="mb-2">
@@ -253,7 +253,7 @@ export const WithoutOtelTransferPageEN = () => {
               <div>
                 <h2 className="text-[14px]">
                   <span className="font-bold">Day 2: Procedure Day </span>
-                  <EditableTextField field={f('d3-p1-k4')} />
+                  <EditableText field={f('d3-p1-k4')} />
                 </h2>
                 <p>
                   Please return to the clinic for the removal of the donor area bandage and a
@@ -271,7 +271,7 @@ export const WithoutOtelTransferPageEN = () => {
           <section>
             <h2 className="text-[14px]">
               <span className="font-bold">Day 3: Pos and Procedure Check </span>
-              <EditableTextField field={f('d3-p2-k1')} />
+              <EditableText field={f('d3-p2-k1')} />
             </h2>
             <p>
               Your final visit includes your first professional hair wash and a detailed tutorial on
@@ -410,28 +410,28 @@ export const WithoutOtelTransferPageEN = () => {
                 <li>
                   <EditableHide editKey={f('d3-p3-f1-h1').editKey}>
                     <span className="font-bold">Total Package Value: </span>
-                    <EditableTextField field={f('d3-p3-f1-e1')} />
+                    <EditableText field={f('d3-p3-f1-e1')} />
                   </EditableHide>
                 </li>
 
                 <li>
                   <EditableHide editKey={f('d3-p3-f2-h2').editKey}>
                     <span className="font-bold">Deposit Received: </span>
-                    <EditableTextField field={f('d3-p3-f2-e2')} />
+                    <EditableText field={f('d3-p3-f2-e2')} />
                   </EditableHide>
                 </li>
 
                 <li>
                   <EditableHide editKey={f('d3-p3-f3-h3').editKey}>
                     <span className="font-bold">Outstanding Balance: </span>
-                    <EditableTextField field={f('d3-p3-f3-e3')} />
+                    <EditableText field={f('d3-p3-f3-e3')} />
                   </EditableHide>
                 </li>
 
                 <li>
                   <EditableHide editKey={f('d3-p3-f4-h4').editKey}>
                     <span className="font-bold">Balance Due Date: </span>
-                    <EditableTextField field={f('d3-p3-f4-e4')} />
+                    <EditableText field={f('d3-p3-f4-e4')} />
                   </EditableHide>
                 </li>
               </ul>
@@ -529,7 +529,7 @@ export const WithoutOtelTransferPageEN = () => {
               <img src="/logo-x.svg" alt="Hair Of Istanbul" className="h-24 w-28" />
 
               <div className="border-l border-stone-200 py-4 pl-4 text-[16px] font-bold text-black">
-                <EditableTextField field={f('d3-p3-k8')} />
+                <EditableText field={f('d3-p3-k8')} />
               </div>
             </div>
 

@@ -3,7 +3,7 @@ import { EditableContainer } from '../components/editable-container'
 import { EditableHide } from '../components/editable-hide'
 import { EditableLink } from '../components/editable-link'
 import { EditablePage } from '../components/editable-page'
-import { EditableTextField } from '../components/editable-wrapper'
+import { EditableText } from '../components/editable-text'
 import { EditorMenu } from '../components/menu-editor'
 import { useField } from '../hooks/use-field'
 
@@ -181,12 +181,12 @@ export const WithOtelPageTR = () => {
       <EditablePage index={0} className="text-[10.5px] leading-relaxed">
         <header className="flex flex-col gap-y-1">
           <h1 className="font-semibold">
-            Sayın <EditableTextField field={f('d1-p1-k1')} className="font-bold" />,
+            Sayın <EditableText field={f('d1-p1-k1')} className="font-bold" />,
           </h1>
 
           <p>
             Hair of İstanbul ailesinin tamamı adına, saç nakli işleminizin{' '}
-            <EditableTextField field={f('d1-p1-k2')} className="font-bold" /> tarihine planlandığını
+            <EditableText field={f('d1-p1-k2')} className="font-bold" /> tarihine planlandığını
             resmi olarak onaylamaktan mutluluk duyuyoruz. Bu belge, randevunuzun kapsamı ve rehberi
             niteliğindedir. Sorunsuz ve başarılı bir deneyim sağlamak için, lütfen aşağıdaki
             bilgileri dikkatle incelemenizi rica ediyoruz.
@@ -272,12 +272,12 @@ export const WithOtelPageTR = () => {
               <div>
                 <h2 className="text-[14px]">
                   <span className="font-bold"> Gün 1: Varış & </span>
-                  <EditableTextField field={f('d1-p1-k3')} />
+                  <EditableText field={f('d1-p1-k3')} />
                 </h2>
 
                 <EditableContainer className="mt-2">
                   <p>
-                    <EditableTextField field={f('d1-p1-k4')} focusClassName="py-0 text-xs/6" />
+                    <EditableText field={f('d1-p1-k4')} focusClassName="py-0 text-xs/6" />
                   </p>
                 </EditableContainer>
               </div>
@@ -287,7 +287,7 @@ export const WithOtelPageTR = () => {
                   <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Otel Adresi:
                 </h3>
                 <p>
-                  <EditableTextField field={f('d1-p1-k5')} />
+                  <EditableText field={f('d1-p1-k5')} />
                 </p>
               </div>
 
@@ -310,7 +310,7 @@ export const WithOtelPageTR = () => {
                   Kapsamı:
                 </h3>
                 <p>
-                  <EditableTextField field={f('d1-p1-k7')} />
+                  <EditableText field={f('d1-p1-k7')} />
                 </p>
               </div>
 
@@ -320,7 +320,7 @@ export const WithOtelPageTR = () => {
                   Hizmetler:
                 </h3>
                 <p>
-                  <EditableTextField field={f('d1-p1-k8')} />
+                  <EditableText field={f('d1-p1-k8')} />
                 </p>
               </div>
 
@@ -330,7 +330,7 @@ export const WithOtelPageTR = () => {
                   Konaklama:
                 </h3>
                 <p>
-                  <EditableTextField field={f('d1-p1-k9')} />
+                  <EditableText field={f('d1-p1-k9')} />
                 </p>
               </div>
             </div>
@@ -343,7 +343,7 @@ export const WithOtelPageTR = () => {
           <section>
             <h2 className="text-[14px]">
               <span className="font-bold">Gün 2: Varış ve Karşılama </span>
-              <EditableTextField field={f('d1-p2-k1')} />
+              <EditableText field={f('d1-p2-k1')} />
             </h2>
             <p>
               Otelinizdeki odanızdan alınarak kliniğimize götürüleceksiniz. Gün aşağıdaki şekilde
@@ -387,7 +387,7 @@ export const WithOtelPageTR = () => {
           <section>
             <h2 className="text-[14px]">
               <span className="font-bold">Gün 3: Operasyon Sonrası Kontrol </span>
-              <EditableTextField field={f('d1-p2-k2')} />
+              <EditableText field={f('d1-p2-k2')} />
             </h2>
             <p>
               Klinik kontrol için geri döneceksiniz. Donor bölgesindeki bandajın çıkarılması ve
@@ -398,7 +398,7 @@ export const WithOtelPageTR = () => {
           <section>
             <h2 className="text-[14px]">
               <span className="font-bold"> Gün 4: Bakım ve Ayrılış </span>
-              <EditableTextField field={f('d1-p2-k3')} />
+              <EditableText field={f('d1-p2-k3')} />
             </h2>
             <p>
               Otelinizdeki odanızdan alınarak kliniğimize götürüleceksiniz. Gün aşağıdaki şekilde
@@ -555,7 +555,7 @@ export const WithOtelPageTR = () => {
                 <li>Tüm özel transferler (Havalimanı ⇄ Otel ⇄ Klinik).</li>
                 <li>Profesyonel tercüman hizmeti.</li>
                 <li>
-                  <EditableTextField field={f('d1-p3-i1')} />
+                  <EditableText field={f('d1-p3-i1')} />
                 </li>
                 <li>Tüm operasyon sonrası ilaçlar.</li>
                 <li>Bir (1) PRP seansı.</li>
@@ -569,28 +569,28 @@ export const WithOtelPageTR = () => {
                 <li>
                   <EditableHide editKey={f('d1-p3-f1-h1').editKey}>
                     <span className="font-bold">Toplam Paket Değeri: </span>
-                    <EditableTextField field={f('d1-p3-f1-e1')} />
+                    <EditableText field={f('d1-p3-f1-e1')} />
                   </EditableHide>
                 </li>
 
                 <li>
                   <EditableHide editKey={f('d1-p3-f2-h2').editKey}>
                     <span className="font-bold">Alınan Depozito: </span>
-                    <EditableTextField field={f('d1-p3-f2-e2')} />
+                    <EditableText field={f('d1-p3-f2-e2')} />
                   </EditableHide>
                 </li>
 
                 <li>
                   <EditableHide editKey={f('d1-p3-f3-h3').editKey}>
                     <span className="font-bold">Kalan Bakiye: </span>
-                    <EditableTextField field={f('d1-p3-f3-e3')} />
+                    <EditableText field={f('d1-p3-f3-e3')} />
                   </EditableHide>
                 </li>
 
                 <li>
                   <EditableHide editKey={f('d1-p3-f4-h4').editKey}>
                     <span className="font-bold">Son Ödeme Tarihi: </span>
-                    <EditableTextField field={f('d1-p3-f4-e4')} />
+                    <EditableText field={f('d1-p3-f4-e4')} />
                   </EditableHide>
                 </li>
               </ul>
@@ -694,7 +694,7 @@ export const WithOtelPageTR = () => {
               <img src="/logo-x.svg" alt="Hair Of Istanbul" className="h-24 w-28" />
 
               <div className="border-l border-stone-200 py-4 pl-4 text-[16px] font-bold text-black">
-                <EditableTextField field={f('d1-p4-k1')} />
+                <EditableText field={f('d1-p4-k1')} />
               </div>
             </div>
 

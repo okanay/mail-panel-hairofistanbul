@@ -43,7 +43,7 @@
     "tailwindcss": "^4.1.18",
     "uuidv7": "^1.1.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "zod": "^4.1.13",
+    "zod": "^4.2.0",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
@@ -61,7 +61,7 @@
     "prettier": "^3.7.4",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "typescript": "^5.9.3",
-    "vite": "^7.2.7",
+    "vite": "^7.3.0",
     "vitest": "^4.0.15",
     "web-vitals": "^5.1.0",
     "wrangler": "^4.54.0"

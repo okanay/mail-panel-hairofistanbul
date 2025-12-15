@@ -3,24 +3,15 @@ import { useDocumentStore } from '@/features/documents/store'
 import { useSearch } from '@tanstack/react-router'
 import { Command } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
-
 import { twMerge } from 'tailwind-merge'
 
 export interface EditableTextProps {
-  children: string
-  seedText?: string | null | undefined
+  field: TextFieldConfig
   className?: string
   focusClassName?: string
-  editKey: string
 }
 
-export const EditableText = ({
-  children,
-  seedText,
-  className,
-  focusClassName,
-  editKey,
-}: EditableTextProps) => {
+export const EditableText = ({ field, className, focusClassName }: EditableTextProps) => {
   const [isFocused, setIsFocused] = useState(false)
   const contentRef = useRef<HTMLSpanElement>(null)
 
@@ -28,10 +19,10 @@ export const EditableText = ({
   const editable = search.editable === 'yes'
 
   const { edits, setEdit } = useDocumentStore()
-  const savedValue = edits[editKey] as string | undefined
+  const savedValue = edits[field.editKey] as string | undefined
 
-  const isSeedMode = seedText && seedText !== children
-  const initialHTML = seedText || children
+  const isSeedMode = field.seedValue && field.seedValue !== field.defaultValue
+  const initialHTML = field.seedValue || field.defaultValue
   const currentHTML = savedValue !== undefined ? savedValue : initialHTML
 
   const getTextContent = (html: string): string => {
@@ -39,6 +30,7 @@ export const EditableText = ({
     temp.innerHTML = html
     return temp.textContent?.trim() || ''
   }
+
   const handleBlur = () => {
     setIsFocused(false)
     if (!contentRef.current) return
@@ -46,14 +38,13 @@ export const EditableText = ({
     const rawHTML = contentRef.current.innerHTML.trim()
     const textContent = contentRef.current.textContent?.trim() || ''
 
-    // sanitizeHTML artık store'da yapılıyor
     if (rawHTML !== currentHTML) {
-      setEdit(editKey, rawHTML) // Store içinde sanitize olacak
+      setEdit(field.editKey, rawHTML)
     }
 
     if (!textContent && contentRef.current.innerHTML !== '') {
       contentRef.current.innerHTML = ''
-      setEdit(editKey, '')
+      setEdit(field.editKey, '')
     }
   }
 
@@ -93,7 +84,6 @@ export const EditableText = ({
       try {
         range.surroundContents(span)
       } catch (error) {
-        // Handle cases where surroundContents might fail
         const contents = range.extractContents()
         span.appendChild(contents)
         range.insertNode(span)
@@ -103,7 +93,7 @@ export const EditableText = ({
     selection.removeAllRanges()
 
     if (contentRef.current) {
-      setEdit(editKey, contentRef.current.innerHTML)
+      setEdit(field.editKey, contentRef.current.innerHTML)
     }
   }
 
@@ -125,10 +115,10 @@ export const EditableText = ({
   }
 
   useEffect(() => {
-    if (savedValue === undefined && seedText) {
-      setEdit(editKey, seedText)
+    if (savedValue === undefined && field.seedValue) {
+      setEdit(field.editKey, field.seedValue)
     }
-  }, [isSeedMode, savedValue, seedText, editKey])
+  }, [isSeedMode, savedValue, field.seedValue, field.editKey, setEdit])
 
   useEffect(() => {
     if (!contentRef.current || isFocused) return
@@ -212,6 +202,7 @@ export const EditableText = ({
           getStatusStyles(),
           className,
         )}
+        dangerouslySetInnerHTML={{ __html: currentHTML }}
       />
 
       {isFocused && editable && (
