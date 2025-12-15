@@ -259,6 +259,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
         <button
           type="submit"
           form="mail-form"
+          hidden={showSuccess || isProcessing}
           disabled={
             isProcessing ||
             !search.hash ||
