@@ -5,7 +5,7 @@ type Props = {
   children: React.ReactNode
   className?: string
 }
-export const InnerComponent = ({ children, className }: Props) => {
+const InnerComponent = ({ children, className }: Props) => {
   const search = useSearch({ from: '/docs' })
   const editable = search.editable === 'yes'
 

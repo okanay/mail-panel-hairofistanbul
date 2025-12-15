@@ -18,12 +18,7 @@ const buildHref = (type: LinkData['type'], value: string): string => {
   return value.startsWith('http') ? value : `https://${value}`
 }
 
-export const InnerComponent = ({
-  defaultValue,
-  seedValue,
-  className,
-  editKey,
-}: EditableLinkProps) => {
+const InnerComponent = ({ defaultValue, seedValue, className, editKey }: EditableLinkProps) => {
   const search = useSearch({ from: '/docs' })
   const editable = search.editable === 'yes'
   const { edits, setEdit } = useDocumentStore()

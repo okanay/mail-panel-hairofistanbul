@@ -9,7 +9,7 @@ export interface EditableHideProps {
   editKey: string
 }
 
-export const InnerComponent = ({ children, className, editKey }: EditableHideProps) => {
+const InnerComponent = ({ children, className, editKey }: EditableHideProps) => {
   const search = useSearch({ from: '/docs' })
   const editable = search.editable === 'yes'
   const { edits, setEdit } = useDocumentStore()
