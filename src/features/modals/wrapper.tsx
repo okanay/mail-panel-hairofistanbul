@@ -25,7 +25,7 @@ export function ModalWrapper() {
 }
 
 function ModalLayer({ modal }: { modal: ModalInstance }) {
-  const { close, modalPending, getTopModal } = useModalStore()
+  const { close, modalPending } = useModalStore()
   const [isClosing, setIsClosing] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const isClosingRef = useRef(false)
@@ -55,7 +55,6 @@ function ModalLayer({ modal }: { modal: ModalInstance }) {
 
   return (
     <div
-      inert={!Boolean(modal.id === getTopModal()?.id)}
       data-modal-id={modal.id}
       data-pending={modalPending}
       data-modal-layer
