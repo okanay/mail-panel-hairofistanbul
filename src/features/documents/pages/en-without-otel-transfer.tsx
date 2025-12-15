@@ -539,6 +539,7 @@ export const WithoutOtelTransferPageEN = () => {
                 <EditableLink
                   editKey={f('d3-p3-k9').editKey}
                   href={f('d3-p3-k9').defaultValue.value}
+                  linkType={f('d3-p3-k9').seedValue?.type || f('d3-p3-k9').defaultValue.type}
                   seedValue={f('d3-p3-k9').seedValue?.value}
                 />
                 <a href="https://www.hairofistanbul.com" className="underline">

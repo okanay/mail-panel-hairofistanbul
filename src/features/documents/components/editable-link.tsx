@@ -9,7 +9,7 @@ export interface EditableLinkProps {
   seedValue?: string | null | undefined
   className?: string
   editKey: string
-  linkType?: LinkData['type']
+  linkType: LinkData['type']
 }
 
 export const EditableLink = ({
@@ -29,19 +29,15 @@ export const EditableLink = ({
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 })
   const [formValue, setFormValue] = useState('')
-  const [formType, setFormType] = useState<LinkData['type']>('https')
+  const [formType, setFormType] = useState<LinkData['type']>(linkType)
 
   const isSeedMode = seedValue && seedValue !== href
 
-  const initialHref = seedValue || href
-  const initialType = linkType || detectType(initialHref)
-  const initialValue =
-    isSeedMode && seedValue
-      ? seedValue // seedValue zaten temiz
-      : cleanValue(initialHref, initialType)
+  // Initial değerler artık sadece prop'lardan geliyor
+  const initialValue = isSeedMode && seedValue ? seedValue : cleanValue(href, linkType)
 
   const currentData: LinkData = savedData ?? {
-    type: initialType,
+    type: linkType,
     value: initialValue,
   }
 
@@ -91,10 +87,10 @@ export const EditableLink = ({
     return 'border border-dashed border-orange-400 bg-orange-100 px-2 py-0 min-w-10'
   }
 
+  // Seed mode için initial set - type artık prop'tan geliyor
   useEffect(() => {
     if (isSeedMode && savedData === undefined && seedValue) {
-      const seedType = detectType(seedValue, href)
-      setEdit(editKey, { value: seedValue, type: seedType })
+      setEdit(editKey, { value: seedValue, type: linkType })
     }
   }, [])
 
@@ -192,21 +188,6 @@ export const EditableLink = ({
       )}
     </>
   )
-}
-
-const detectType = (href: string, fallbackHref?: string): LinkData['type'] => {
-  // İlk href'i kontrol et
-  if (href.startsWith('mailto:')) return 'mailto'
-  if (href.startsWith('tel:')) return 'tel'
-  if (href.startsWith('http')) return 'https'
-
-  // Eğer prefix yoksa ve fallback varsa, ondan çıkar
-  if (fallbackHref) {
-    if (fallbackHref.startsWith('mailto:')) return 'mailto'
-    if (fallbackHref.startsWith('tel:')) return 'tel'
-  }
-
-  return 'https'
 }
 
 const cleanValue = (href: string, type: LinkData['type']): string => {

@@ -605,6 +605,7 @@ export const WithoutOtelPageEN = () => {
                 <EditableLink
                   editKey={f('d2-p3-k9').editKey}
                   href={f('d2-p3-k9').defaultValue.value}
+                  linkType={f('d2-p3-k9').seedValue?.type || f('d2-p3-k9').defaultValue.type}
                   seedValue={f('d2-p3-k9').seedValue?.value}
                 />
 

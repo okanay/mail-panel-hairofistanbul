@@ -33,7 +33,7 @@ export const WithOtelPageTR = () => {
       name: '1. Gün: Karşılama Metni',
       description: 'HTML etiketleri (b, i, u vb.) kullanılabilir.',
       editKey: 'd1-p1-k4',
-      defaultValue: `Ekibimiz sizi İstanbul Havalimanı (IST) Kapı 8'de, Simit Saray Café'nin önünde karşılayacaktır. Kişisel bir tercüman, işlem hakkında bilgi verecek ve ilk sorularınızı cevaplayacaktır. Daha sonra size <strong>5 yıldızlı Crowne Plaza İstanbul Florya</strong> otelinde özel transfer yapılacaktır.`,
+      defaultValue: `Ekibimiz sizi İstanbul Havalimanı (IST) Kapı 8'de, Simit Saray Café'nin önünde karşılayacaktır. Kişisel bir tercüman, işlem hakkında bilgi verecek ve ilk sorularınızı cevaplayacaktır. Daha sonra size <b>5 yıldızlı Crowne Plaza İstanbul Florya</b> otelinde özel transfer yapılacaktır.`,
       inputMode: 'textarea',
     },
     {
@@ -155,7 +155,7 @@ export const WithOtelPageTR = () => {
       name: 'Temsilci Telefonu',
       editKey: 'd1-p4-k2',
       defaultValue: {
-        value: '+90 532 650 00 00',
+        value: 'tel:+90 532 650 00 00',
         type: 'tel',
       } as LinkData,
       seedValue: user?.phone
@@ -182,9 +182,9 @@ export const WithOtelPageTR = () => {
           <p>
             Hair of İstanbul ailesinin tamamı adına, saç nakli işleminizin{' '}
             <EditableTextField field={f('d1-p1-k2')} className="font-bold" /> tarihine planlandığını
-            resmi olarak onaylamaktan mutluluk duyuyoruz. Bu belge, randevunuzun kapsamlı onaylaması
-            ve rehber niteliğindedir. Sorunsuz ve başarılı bir deneyim sağlamak için, lütfen
-            aşağıdaki bilgileri dikkatle incelemenizi rica ediyoruz.
+            resmi olarak onaylamaktan mutluluk duyuyoruz. Bu belge, randevunuzun kapsamı ve rehberi
+            niteliğindedir. Sorunsuz ve başarılı bir deneyim sağlamak için, lütfen aşağıdaki
+            bilgileri dikkatle incelemenizi rica ediyoruz.
           </p>
         </header>
 
@@ -294,6 +294,7 @@ export const WithOtelPageTR = () => {
                   <EditableLink
                     editKey={f('d1-p1-k6').editKey}
                     href={f('d1-p1-k6').defaultValue.value}
+                    linkType={f('d1-p1-k6').defaultValue.type}
                     className="underline transition-colors hover:text-primary"
                   />
                 </p>
@@ -700,6 +701,7 @@ export const WithOtelPageTR = () => {
                 <EditableLink
                   editKey={f('d1-p4-k2').editKey}
                   href={f('d1-p4-k2').defaultValue.value}
+                  linkType={f('d1-p4-k2').seedValue?.type || f('d1-p4-k2').defaultValue.type}
                   seedValue={f('d1-p4-k2').seedValue?.value}
                 />
 

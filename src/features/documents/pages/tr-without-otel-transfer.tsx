@@ -126,9 +126,9 @@ export const WithoutOtelTransferPageTR = () => {
           <p>
             Hair of İstanbul ailesinin tamamı adına, saç nakli işleminizin{' '}
             <EditableTextField field={f('d3-p1-k2')} className="font-bold" /> tarihine planlandığını
-            resmi olarak onaylamaktan mutluluk duyuyoruz. Bu belge, randevunuzun kapsamlı onaylaması
-            ve rehber niteliğindedir. Sorunsuz ve başarılı bir deneyim sağlamak için, lütfen
-            aşağıdaki bilgileri dikkatle incelemenizi rica ediyoruz.
+            resmi olarak onaylamaktan mutluluk duyuyoruz. Bu belge, randevunuzun kapsamı ve rehberi
+            niteliğindedir. Sorunsuz ve başarılı bir deneyim sağlamak için, lütfen aşağıdaki
+            bilgileri dikkatle incelemenizi rica ediyoruz.
           </p>
         </header>
 
@@ -541,6 +541,7 @@ export const WithoutOtelTransferPageTR = () => {
                 <EditableLink
                   editKey={f('d3-p3-k9').editKey}
                   href={f('d3-p3-k9').defaultValue.value}
+                  linkType={f('d3-p3-k9').seedValue?.type || f('d3-p3-k9').defaultValue.type}
                   seedValue={f('d3-p3-k9').seedValue?.value}
                 />
                 <a href="https://www.hairofistanbul.com" className="underline">

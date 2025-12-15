@@ -159,10 +159,10 @@ export const WithOtelPageEN = () => {
         type: 'tel',
       },
       seedValue: user?.phone
-        ? ({
+        ? {
             value: user.phone,
             type: 'tel',
-          } as LinkData)
+          }
         : undefined,
       inputMode: 'link',
     },
@@ -287,6 +287,7 @@ export const WithOtelPageEN = () => {
                   <EditableLink
                     editKey={f('d1-p1-k6').editKey}
                     href={f('d1-p1-k6').defaultValue.value}
+                    linkType={f('d1-p1-k6').defaultValue.type}
                     className="underline transition-colors hover:text-primary"
                   />
                 </p>
@@ -652,6 +653,7 @@ export const WithOtelPageEN = () => {
                 <EditableLink
                   editKey={f('d1-p4-k2').editKey}
                   href={f('d1-p4-k2').defaultValue.value}
+                  linkType={f('d1-p4-k2').seedValue?.type || f('d1-p4-k2').defaultValue.type}
                   seedValue={f('d1-p4-k2').seedValue?.value}
                 />
 
