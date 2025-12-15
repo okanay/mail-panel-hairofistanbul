@@ -170,6 +170,7 @@ function DropdownPortal({
       ref={contentRef}
       data-dropdown-layer
       data-dropdown-id={dropdownId}
+      inert={false}
       role="dialog"
       aria-modal="true"
       style={{

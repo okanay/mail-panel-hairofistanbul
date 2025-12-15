@@ -1,10 +1,10 @@
 import { useModalStore } from '@/features/modals/store'
-import { X, Loader2, User, Mail, Phone, Check, Lock, EyeOff, Eye, CheckCircle2 } from 'lucide-react'
-import { Controller, useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { z } from 'zod/v4'
-import { useState } from 'react'
 import { useAuth } from '@/providers/auth'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { CheckCircle2, Eye, EyeOff, Loader2, Lock, Mail, Phone, User, X } from 'lucide-react'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { z } from 'zod/v4'
 import { useUpdateProfile } from '../queries/use-update-user'
 
 const profileFormSchema = z.object({

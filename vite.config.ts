@@ -7,6 +7,7 @@ import { defineConfig } from 'vite'
 import viteTsConfigPaths from 'vite-tsconfig-paths'
 
 const config = defineConfig({
+  logLevel: 'silent',
   plugins: [
     devtools(),
     cloudflare({ viteEnvironment: { name: 'ssr' } }),

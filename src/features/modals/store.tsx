@@ -52,7 +52,13 @@ export interface ModalStore {
 
 const ModalStoreContext = createContext<StoreApi<ModalStore> | undefined>(undefined)
 
-export function ModalStoreProvider({ children }: { children: React.ReactNode }) {
+export function ModalStoreProvider({
+  children,
+  inertName = 'app',
+}: {
+  children: React.ReactNode
+  inertName?: string
+}) {
   const [store] = useState(() =>
     createStore<ModalStore>()((set, get) => ({
       normalStack: [],
@@ -148,18 +154,35 @@ export function ModalStoreProvider({ children }: { children: React.ReactNode }) 
   const motionStackLength = useStore(store, (state) => state.motionStack.length)
   const totalStackLength = normalStackLength + motionStackLength
 
-  // Scroll lock
   useEffect(() => {
+    const inertElement = document.getElementById(inertName)
+
     if (totalStackLength > 0) {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+
+      // Root'u inert yap
+      if (inertElement) {
+        inertElement.inert = true
+      }
+
+      // Scroll lock
       document.body.style.overflow = 'hidden'
       document.body.style.paddingRight = `${scrollbarWidth}px`
     } else {
+      // Root'u aktif yap
+      if (inertElement) {
+        inertElement.inert = false
+      }
+
+      // Scroll unlock
       document.body.style.overflow = ''
       document.body.style.paddingRight = ''
     }
 
     return () => {
+      if (inertElement) {
+        inertElement.inert = false
+      }
       document.body.style.overflow = ''
       document.body.style.paddingRight = ''
     }

@@ -26,7 +26,7 @@ export function ModalWrapperMotion() {
 }
 
 function ModalLayerMotion({ modal }: { modal: ModalInstance }) {
-  const { close, modalPending } = useModalStore()
+  const { close, modalPending, getTopModal } = useModalStore()
 
   const ModalComponent = modal.component
 
@@ -48,6 +48,7 @@ function ModalLayerMotion({ modal }: { modal: ModalInstance }) {
 
   return (
     <m.div
+      inert={!Boolean(modal.id === getTopModal()?.id)}
       data-pending={modalPending}
       data-modal-id={modal.id}
       data-modal-layer

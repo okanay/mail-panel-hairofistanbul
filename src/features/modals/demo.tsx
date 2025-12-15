@@ -49,7 +49,11 @@ export const useDemoMotionModal = () => {
   return { openDemoModal }
 }
 
-export const DemoDropdownAndModalFeature = ({ mode = 'normal' }: { mode: 'motion' | 'normal' }) => {
+export const DemoDropdownAndModalFeature = ({
+  mode = 'normal',
+}: {
+  mode?: 'motion' | 'normal'
+}) => {
   const { openDemoModal: openNormalDemoModal } = useDemoNormalModal()
   const { openDemoModal: openMotionDemoModal } = useDemoMotionModal()
 

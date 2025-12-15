@@ -25,7 +25,7 @@ export function ModalWrapper() {
 }
 
 function ModalLayer({ modal }: { modal: ModalInstance }) {
-  const { close, modalPending } = useModalStore()
+  const { close, modalPending, getTopModal } = useModalStore()
   const [isClosing, setIsClosing] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const isClosingRef = useRef(false)
@@ -41,23 +41,23 @@ function ModalLayer({ modal }: { modal: ModalInstance }) {
     }, ANIMATION_DURATION)
   }
 
+  const Component = modal.component
+  const modalProps: ModalComponentProps = {
+    ...modal.props,
+    onClose: handleClose,
+  }
+
   useEffect(() => {
     requestAnimationFrame(() => {
       setIsMounted(true)
     })
   }, [])
 
-  const Component = modal.component
-
-  const modalProps: ModalComponentProps = {
-    ...modal.props,
-    onClose: handleClose,
-  }
-
   return (
     <div
-      data-pending={modalPending}
+      inert={!Boolean(modal.id === getTopModal()?.id)}
       data-modal-id={modal.id}
+      data-pending={modalPending}
       data-modal-layer
       role="dialog"
       aria-modal="true"
