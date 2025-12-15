@@ -11,15 +11,18 @@ type DocumentPaths = DocumentPathsLocation & keyof RegisteredRouter['routesByPat
 type DocumentLanguage = 'tr' | 'en'
 type DocumentContentType = 'with-otel' | 'without-otel' | 'without-otel-transfer'
 
-// ----- Document Configuration -----
 type DocumentConfig = {
   language: DocumentLanguage
   type: DocumentContentType
   from: DocumentPaths
 }
 
-// ----- Form Field Types -----
 type FormFieldInputMode = 'text' | 'textarea' | 'toggle' | 'link'
+
+type LinkData = {
+  value: string
+  type: 'mailto' | 'tel' | 'https'
+}
 
 type FieldBase = {
   name: string
@@ -45,9 +48,7 @@ interface LinkFieldConfig extends FieldBase {
   inputMode: 'link'
 }
 
-type LinkData = {
-  value: string
-  type: 'mailto' | 'tel' | 'https'
-}
-
 type FormFieldConfig = TextFieldConfig | LinkFieldConfig | ToggleFieldConfig
+
+// Union type for all possible form values
+type FormFieldValue = string | boolean | LinkData | null

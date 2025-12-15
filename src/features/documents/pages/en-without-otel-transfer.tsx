@@ -407,33 +407,33 @@ export const WithoutOtelTransferPageEN = () => {
             <div>
               <h3 className="mb-2 font-bold text-black">Financial Terms:</h3>
               <ul className="ml-4 list-disc space-y-1">
-                <li>
-                  <EditableHide editKey={f('d3-p3-f1-h1').editKey}>
+                <EditableHide editKey={f('d3-p3-f1-h1').editKey}>
+                  <li>
                     <span className="font-bold">Total Package Value: </span>
                     <EditableText field={f('d3-p3-f1-e1')} />
-                  </EditableHide>
-                </li>
+                  </li>
+                </EditableHide>
 
-                <li>
-                  <EditableHide editKey={f('d3-p3-f2-h2').editKey}>
+                <EditableHide editKey={f('d3-p3-f2-h2').editKey}>
+                  <li>
                     <span className="font-bold">Deposit Received: </span>
                     <EditableText field={f('d3-p3-f2-e2')} />
-                  </EditableHide>
-                </li>
+                  </li>
+                </EditableHide>
 
-                <li>
-                  <EditableHide editKey={f('d3-p3-f3-h3').editKey}>
+                <EditableHide editKey={f('d3-p3-f3-h3').editKey}>
+                  <li>
                     <span className="font-bold">Outstanding Balance: </span>
                     <EditableText field={f('d3-p3-f3-e3')} />
-                  </EditableHide>
-                </li>
+                  </li>
+                </EditableHide>
 
-                <li>
-                  <EditableHide editKey={f('d3-p3-f4-h4').editKey}>
+                <EditableHide editKey={f('d3-p3-f4-h4').editKey}>
+                  <li>
                     <span className="font-bold">Balance Due Date: </span>
                     <EditableText field={f('d3-p3-f4-e4')} />
-                  </EditableHide>
-                </li>
+                  </li>
+                </EditableHide>
               </ul>
             </div>
 

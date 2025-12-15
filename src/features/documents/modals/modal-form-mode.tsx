@@ -4,19 +4,23 @@ import { DocumentStore } from '../store'
 import { Info, X } from 'lucide-react'
 import { twMerge } from 'tailwind-merge'
 
+// ============================================================================
+// COMPONENT
+// ============================================================================
+
 interface FormModeModalProps {
   onClose: () => void
-  formData: DocumentFormData
+  formData: FormFieldConfig[]
   store: DocumentStore
 }
 
 export function FormModeModal({ onClose, formData, store }: FormModeModalProps) {
-  const [formValues, setFormValues] = useState<Record<string, string | boolean | LinkData>>(() => {
-    const initialValues: Record<string, string | boolean | LinkData> = {}
+  const [formValues, setFormValues] = useState<Record<string, FormFieldValue>>(() => {
+    const initialValues: Record<string, FormFieldValue> = {}
 
     formData.forEach((field) => {
       const storeValue = store.edits[field.editKey]
-      let finalValue: string | boolean | LinkData
+      let finalValue: FormFieldValue
 
       if (storeValue !== undefined) {
         finalValue = storeValue
@@ -33,7 +37,7 @@ export function FormModeModal({ onClose, formData, store }: FormModeModalProps) 
     return initialValues
   })
 
-  const handleChange = (editKey: string, value: string | boolean | LinkData) => {
+  const handleChange = (editKey: string, value: FormFieldValue) => {
     setFormValues((prev) => ({
       ...prev,
       [editKey]: value,
@@ -48,7 +52,7 @@ export function FormModeModal({ onClose, formData, store }: FormModeModalProps) 
   }
 
   const handleReset = () => {
-    const resetValues: Record<string, string | boolean | LinkData> = {}
+    const resetValues: Record<string, FormFieldValue> = {}
 
     formData.forEach((field) => {
       resetValues[field.editKey] = field.seedValue ?? field.defaultValue
@@ -98,9 +102,9 @@ const FormHeader = ({ onClose }: FormHeaderProps) => {
 // ============================================================================
 
 interface FormContentProps {
-  formData: DocumentFormData
-  formValues: Record<string, string | boolean | LinkData>
-  onChange: (editKey: string, value: string | boolean | LinkData) => void
+  formData: FormFieldConfig[]
+  formValues: Record<string, FormFieldValue>
+  onChange: (editKey: string, value: FormFieldValue) => void
 }
 
 const FormContent = ({ formData, formValues, onChange }: FormContentProps) => {
@@ -143,7 +147,7 @@ const FormFooter = ({ onReset, onSave }: FormFooterProps) => {
           onClick={onSave}
           className="flex h-12 flex-1 items-center justify-center gap-2 rounded-sm border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white shadow-lg transition-all hover:opacity-90"
         >
-          Kaydet
+          Onayla
         </button>
       </div>
     </div>
@@ -156,17 +160,15 @@ const FormFooter = ({ onReset, onSave }: FormFooterProps) => {
 
 interface FormFieldProps {
   field: FormFieldConfig
-  value: string | boolean | LinkData
-  onChange: (value: string | boolean | LinkData) => void
+  value: FormFieldValue
+  onChange: (value: FormFieldValue) => void
 }
 
 const FormField = ({ field, value, onChange }: FormFieldProps) => {
   switch (field.inputMode) {
     case 'text':
-      return <TextInput field={field} value={value as string} onChange={onChange} />
-
     case 'textarea':
-      return <TextareaInput field={field} value={value as string} onChange={onChange} />
+      return <TextInput field={field} value={value as string} onChange={onChange} />
 
     case 'toggle':
       return <ToggleInput field={field} value={value as boolean} onChange={onChange} />
@@ -184,12 +186,14 @@ const FormField = ({ field, value, onChange }: FormFieldProps) => {
 // ============================================================================
 
 interface TextInputProps {
-  field: FormFieldConfig
+  field: TextFieldConfig
   value: string
   onChange: (value: string) => void
 }
 
 const TextInput = ({ field, value, onChange }: TextInputProps) => {
+  const isTextarea = field.inputMode === 'textarea'
+
   return (
     <div className="space-y-1.5">
       <label className="block text-sm font-medium text-stone-800">{field.name}</label>
@@ -199,42 +203,21 @@ const TextInput = ({ field, value, onChange }: TextInputProps) => {
           {field.description}
         </p>
       )}
-      <input
-        type="text"
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        className="h-11 w-full rounded-lg border border-stone-200 bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
-      />
-    </div>
-  )
-}
-
-// ============================================================================
-// TEXTAREA INPUT
-// ============================================================================
-
-interface TextareaInputProps {
-  field: FormFieldConfig
-  value: string
-  onChange: (value: string) => void
-}
-
-const TextareaInput = ({ field, value, onChange }: TextareaInputProps) => {
-  return (
-    <div className="space-y-1.5">
-      <label className="block text-sm font-medium text-stone-800">{field.name}</label>
-      {field.description && (
-        <p className="flex items-center gap-x-2 rounded border border-stone-200 bg-stone-100 px-2 py-1 text-xs text-gray-600">
-          <Info className="size-3" />
-          {field.description}
-        </p>
+      {isTextarea ? (
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          rows={4}
+          className="w-full resize-none rounded-lg border border-stone-200 bg-white px-3 py-2.5 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
+        />
+      ) : (
+        <input
+          type="text"
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className="h-11 w-full rounded-lg border border-stone-200 bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
+        />
       )}
-      <textarea
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        rows={4}
-        className="w-full resize-none rounded-lg border border-stone-200 bg-white px-3 py-2.5 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
-      />
     </div>
   )
 }
@@ -244,7 +227,7 @@ const TextareaInput = ({ field, value, onChange }: TextareaInputProps) => {
 // ============================================================================
 
 interface ToggleInputProps {
-  field: FormFieldConfig
+  field: ToggleFieldConfig
   value: boolean
   onChange: (value: boolean) => void
 }
@@ -282,7 +265,7 @@ const ToggleInput = ({ field, value, onChange }: ToggleInputProps) => {
 // ============================================================================
 
 interface LinkInputProps {
-  field: FormFieldConfig
+  field: LinkFieldConfig
   value: LinkData
   onChange: (value: LinkData) => void
 }
@@ -361,7 +344,7 @@ export const useFormModeModal = () => {
     formData,
     store,
   }: {
-    formData: DocumentFormData
+    formData: FormFieldConfig[]
     store: DocumentStore
   }) => {
     open(FormModeModal as any, { formData, store })
