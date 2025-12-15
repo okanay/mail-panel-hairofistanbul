@@ -129,7 +129,7 @@ export const WithoutOtelPageTR = () => {
   const f = useField(formData)
 
   return (
-    <div className="flex flex-col bg-stone-50 text-black md:items-center md:justify-center">
+    <main className="flex flex-col bg-stone-50 text-black md:items-center md:justify-center">
       <EditorMenu formData={formData} />
       <EditablePage index={0} className="text-[10.5px] leading-relaxed">
         <header className="flex flex-col gap-y-1">
@@ -606,6 +606,6 @@ export const WithoutOtelPageTR = () => {
           </section>
         </article>
       </EditablePage>
-    </div>
+    </main>
   )
 }

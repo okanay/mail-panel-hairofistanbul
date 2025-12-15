@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { ModalComponentProps, ModalInstance, useModalStore } from './store'
-import { useFocusTrap } from '@/hooks/use-focus-trap'
 
 const ANIMATION_DURATION = 200
 
@@ -30,7 +29,6 @@ function ModalLayer({ modal }: { modal: ModalInstance }) {
   const [isClosing, setIsClosing] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const isClosingRef = useRef(false)
-  const isTop = isTopModal(modal.id)
 
   const handleClose = () => {
     if (isClosingRef.current || modalPending) return
@@ -43,31 +41,26 @@ function ModalLayer({ modal }: { modal: ModalInstance }) {
     }, ANIMATION_DURATION)
   }
 
-  const Component = modal.component
-  const modalProps: ModalComponentProps = {
-    ...modal.props,
-    onClose: handleClose,
-  }
-
-  const trapRef = useFocusTrap({
-    active: isTop && isMounted && !isClosing,
-    onEscape: handleClose,
-  })
-
   useEffect(() => {
     requestAnimationFrame(() => {
       setIsMounted(true)
     })
   }, [])
 
+  const Component = modal.component
+  const modalProps: ModalComponentProps = {
+    ...modal.props,
+    onClose: handleClose,
+  }
+
   return (
     <div
-      ref={trapRef}
       data-modal-id={modal.id}
       data-pending={modalPending}
       data-modal-layer
       role="dialog"
       aria-modal="true"
+      inert={!isTopModal(modal.id) ? true : undefined}
       style={{ zIndex: modal.zIndex }}
       className="fixed inset-0 flex h-dvh w-screen items-center justify-center p-0 md:p-4"
     >

@@ -155,19 +155,37 @@ export function ModalStoreProvider({ children }: { children: React.ReactNode }) 
   const totalStackLength = normalStackLength + motionStackLength
 
   useEffect(() => {
+    const mainElement = document.querySelector('main')
+    const headerElement = document.querySelector('header')
+    const footerElement = document.querySelector('footer')
+
     if (totalStackLength > 0) {
       const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth
+
+      // Inert ekle
+      if (mainElement) mainElement.inert = true
+      if (headerElement) headerElement.inert = true
+      if (footerElement) footerElement.inert = true
 
       // Scroll lock
       document.body.style.overflow = 'hidden'
       document.body.style.paddingRight = `${scrollbarWidth}px`
     } else {
+      // Inert kaldır
+      if (mainElement) mainElement.inert = false
+      if (headerElement) headerElement.inert = false
+      if (footerElement) footerElement.inert = false
+
       // Scroll unlock
       document.body.style.overflow = ''
       document.body.style.paddingRight = ''
     }
 
     return () => {
+      // Cleanup
+      if (mainElement) mainElement.inert = false
+      if (headerElement) headerElement.inert = false
+      if (footerElement) footerElement.inert = false
       document.body.style.overflow = ''
       document.body.style.paddingRight = ''
     }

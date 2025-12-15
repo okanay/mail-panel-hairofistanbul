@@ -1,7 +1,7 @@
 import { Eye, EyeOff } from 'lucide-react'
 import { twMerge } from 'tailwind-merge'
 import { useDocumentStore } from '@/features/documents/store'
-import { useSearch } from '@tanstack/react-router'
+import { ClientOnly, useSearch } from '@tanstack/react-router'
 
 export interface EditableHideProps {
   children: React.ReactNode
@@ -9,7 +9,7 @@ export interface EditableHideProps {
   editKey: string
 }
 
-export const EditableHide = ({ children, className, editKey }: EditableHideProps) => {
+export const InnerComponent = ({ children, className, editKey }: EditableHideProps) => {
   const search = useSearch({ from: '/docs' })
   const editable = search.editable === 'yes'
   const { edits, setEdit } = useDocumentStore()
@@ -51,5 +51,13 @@ export const EditableHide = ({ children, className, editKey }: EditableHideProps
         {children}
       </div>
     </div>
+  )
+}
+
+export const EditableHide = ({ ...props }: EditableHideProps) => {
+  return (
+    <ClientOnly fallback={<span className="inline-flex h-2.5 w-30 animate-pulse bg-stone-200" />}>
+      <InnerComponent {...props} />
+    </ClientOnly>
   )
 }

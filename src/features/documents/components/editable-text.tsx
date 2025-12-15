@@ -1,6 +1,6 @@
 import { SafePortal } from '@/components/safe-portal'
 import { useDocumentStore } from '@/features/documents/store'
-import { useSearch } from '@tanstack/react-router'
+import { ClientOnly, useSearch } from '@tanstack/react-router'
 import { Command } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
@@ -11,7 +11,7 @@ export interface EditableTextProps {
   focusClassName?: string
 }
 
-export const EditableText = ({ field, className, focusClassName }: EditableTextProps) => {
+const InnerComponent = ({ field, className, focusClassName }: EditableTextProps) => {
   const [isFocused, setIsFocused] = useState(false)
   const contentRef = useRef<HTMLSpanElement>(null)
 
@@ -284,5 +284,13 @@ export const EditableText = ({ field, className, focusClassName }: EditableTextP
         </SafePortal>
       )}
     </>
+  )
+}
+
+export const EditableText = ({ ...props }: EditableTextProps) => {
+  return (
+    <ClientOnly fallback={<span className="inline-flex h-2.5 w-30 animate-pulse bg-stone-200" />}>
+      <InnerComponent {...props} />
+    </ClientOnly>
   )
 }

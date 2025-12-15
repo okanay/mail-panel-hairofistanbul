@@ -38,7 +38,6 @@ export const Route = createFileRoute('/docs')({
       }
     }
   },
-  ssr: false,
   component: RouteComponent,
 })
 

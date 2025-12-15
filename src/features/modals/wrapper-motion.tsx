@@ -1,8 +1,7 @@
+import { SafePortal } from '@/components/safe-portal'
 import { AnimatePresence, TargetAndTransition, Transition, VariantLabels } from 'framer-motion'
 import * as m from 'framer-motion/m'
 import { ModalComponentProps, ModalInstance, useModalStore } from './store'
-import { SafePortal } from '@/components/safe-portal'
-import { useFocusTrap } from '@/hooks/use-focus-trap'
 
 interface MotionConfig {
   initial?: boolean | TargetAndTransition | VariantLabels | undefined
@@ -28,16 +27,6 @@ export function ModalWrapperMotion() {
 
 function ModalLayerMotion({ modal }: { modal: ModalInstance }) {
   const { close, modalPending, isTopModal } = useModalStore()
-  const isTop = isTopModal(modal.id)
-
-  const handleClose = () => {
-    close(modal.id)
-  }
-
-  const trapRef = useFocusTrap({
-    active: isTop,
-    onEscape: handleClose,
-  })
 
   const ModalComponent = modal.component
 
@@ -59,12 +48,12 @@ function ModalLayerMotion({ modal }: { modal: ModalInstance }) {
 
   return (
     <m.div
-      ref={trapRef}
       data-pending={modalPending}
       data-modal-id={modal.id}
       data-modal-layer
       role="dialog"
       aria-modal="true"
+      inert={!isTopModal(modal.id) ? true : undefined}
       style={{ zIndex: modal.zIndex }}
       className="pointer-events-none fixed inset-0 z-1000"
     >

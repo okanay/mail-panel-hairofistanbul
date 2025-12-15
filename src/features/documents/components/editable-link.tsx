@@ -1,17 +1,24 @@
 import { useState, useRef, useEffect } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { useDocumentStore } from '@/features/documents/store'
-import { useSearch } from '@tanstack/react-router'
+import { ClientOnly, useSearch } from '@tanstack/react-router'
 import { SafePortal } from '@/components/safe-portal'
 
 export interface EditableLinkProps {
-  defaultValue: LinkData // Default link bilgisi
-  seedValue?: LinkData | null // User'dan gelen dinamik link bilgisi (opsiyonel)
+  defaultValue: LinkData
+  seedValue?: LinkData | null
   className?: string
   editKey: string
 }
 
-export const EditableLink = ({
+const buildHref = (type: LinkData['type'], value: string): string => {
+  if (!value) return '#'
+  if (type === 'mailto') return `mailto:${value}`
+  if (type === 'tel') return `tel:${value}`
+  return value.startsWith('http') ? value : `https://${value}`
+}
+
+export const InnerComponent = ({
   defaultValue,
   seedValue,
   className,
@@ -182,9 +189,10 @@ export const EditableLink = ({
   )
 }
 
-const buildHref = (type: LinkData['type'], value: string): string => {
-  if (!value) return '#'
-  if (type === 'mailto') return `mailto:${value}`
-  if (type === 'tel') return `tel:${value}`
-  return value.startsWith('http') ? value : `https://${value}`
+export const EditableLink = ({ ...props }: EditableLinkProps) => {
+  return (
+    <ClientOnly fallback={<span className="inline-flex h-2.5 w-30 animate-pulse bg-stone-200" />}>
+      <InnerComponent {...props} />
+    </ClientOnly>
+  )
 }
