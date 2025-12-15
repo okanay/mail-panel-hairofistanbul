@@ -159,10 +159,10 @@ export const WithOtelPageEN = () => {
         type: 'tel',
       },
       seedValue: user?.phone
-        ? {
-            value: user?.phone || '+90 532 650 00 00',
+        ? ({
+            value: user.phone,
             type: 'tel',
-          }
+          } as LinkData)
         : undefined,
       inputMode: 'link',
     },
@@ -652,7 +652,7 @@ export const WithOtelPageEN = () => {
                 <EditableLink
                   editKey={f('d1-p4-k2').editKey}
                   href={f('d1-p4-k2').defaultValue.value}
-                  seedValue={(f('d1-p4-k2').seedValue as LinkData).value}
+                  seedValue={f('d1-p4-k2').seedValue?.value}
                 />
 
                 <a href="https://www.hairofistanbul.com" className="underline">

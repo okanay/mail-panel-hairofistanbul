@@ -178,10 +178,9 @@ export const EditorMenu = ({ formData }: Props) => {
             {/* Document Actions Section */}
             <div className="space-y-0.5 px-2">
               <MenuButton
-                onClick={() => saveDocument.refetch()}
-                disabled={isLoading}
-                icon={<Save className="size-4" />}
-                label="Kaydet"
+                onClick={handleToggleEditMode}
+                icon={<Eye className="size-4" />}
+                label={'İncele'}
               />
 
               <MenuButton
@@ -192,9 +191,10 @@ export const EditorMenu = ({ formData }: Props) => {
               />
 
               <MenuButton
-                onClick={handleToggleEditMode}
-                icon={<Eye className="size-4" />}
-                label={'İncele'}
+                onClick={() => saveDocument.refetch()}
+                disabled={isLoading}
+                icon={<Save className="size-4" />}
+                label="Kaydet"
               />
 
               <MenuButton
@@ -207,7 +207,7 @@ export const EditorMenu = ({ formData }: Props) => {
                 onClick={openDocumentHistoryModal}
                 disabled={isLoading}
                 icon={<History className="size-4" />}
-                label="Kayıtlı Dosyalar"
+                label="Geçmiş Belgeler"
               />
             </div>
 
@@ -237,10 +237,10 @@ export const EditorMenu = ({ formData }: Props) => {
           hidden={!isMenuVisible}
           onClick={openMailModal}
           disabled={isLoading}
-          className="flex h-11 items-center justify-center gap-2 rounded-b-lg border border-zinc-950/10 bg-orange-500 px-4 text-sm font-bold text-white transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-80"
+          className="flex h-11 items-center justify-center gap-2 rounded-b-lg border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-80"
         >
           <span>Mail Gönder</span>
-          <Mail className="size-4" strokeWidth="2.75" />
+          <Mail className="size-4" strokeWidth="2" />
         </button>
       </div>
     </div>

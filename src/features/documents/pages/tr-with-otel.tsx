@@ -700,7 +700,7 @@ export const WithOtelPageTR = () => {
                 <EditableLink
                   editKey={f('d1-p4-k2').editKey}
                   href={f('d1-p4-k2').defaultValue.value}
-                  seedValue={(f('d1-p4-k2').seedValue as LinkData)?.value}
+                  seedValue={f('d1-p4-k2').seedValue?.value}
                 />
 
                 <a href="https://www.hairofistanbul.com" className="underline">

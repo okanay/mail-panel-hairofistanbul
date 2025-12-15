@@ -1,12 +1,11 @@
 import { useModalStore } from '@/features/modals/store'
-import { X, Loader2, User, Mail, Phone, Check, Lock, EyeOff, Eye } from 'lucide-react'
+import { X, Loader2, User, Mail, Phone, Check, Lock, EyeOff, Eye, CheckCircle2 } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod/v4'
 import { useState } from 'react'
 import { useAuth } from '@/providers/auth'
 import { useUpdateProfile } from '../queries/use-update-user'
-import { DemoDropdownAndModalFeature } from '@/features/modals/demo'
 
 const profileFormSchema = z.object({
   name: z.string().min(1, 'İsim zorunludur').max(100, 'İsim en fazla 100 karakter olabilir'),
@@ -25,34 +24,40 @@ interface ProfileEditModalProps {
   onClose: () => void
 }
 
+type StatusMessageType = {
+  type: 'success' | 'error' | null
+  message: string | null
+}
+
 export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
   const { user } = useAuth()
-  const [successMessage, setSuccessMessage] = useState(false)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const [statusMessage, setStatusMessage] = useState<StatusMessageType>({
+    type: null,
+    message: null,
+  })
 
   const {
     control,
     handleSubmit,
-    formState: { errors, isValid, isDirty },
+    formState: { errors },
   } = useForm<ProfileFormData>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
       name: user?.name || '',
       email: user?.email || '',
       phone: user?.phone || '',
-      password: '',
+      password: undefined,
     },
-    mode: 'onChange',
+    mode: 'onSubmit',
   })
 
   const { mutate, isPending } = useUpdateProfile({
     onSuccess: () => {
-      setSuccessMessage(true)
-      setErrorMessage(null)
+      setStatusMessage({ type: 'success', message: 'Profiliniz güncellendi.' })
     },
-    onError: (error) => {
-      setErrorMessage(error.message)
-      setSuccessMessage(false)
+    onError: (error: Error) => {
+      setStatusMessage({ type: 'error', message: error.message })
     },
   })
 
@@ -99,21 +104,20 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
         )}
 
         {/* Success Message */}
-        {successMessage && (
+        {statusMessage?.type === 'success' && (
           <div className="mb-4 flex items-center gap-2 rounded-lg border border-green-200 bg-green-50 p-4">
-            <Check className="size-5 text-green-600" />
-            <div>
-              <p className="text-sm font-medium text-green-900">Başarılı</p>
-              <p className="mt-0.5 text-sm text-green-700">Profiliniz güncellendi</p>
-            </div>
+            <CheckCircle2 className="size-4 text-green-600" />
+            <p>
+              <span className="mt-0.5 text-sm text-green-700">{statusMessage.message}</span>
+            </p>
           </div>
         )}
 
         {/* Error Message */}
-        {errorMessage && (
+        {statusMessage?.type === 'error' && (
           <div className="mb-4 rounded-lg border border-red-200 bg-red-50 p-4">
             <p className="text-sm font-medium text-red-900">Hata</p>
-            <p className="mt-1 text-sm text-red-700">{errorMessage}</p>
+            <p className="mt-1 text-sm text-red-700">{statusMessage.message}</p>
           </div>
         )}
 
@@ -258,8 +262,6 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
             </div>
           </div>
         </form>
-
-        <DemoDropdownAndModalFeature mode="motion" />
       </div>
 
       {/* Footer */}
@@ -275,7 +277,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
         <button
           type="submit"
           form="profile-form"
-          disabled={isPending || !isValid || !isDirty}
+          disabled={isPending}
           className="flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white shadow-lg transition-all hover:opacity-90 disabled:opacity-50"
         >
           {isPending ? 'Kaydediliyor...' : 'Kaydet'}
