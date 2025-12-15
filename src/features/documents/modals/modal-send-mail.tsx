@@ -160,18 +160,6 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                   {emailData.url}
                 </a>
               </div>
-
-              <div className="rounded-lg border border-stone-200 bg-white p-3">
-                <p className="text-xs font-medium text-stone-500">Dosya Hash</p>
-                <p className="mt-1 truncate text-sm text-stone-900">{emailData.hash}</p>
-              </div>
-
-              {emailData.emailSent && emailData.emailMessageId && (
-                <div className="rounded-lg border border-stone-200 bg-white p-3">
-                  <p className="text-xs font-medium text-stone-500">Email Message ID</p>
-                  <p className="mt-1 truncate text-sm text-stone-900">{emailData.emailMessageId}</p>
-                </div>
-              )}
             </div>
           </div>
         )}
