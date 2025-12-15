@@ -67,7 +67,7 @@ export const LoginPage = () => {
             className={`h-10 rounded-xs border px-3 transition-colors focus:ring-2 focus:outline-none ${
               errors.username
                 ? 'border-rose-500 focus:ring-rose-500'
-                : 'border-gray-200 focus:ring-primary'
+                : 'border-stone-200 focus:ring-primary'
             }`}
           />
           {errors.username && (
@@ -91,13 +91,13 @@ export const LoginPage = () => {
               className={`h-10 w-full rounded-xs border px-3 pr-11 transition-colors focus:ring-2 focus:outline-none ${
                 errors.password
                   ? 'border-rose-500 focus:ring-rose-500'
-                  : 'border-gray-200 focus:ring-primary'
+                  : 'border-stone-200 focus:ring-primary'
               }`}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              className="absolute top-1/2 right-3 -translate-y-1/2 text-stone-500 hover:text-stone-700"
             >
               {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>

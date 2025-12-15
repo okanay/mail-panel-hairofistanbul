@@ -39,8 +39,8 @@ export const WithOtelPageTR = () => {
     {
       name: 'Otel Adresi',
       editKey: 'd1-p1-k5',
-      defaultValue:
-        'Şenlikköy Mahallesi Yeşilköy Halkalı Cad 95 Florya, 34290 Bakırköy/İstanbul, Türkiye.',
+      defaultValue: `Şenlikköy Mahallesi Yeşilköy Halkalı Cad 95 Florya, 34290 Bakırköy/İstanbul, Türkiye.`,
+      seedValue: `Şenlikköy Mahallesi Yeşilköy Halkalı Cad 95 Florya, 34290 Bakırköy/İstanbul, Türkiye.`,
       inputMode: 'text',
     },
     {
@@ -50,26 +50,31 @@ export const WithOtelPageTR = () => {
         value: 'https://www.cpistanbulflorya.com/',
         type: 'https',
       },
+      seedValue: {
+        value: 'https://www.cpistanbulflorya.com/',
+        type: 'https',
+      },
       inputMode: 'link',
     },
     {
       name: 'Paket İçeriği',
       editKey: 'd1-p1-k7',
-      defaultValue:
-        '3 gece konaklama, günlük kahvaltı ve spa, fitness merkezi, yüzme havuzu, Türk Hamamı ve sauna erişimi.',
+      defaultValue: `3 gece konaklama, günlük kahvaltı ve spa, fitness merkezi, yüzme havuzu, Türk Hamamı ve sauna erişimi.`,
+      seedValue: `3 gece konaklama, günlük kahvaltı ve spa, fitness merkezi, yüzme havuzu, Türk Hamamı ve sauna erişimi.`,
       inputMode: 'text',
     },
     {
       name: 'Paket Dışı',
       editKey: 'd1-p1-k8',
       defaultValue: 'Mini bar, masaj, çamaşır servisi, oda servisi ve diğer ek ücretler.',
+      seedValue: 'Mini bar, masaj, çamaşır servisi, oda servisi ve diğer ek ücretler.',
       inputMode: 'text',
     },
     {
       name: 'Ekstra Konaklama Bilgisi',
       editKey: 'd1-p1-k9',
-      defaultValue:
-        'Ek geceler <span class="font-bold">tek kişilik için €135 ve çift kişilik için €160 gece fiyatından</span>, doğrudan sizin tarafınızdan ödenecektir.',
+      defaultValue: `Ek geceler <span class="font-bold">tek kişilik için €135 ve çift kişilik için €160 gece fiyatından</span>, doğrudan sizin tarafınızdan ödenecektir.`,
+      seedValue: `Ek geceler <span class="font-bold">tek kişilik için €135 ve çift kişilik için €160 gece fiyatından</span>, doğrudan sizin tarafınızdan ödenecektir.`,
       inputMode: 'textarea',
     },
     {
@@ -171,7 +176,7 @@ export const WithOtelPageTR = () => {
   const f = useField(formData)
 
   return (
-    <div className="flex flex-col bg-gray-50 text-black md:items-center md:justify-center">
+    <div className="flex flex-col bg-stone-50 text-black md:items-center md:justify-center">
       <EditorMenu formData={formData} />
       <EditablePage index={0} className="text-[10.5px] leading-relaxed">
         <header className="flex flex-col gap-y-1">
@@ -293,9 +298,8 @@ export const WithOtelPageTR = () => {
                 <p>
                   <EditableLink
                     editKey={f('d1-p1-k6').editKey}
-                    href={f('d1-p1-k6').defaultValue.value}
-                    linkType={f('d1-p1-k6').defaultValue.type}
-                    className="underline transition-colors hover:text-primary"
+                    defaultValue={f('d1-p1-k6').defaultValue}
+                    seedValue={f('d1-p1-k6').seedValue}
                   />
                 </p>
               </div>
@@ -689,20 +693,19 @@ export const WithOtelPageTR = () => {
             <div className="flex items-center gap-x-4">
               <img src="/logo-x.svg" alt="Hair Of Istanbul" className="h-24 w-28" />
 
-              <div className="border-l border-gray-200 py-4 pl-4 text-[16px] font-bold text-black">
+              <div className="border-l border-stone-200 py-4 pl-4 text-[16px] font-bold text-black">
                 <EditableTextField field={f('d1-p4-k1')} />
               </div>
             </div>
 
-            <div className="mt-3 grid grid-cols-2 gap-x-8 border-t border-gray-200 pt-6">
+            <div className="mt-3 grid grid-cols-2 gap-x-8 border-t border-stone-200 pt-6">
               <div className="flex flex-col gap-y-1">
                 <h4 className="mb-1 font-bold text-black">İletişim</h4>
 
                 <EditableLink
                   editKey={f('d1-p4-k2').editKey}
-                  href={f('d1-p4-k2').defaultValue.value}
-                  linkType={f('d1-p4-k2').seedValue?.type || f('d1-p4-k2').defaultValue.type}
-                  seedValue={f('d1-p4-k2').seedValue?.value}
+                  defaultValue={f('d1-p4-k2').defaultValue}
+                  seedValue={f('d1-p4-k2').seedValue}
                 />
 
                 <a href="https://www.hairofistanbul.com" className="underline">

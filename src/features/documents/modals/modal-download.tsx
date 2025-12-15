@@ -10,25 +10,25 @@ export function DownloadModal({ onClose, url }: DownloadModalProps) {
   return (
     <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-lg md:max-w-lg md:rounded-lg md:shadow-2xl">
       {/* Header */}
-      <div className="flex shrink-0 items-center justify-between border-b border-gray-100 px-6 py-4">
+      <div className="flex shrink-0 items-center justify-between border-b border-stone-100 px-6 py-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-950">Dosya İndirme</h2>
-          <p className="mt-0.5 text-xs text-gray-500">Dokümanınızı PDF olarak görüntüleyin.</p>
+          <h2 className="text-xl font-bold text-stone-950">Dosya İndirme</h2>
+          <p className="mt-0.5 text-xs text-stone-500">Dokümanınızı PDF olarak görüntüleyin.</p>
         </div>
         <button
           onClick={onClose}
-          className="group flex size-8 items-center justify-center rounded-full border border-gray-100 bg-gray-50 transition-colors hover:border-gray-200 hover:bg-red-50"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-gray-200 hover:bg-red-50"
         >
-          <X className="size-4 text-gray-500 transition-colors group-hover:text-red-600" />
+          <X className="size-4 text-stone-500 transition-colors group-hover:text-red-600" />
         </button>
       </div>
 
       {/* Content */}
-      <div className="relative overflow-y-auto bg-gray-50/50 px-6 py-4">
+      <div className="relative overflow-y-auto bg-stone-50/50 px-6 py-4">
         <div className="space-y-4">
           <div className="space-y-2">
-            <div className="rounded-lg border border-gray-200 bg-white p-3">
-              <p className="text-xs font-medium text-gray-500">PDF URL</p>
+            <div className="rounded-lg border border-stone-200 bg-white p-3">
+              <p className="text-xs font-medium text-stone-500">PDF URL</p>
               <a
                 href={url}
                 target="_blank"
@@ -43,7 +43,7 @@ export function DownloadModal({ onClose, url }: DownloadModalProps) {
       </div>
 
       {/* Footer */}
-      <div className="shrink-0 border-t border-gray-100 bg-white px-6 py-4">
+      <div className="shrink-0 border-t border-stone-100 bg-white px-6 py-4">
         <a
           href={url}
           target="_blank"

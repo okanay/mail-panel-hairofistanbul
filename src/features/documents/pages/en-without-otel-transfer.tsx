@@ -116,7 +116,7 @@ export const WithoutOtelTransferPageEN = () => {
   const f = useField(formData)
 
   return (
-    <div className="flex flex-col bg-gray-50 text-black md:items-center md:justify-center">
+    <div className="flex flex-col bg-stone-50 text-black md:items-center md:justify-center">
       <EditorMenu formData={formData} />
       <EditablePage index={0} className="text-[10.5px] leading-relaxed">
         <header className="flex flex-col gap-y-1">
@@ -528,19 +528,18 @@ export const WithoutOtelTransferPageEN = () => {
             <div className="flex items-center gap-x-4">
               <img src="/logo-x.svg" alt="Hair Of Istanbul" className="h-24 w-28" />
 
-              <div className="border-l border-gray-200 py-4 pl-4 text-[16px] font-bold text-black">
+              <div className="border-l border-stone-200 py-4 pl-4 text-[16px] font-bold text-black">
                 <EditableTextField field={f('d3-p3-k8')} />
               </div>
             </div>
 
-            <div className="mt-3 grid grid-cols-2 gap-x-8 border-t border-gray-200 pt-6">
+            <div className="mt-3 grid grid-cols-2 gap-x-8 border-t border-stone-200 pt-6">
               <div className="flex flex-col gap-y-1">
                 <h4 className="mb-1 font-bold text-black">Contact</h4>
                 <EditableLink
                   editKey={f('d3-p3-k9').editKey}
-                  href={f('d3-p3-k9').defaultValue.value}
-                  linkType={f('d3-p3-k9').seedValue?.type || f('d3-p3-k9').defaultValue.type}
-                  seedValue={f('d3-p3-k9').seedValue?.value}
+                  defaultValue={f('d3-p3-k9').defaultValue}
+                  seedValue={f('d3-p3-k9').seedValue}
                 />
                 <a href="https://www.hairofistanbul.com" className="underline">
                   www.hairofistanbul.com

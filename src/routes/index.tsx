@@ -54,13 +54,13 @@ function RouteComponent() {
   ]
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-gray-50 px-4 py-12">
+    <div className="flex min-h-screen w-full items-center justify-center bg-stone-50 px-4 py-12">
       <div className="mx-auto h-full w-full max-w-6xl">
         <div className="mb-10 text-center">
           <h1 className="font-custom-commuters text-4xl font-bold text-primary-500">
             Doküman Şablonları
           </h1>
-          <p className="mt-3 text-lg text-gray-600">
+          <p className="mt-3 text-lg text-stone-600">
             Paket tipine göre doküman şablonunu seçin ve görüntüleyin
           </p>
 
@@ -72,7 +72,7 @@ function RouteComponent() {
                 className={`flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
                   selectedLanguage === lang.code
                     ? 'border-primary bg-primary text-white shadow-md'
-                    : 'border-gray-100 bg-white text-gray-700 hover:border-primary/50 hover:bg-gray-50'
+                    : 'border-stone-100 bg-white text-stone-700 hover:border-primary/50 hover:bg-gray-50'
                 }`}
               >
                 <span>{lang.label}</span>
@@ -92,20 +92,20 @@ function RouteComponent() {
                   editable: 'yes',
                   showMenu: 'yes',
                 }}
-                className={`group relative flex h-auto w-full flex-col rounded-xl border border-gray-100 bg-white p-6`}
+                className={`group relative flex h-auto w-full flex-col rounded-xl border border-stone-100 bg-white p-6`}
               >
                 <div className="mb-4">
                   <h2
-                    className={`mb-1 font-custom-commuters text-2xl font-bold text-gray-800 transition-colors`}
+                    className={`mb-1 font-custom-commuters text-2xl font-bold text-stone-800 transition-colors`}
                   >
                     {doc.title}
                   </h2>
                   <p className={`text-sm font-medium`}>{doc.subtitle}</p>
                 </div>
 
-                <p className="mb-4 text-sm leading-relaxed text-gray-600">{doc.description}</p>
+                <p className="mb-4 text-sm leading-relaxed text-stone-600">{doc.description}</p>
 
-                <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-4 text-gray-800">
+                <div className="mt-auto flex items-center justify-between border-t border-stone-100 pt-4 text-stone-800">
                   <span className="text-xs font-medium">Doküman Şablonu</span>
                   <span
                     className={`text-xs font-medium opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100`}
@@ -118,14 +118,14 @@ function RouteComponent() {
           })}
         </div>
 
-        <div className="mt-10 rounded-xl border border-gray-100 bg-white p-6">
+        <div className="mt-10 rounded-xl border border-stone-100 bg-white p-6">
           <div className="flex items-start gap-4">
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-gray-100">
-              <FileText className="size-5 text-gray-600" />
+            <div className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-stone-100">
+              <FileText className="size-5 text-stone-600" />
             </div>
             <div>
-              <h3 className="mb-1 font-semibold text-gray-800">Nasıl Çalışır?</h3>
-              <p className="text-sm leading-relaxed text-gray-600">
+              <h3 className="mb-1 font-semibold text-stone-800">Nasıl Çalışır?</h3>
+              <p className="text-sm leading-relaxed text-stone-600">
                 Yukarıdaki paket tiplerinden birini seçerek ilgili doküman şablonunu
                 görüntüleyebilir, düzenleyebilir ve yazdırabilirsiniz.
               </p>

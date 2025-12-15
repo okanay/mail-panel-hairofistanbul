@@ -34,7 +34,7 @@ export const EditableHide = ({ children, className, editKey }: EditableHideProps
         <button
           onClick={toggleVisibility}
           className={twMerge(
-            'absolute top-0 -left-8 z-10 flex size-4 items-center justify-center rounded-md border border-gray-300 bg-white text-gray-600 shadow-sm transition-all hover:bg-gray-50 hover:text-gray-900',
+            'absolute top-0 -left-8 z-10 flex size-4 items-center justify-center rounded-md border border-stone-300 bg-white text-neutral-600 shadow-sm transition-all hover:bg-neutral-50 hover:text-neutral-900',
           )}
         >
           {isHidden ? <EyeOff size={10} /> : <Eye size={10} />}

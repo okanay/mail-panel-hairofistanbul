@@ -64,7 +64,7 @@ export function ConfirmationModal({
   return (
     <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white md:h-auto md:w-md md:max-w-md md:rounded-lg md:shadow-2xl">
       {/* Header */}
-      <div className="flex shrink-0 items-start justify-between gap-4 border-b border-gray-100 px-6 py-4">
+      <div className="flex shrink-0 items-start justify-between gap-4 border-b border-stone-100 px-6 py-4">
         <div className="flex items-start gap-3">
           <div
             className={`flex size-10 shrink-0 items-center justify-center rounded-full ${styles.iconBg}`}
@@ -72,26 +72,26 @@ export function ConfirmationModal({
             <AlertTriangle className={`size-5 ${styles.icon}`} />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-gray-950">{title}</h2>
-            <p className="mt-1 text-sm text-gray-600">{description}</p>
+            <h2 className="text-xl font-bold text-stone-950">{title}</h2>
+            <p className="mt-1 text-sm text-stone-600">{description}</p>
           </div>
         </div>
         <button
           onClick={handleCancel}
           disabled={modalPending}
-          className="group flex size-8 shrink-0 items-center justify-center rounded-full border border-gray-100 bg-gray-50 transition-colors hover:border-gray-200 hover:bg-gray-100 disabled:opacity-50"
+          className="group flex size-8 shrink-0 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-gray-200 hover:bg-gray-100 disabled:opacity-50"
         >
-          <X className="size-4 text-gray-500" />
+          <X className="size-4 text-stone-500" />
         </button>
       </div>
 
       {/* Footer */}
-      <div className="flex shrink-0 gap-3 bg-gray-50 px-6 py-4">
+      <div className="flex shrink-0 gap-3 bg-stone-50 px-6 py-4">
         <button
           type="button"
           onClick={handleCancel}
           disabled={modalPending}
-          className="flex h-11 flex-1 items-center justify-center rounded-lg border border-gray-200 bg-white px-4 text-sm font-medium text-gray-700 transition-all hover:bg-gray-50 disabled:opacity-50"
+          className="flex h-11 flex-1 items-center justify-center rounded-lg border border-stone-200 bg-white px-4 text-sm font-medium text-stone-700 transition-all hover:bg-gray-50 disabled:opacity-50"
         >
           {cancelText}
         </button>

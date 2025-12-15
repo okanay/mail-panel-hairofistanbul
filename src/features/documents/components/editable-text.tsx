@@ -118,7 +118,7 @@ export const EditableText = ({
     }
 
     if (isEditedAndFilled) {
-      return 'border border-dashed border-gray-400 bg-gray-300 px-2 py-0'
+      return 'border border-dashed border-neutral-300 bg-neutral-200 px-2 py-0'
     }
 
     return 'border border-dashed border-orange-400 bg-orange-100 px-2 py-0 min-w-10'
@@ -216,78 +216,78 @@ export const EditableText = ({
 
       {isFocused && editable && (
         <SafePortal>
-          <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 rounded-lg border border-gray-200 bg-white p-3 shadow-xl">
-            <div className="flex items-center gap-2 border-b border-gray-100 pb-2">
-              <span className="text-xs font-semibold tracking-wider text-gray-500 uppercase">
+          <div className="fixed top-4 right-4 z-50 flex flex-col gap-2 rounded-lg border border-stone-200 bg-white p-3 shadow-xl">
+            <div className="flex items-center gap-2 border-b border-stone-100 pb-2">
+              <span className="text-xs font-semibold tracking-wider text-stone-500 uppercase">
                 Stil Düzenleme
               </span>
             </div>
 
             <div className="flex flex-col gap-1.5">
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5 rounded bg-gray-50 px-2 py-1">
-                  <kbd className="rounded bg-white px-1.5 py-0.5 text-xs text-gray-700 shadow-sm">
+                <div className="flex items-center gap-1.5 rounded bg-stone-50 px-2 py-1">
+                  <kbd className="rounded bg-white px-1.5 py-0.5 text-xs text-stone-700 shadow-sm">
                     Enter
                   </kbd>
                 </div>
-                <span className="text-xs text-gray-600">Kaydet</span>
+                <span className="text-xs text-stone-600">Kaydet</span>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5 rounded bg-gray-50 px-2 py-1">
-                  <Command size={12} className="text-gray-600" />
-                  <span className="text-xs font-medium text-gray-600">+</span>
-                  <kbd className="rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-gray-700 shadow-sm">
+                <div className="flex items-center gap-1.5 rounded bg-stone-50 px-2 py-1">
+                  <Command size={12} className="text-stone-600" />
+                  <span className="text-xs font-medium text-stone-600">+</span>
+                  <kbd className="rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-stone-700 shadow-sm">
                     B
                   </kbd>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs text-gray-600">Kalın</span>
+                  <span className="text-xs text-stone-600">Kalın</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5 rounded bg-gray-50 px-2 py-1">
-                  <Command size={12} className="text-gray-600" />
-                  <span className="text-xs font-medium text-gray-600">+</span>
-                  <kbd className="rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-gray-700 shadow-sm">
+                <div className="flex items-center gap-1.5 rounded bg-stone-50 px-2 py-1">
+                  <Command size={12} className="text-stone-600" />
+                  <span className="text-xs font-medium text-stone-600">+</span>
+                  <kbd className="rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-stone-700 shadow-sm">
                     I
                   </kbd>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs text-gray-600">Italic</span>
+                  <span className="text-xs text-stone-600">Italic</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5 rounded bg-gray-50 px-2 py-1">
-                  <Command size={12} className="text-gray-600" />
-                  <span className="text-xs font-medium text-gray-600">+</span>
-                  <kbd className="rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-gray-700 shadow-sm">
+                <div className="flex items-center gap-1.5 rounded bg-stone-50 px-2 py-1">
+                  <Command size={12} className="text-stone-600" />
+                  <span className="text-xs font-medium text-stone-600">+</span>
+                  <kbd className="rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-stone-700 shadow-sm">
                     U
                   </kbd>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs text-gray-600">Alt Çizgi</span>
+                  <span className="text-xs text-stone-600">Alt Çizgi</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-3">
-                <div className="flex items-center gap-1.5 rounded bg-gray-50 px-2 py-1">
-                  <Command size={12} className="text-gray-600" />
-                  <span className="text-xs font-medium text-gray-600">+ Shift +</span>
-                  <kbd className="rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-gray-700 shadow-sm">
+                <div className="flex items-center gap-1.5 rounded bg-stone-50 px-2 py-1">
+                  <Command size={12} className="text-stone-600" />
+                  <span className="text-xs font-medium text-stone-600">+ Shift +</span>
+                  <kbd className="rounded bg-white px-1.5 py-0.5 text-xs font-semibold text-stone-700 shadow-sm">
                     P
                   </kbd>
                 </div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-xs text-gray-600">Renk</span>
+                  <span className="text-xs text-stone-600">Renk</span>
                 </div>
               </div>
             </div>
 
-            <div className="mt-1 border-t border-gray-100 pt-2">
-              <p className="text-[10px] text-gray-400">Stil uygulamak için metin seçin</p>
+            <div className="mt-1 border-t border-stone-100 pt-2">
+              <p className="text-[10px] text-stone-400">Stil uygulamak için metin seçin</p>
             </div>
           </div>
         </SafePortal>

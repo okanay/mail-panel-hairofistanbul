@@ -121,7 +121,7 @@ export const EditorMenu = ({ formData }: Props) => {
           {/* User Profile */}
           <div
             hidden={!isMenuVisible}
-            className="flex w-full flex-col items-start gap-2 rounded-t-lg border border-gray-200 bg-white p-3"
+            className="flex w-full flex-col items-start gap-2 rounded-t-lg border border-stone-200 bg-white p-3"
           >
             <div className="flex w-full items-start justify-between gap-2">
               <button
@@ -132,10 +132,10 @@ export const EditorMenu = ({ formData }: Props) => {
                 <Settings className="size-4" />
               </button>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-gray-900">
+                <p className="truncate text-sm font-medium text-stone-900">
                   {user?.name || 'Kullanıcı'}
                 </p>
-                <p className="truncate text-xs text-gray-500">@{user?.username}</p>
+                <p className="truncate text-xs text-stone-500">@{user?.username}</p>
               </div>
             </div>
 
@@ -145,7 +145,7 @@ export const EditorMenu = ({ formData }: Props) => {
                 ...prev,
                 hash: undefined,
               })}
-              className="flex h-9 w-full items-center gap-2.5 rounded-md px-3 text-sm font-medium text-gray-700 transition-opacity hover:bg-gray-100"
+              className="flex h-9 w-full items-center gap-2.5 rounded-md px-3 text-sm font-medium text-stone-700 transition-opacity hover:bg-stone-100"
             >
               <Home className="-ml-1 size-4" />
               <span>Anasayfa</span>
@@ -173,7 +173,7 @@ export const EditorMenu = ({ formData }: Props) => {
           {/* Main Menu */}
           <div
             hidden={!isMenuVisible}
-            className="pointer-events-auto flex w-fit min-w-52 flex-col gap-1 border-x border-gray-200 bg-white py-2"
+            className="pointer-events-auto flex w-fit min-w-52 flex-col gap-1 border-x border-stone-200 bg-white py-2"
           >
             {/* Document Actions Section */}
             <div className="space-y-0.5 px-2">
@@ -211,11 +211,11 @@ export const EditorMenu = ({ formData }: Props) => {
               />
             </div>
 
-            <hr className="my-1 border-gray-200" />
+            <hr className="my-1 border-stone-200" />
 
             {/* Language Section */}
             <div className="space-y-1.5 px-4 py-1.5">
-              <p className="text-xs font-medium tracking-wider text-gray-500 uppercase">Dil</p>
+              <p className="text-xs font-medium tracking-wider text-stone-500 uppercase">Dil</p>
               <div className="grid grid-cols-2 gap-2">
                 <LanguageButton
                   language="tr"
@@ -279,7 +279,7 @@ const LanguageButton = ({ language, isActive, onClick }: LanguageButtonProps) =>
   <button
     onClick={onClick}
     disabled={isActive}
-    className="flex h-8 items-center justify-center rounded-md border border-gray-200 bg-white text-xs font-medium text-gray-700 transition-[colors_opacity] duration-300 hover:bg-gray-100 disabled:cursor-not-allowed disabled:bg-primary disabled:text-white disabled:hover:bg-primary disabled:hover:opacity-75"
+    className="flex h-8 items-center justify-center rounded-md border border-stone-200 bg-white text-xs font-medium text-stone-700 transition-[colors_opacity] duration-300 hover:bg-gray-100 disabled:cursor-not-allowed disabled:bg-primary disabled:text-white disabled:hover:bg-primary disabled:hover:opacity-75"
   >
     {language.toUpperCase()}
   </button>

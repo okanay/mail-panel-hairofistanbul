@@ -77,28 +77,28 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
   return (
     <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-lg md:max-w-lg md:rounded-lg md:shadow-2xl">
       {/* Header */}
-      <div className="flex shrink-0 items-center justify-between border-b border-gray-100 px-6 py-4">
+      <div className="flex shrink-0 items-center justify-between border-b border-stone-100 px-6 py-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-950">Profili Düzenle</h2>
-          <p className="mt-0.5 text-sm text-gray-800">Kişisel bilgilerinizi güncelleyin</p>
+          <h2 className="text-xl font-bold text-stone-950">Profili Düzenle</h2>
+          <p className="mt-0.5 text-sm text-stone-800">Kişisel bilgilerinizi güncelleyin</p>
         </div>
         <button
           onClick={onClose}
           disabled={isPending}
-          className="group flex size-8 items-center justify-center rounded-full border border-gray-100 bg-gray-50 transition-colors hover:border-gray-200 hover:bg-red-50 disabled:opacity-50"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-gray-200 hover:bg-red-50 disabled:opacity-50"
         >
-          <X className="size-4 text-gray-800 transition-colors group-hover:text-red-600" />
+          <X className="size-4 text-stone-800 transition-colors group-hover:text-red-600" />
         </button>
       </div>
 
       {/* Content */}
-      <div className="relative overflow-y-auto bg-gray-50/50 px-6 py-6">
+      <div className="relative overflow-y-auto bg-stone-50/50 px-6 py-6">
         {/* Loading Overlay */}
         {isPending && (
           <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/80 backdrop-blur-sm">
             <div className="flex flex-col items-center gap-3">
               <Loader2 className="size-8 animate-spin text-primary" />
-              <p className="text-sm font-medium text-gray-800">Kaydediliyor...</p>
+              <p className="text-sm font-medium text-stone-800">Kaydediliyor...</p>
             </div>
           </div>
         )}
@@ -127,7 +127,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
           <div className="space-y-2">
             <label
               htmlFor="name"
-              className="flex items-center gap-2 text-sm font-medium text-gray-800"
+              className="flex items-center gap-2 text-sm font-medium text-stone-800"
             >
               <User className="size-4" />
               İsim Soyisim <span className="text-red-500">*</span>
@@ -145,7 +145,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                   className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
                     errors.name
                       ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
-                      : 'border-gray-200'
+                      : 'border-stone-200'
                   }`}
                 />
               )}
@@ -157,7 +157,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
           <div className="space-y-2">
             <label
               htmlFor="email"
-              className="flex items-center gap-2 text-sm font-medium text-gray-800"
+              className="flex items-center gap-2 text-sm font-medium text-stone-800"
             >
               <Mail className="size-4" />
               Email Adresi
@@ -176,7 +176,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                   className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
                     errors.email
                       ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
-                      : 'border-gray-200'
+                      : 'border-stone-200'
                   }`}
                 />
               )}
@@ -188,7 +188,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
           <div className="space-y-2">
             <label
               htmlFor="phone"
-              className="flex items-center gap-2 text-sm font-medium text-gray-800"
+              className="flex items-center gap-2 text-sm font-medium text-stone-800"
             >
               <Phone className="size-4" />
               Telefon Numarası
@@ -206,7 +206,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                   className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
                     errors.phone
                       ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
-                      : 'border-gray-200'
+                      : 'border-stone-200'
                   }`}
                 />
               )}
@@ -217,7 +217,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
           <div className="space-y-2">
             <label
               htmlFor="password"
-              className="flex items-center gap-2 text-sm font-medium text-gray-800"
+              className="flex items-center gap-2 text-sm font-medium text-stone-800"
             >
               <Lock className="size-4" />
               Yeni Şifre
@@ -240,13 +240,13 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                         className={`h-11 w-full rounded-lg border bg-white px-3 pr-11 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
                           errors.password
                             ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
-                            : 'border-gray-200'
+                            : 'border-stone-200'
                         }`}
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                        className="absolute top-1/2 right-3 -translate-y-1/2 text-stone-500 hover:text-stone-700"
                       >
                         {showPassword ? (
                           <EyeOff className="h-5 w-5" />
@@ -265,12 +265,12 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
       </div>
 
       {/* Footer */}
-      <div className="flex shrink-0 gap-3 border-t border-gray-100 bg-white px-6 py-4">
+      <div className="flex shrink-0 gap-3 border-t border-stone-100 bg-white px-6 py-4">
         <button
           type="button"
           onClick={onClose}
           disabled={isPending}
-          className="flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white px-4 text-sm font-medium text-gray-800 transition-all hover:bg-gray-50 disabled:opacity-50"
+          className="flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-stone-200 bg-white px-4 text-sm font-medium text-stone-800 transition-all hover:bg-gray-50 disabled:opacity-50"
         >
           İptal
         </button>

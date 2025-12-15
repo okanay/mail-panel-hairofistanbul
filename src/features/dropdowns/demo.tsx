@@ -15,10 +15,10 @@ export default function DropdownDemo() {
             onFocus={toggle}
             value={value}
             onChange={(e) => setValue(e.target.value)}
-            className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
+            className="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 shadow-sm transition-colors hover:bg-gray-50"
           />
         )}
-        className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg"
+        className="overflow-hidden rounded-lg border border-stone-200 bg-white shadow-lg"
       >
         {({ triggerWidth, close }) => (
           <div
@@ -31,7 +31,7 @@ export default function DropdownDemo() {
                 setValue('opt-1')
                 close()
               }}
-              className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100"
+              className="w-full rounded px-3 py-2 text-left text-sm hover:bg-stone-100"
             >
               Option 1
             </button>
@@ -40,7 +40,7 @@ export default function DropdownDemo() {
                 setValue('opt-2')
                 close()
               }}
-              className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100"
+              className="w-full rounded px-3 py-2 text-left text-sm hover:bg-stone-100"
             >
               Option 2
             </button>
@@ -49,7 +49,7 @@ export default function DropdownDemo() {
                 setValue('opt-3')
                 close()
               }}
-              className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100"
+              className="w-full rounded px-3 py-2 text-left text-sm hover:bg-stone-100"
             >
               Option 3
             </button>
@@ -63,12 +63,12 @@ export default function DropdownDemo() {
             <button
               ref={triggerRef}
               onClick={toggle}
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
+              className="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 shadow-sm transition-colors hover:bg-gray-50"
             >
               Nested Dropdown {isOpen ? '▲' : '▼'}
             </button>
           )}
-          className="rounded-lg border border-gray-200 bg-white shadow-lg"
+          className="rounded-lg border border-stone-200 bg-white shadow-lg"
         >
           {({ triggerWidth: layer1 }) => (
             <div
@@ -77,7 +77,7 @@ export default function DropdownDemo() {
               }}
               className="space-y-1"
             >
-              <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100">
+              <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-stone-100">
                 Kişi Sayısı
               </button>
 
@@ -87,12 +87,12 @@ export default function DropdownDemo() {
                   <button
                     ref={triggerRef}
                     onClick={toggle}
-                    className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100"
+                    className="w-full rounded px-3 py-2 text-left text-sm hover:bg-stone-100"
                   >
                     Ülke Seç {isOpen ? '▲' : '▼'}
                   </button>
                 )}
-                className="ml-4 rounded-lg border border-gray-200 bg-white shadow-lg"
+                className="ml-4 rounded-lg border border-stone-200 bg-white shadow-lg"
               >
                 {({ triggerWidth: layer2, close }) => (
                   <div
@@ -103,14 +103,14 @@ export default function DropdownDemo() {
                   >
                     <button
                       onClick={close}
-                      className="w-full rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100"
+                      className="w-full rounded px-2 py-1.5 text-left text-sm hover:bg-stone-100"
                     >
                       🇹🇷 Türkiye with Close
                     </button>
-                    <button className="w-full rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100">
+                    <button className="w-full rounded px-2 py-1.5 text-left text-sm hover:bg-stone-100">
                       🇺🇸 USA
                     </button>
-                    <button className="w-full rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100">
+                    <button className="w-full rounded px-2 py-1.5 text-left text-sm hover:bg-stone-100">
                       🇩🇪 Germany
                     </button>
 
@@ -120,12 +120,12 @@ export default function DropdownDemo() {
                         <button
                           ref={triggerRef}
                           onClick={toggle}
-                          className="w-full rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100"
+                          className="w-full rounded px-2 py-1.5 text-left text-sm hover:bg-stone-100"
                         >
                           Şehir Seç {isOpen ? '▲' : '▼'}
                         </button>
                       )}
-                      className="ml-8 rounded-lg border border-gray-200 bg-white shadow-lg"
+                      className="ml-8 rounded-lg border border-stone-200 bg-white shadow-lg"
                     >
                       {({ triggerWidth: layer3 }) => (
                         <div
@@ -134,13 +134,13 @@ export default function DropdownDemo() {
                           }}
                           className="space-y-1"
                         >
-                          <button className="w-full rounded px-2 py-1 text-left text-xs hover:bg-gray-100">
+                          <button className="w-full rounded px-2 py-1 text-left text-xs hover:bg-stone-100">
                             İstanbul
                           </button>
-                          <button className="w-full rounded px-2 py-1 text-left text-xs hover:bg-gray-100">
+                          <button className="w-full rounded px-2 py-1 text-left text-xs hover:bg-stone-100">
                             Ankara
                           </button>
-                          <button className="w-full rounded px-2 py-1 text-left text-xs hover:bg-gray-100">
+                          <button className="w-full rounded px-2 py-1 text-left text-xs hover:bg-stone-100">
                             İzmir
                           </button>
                         </div>
@@ -150,7 +150,7 @@ export default function DropdownDemo() {
                 )}
               </DropdownWrapper>
 
-              <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100">
+              <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-stone-100">
                 Tarih Seç
               </button>
             </div>
@@ -163,12 +163,12 @@ export default function DropdownDemo() {
             <button
               ref={triggerRef}
               onClick={toggle}
-              className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50"
+              className="rounded-lg border border-stone-300 bg-white px-4 py-2 text-sm font-medium text-stone-700 shadow-sm transition-colors hover:bg-gray-50"
             >
               Simple Dropdown {isOpen ? '▲' : '▼'}
             </button>
           )}
-          className="overflow-hidden rounded-lg border border-gray-200 bg-white shadow-lg"
+          className="overflow-hidden rounded-lg border border-stone-200 bg-white shadow-lg"
         >
           {({ triggerWidth }) => (
             <div
@@ -176,13 +176,13 @@ export default function DropdownDemo() {
                 width: triggerWidth,
               }}
             >
-              <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100">
+              <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-stone-100">
                 Option 1
               </button>
-              <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100">
+              <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-stone-100">
                 Option 2
               </button>
-              <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-gray-100">
+              <button className="w-full rounded px-3 py-2 text-left text-sm hover:bg-stone-100">
                 Option 3
               </button>
             </div>

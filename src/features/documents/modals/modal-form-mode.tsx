@@ -78,16 +78,16 @@ interface FormHeaderProps {
 
 const FormHeader = ({ onClose }: FormHeaderProps) => {
   return (
-    <div className="flex shrink-0 items-center justify-between border-b border-gray-100 px-6 py-4">
+    <div className="flex shrink-0 items-center justify-between border-b border-stone-100 px-6 py-4">
       <div>
-        <h2 className="text-xl font-bold text-gray-950">Form Modu</h2>
-        <p className="mt-0.5 text-xs text-gray-500">Doküman içeriğini düzenleyin</p>
+        <h2 className="text-xl font-bold text-stone-950">Form Modu</h2>
+        <p className="mt-0.5 text-xs text-stone-500">Doküman içeriğini düzenleyin</p>
       </div>
       <button
         onClick={onClose}
-        className="group flex size-8 items-center justify-center rounded-full border border-gray-100 bg-gray-50 transition-colors hover:border-gray-200 hover:bg-red-50"
+        className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-gray-200 hover:bg-red-50"
       >
-        <X className="size-4 text-gray-500 transition-colors group-hover:text-red-600" />
+        <X className="size-4 text-stone-500 transition-colors group-hover:text-red-600" />
       </button>
     </div>
   )
@@ -105,7 +105,7 @@ interface FormContentProps {
 
 const FormContent = ({ formData, formValues, onChange }: FormContentProps) => {
   return (
-    <div className="flex-1 overflow-y-auto bg-gray-50/50 px-6 py-4">
+    <div className="flex-1 overflow-y-auto bg-stone-50/50 px-6 py-4">
       <div className="flex flex-col gap-y-5">
         {formData.map((field) => (
           <FormField
@@ -131,11 +131,11 @@ interface FormFooterProps {
 
 const FormFooter = ({ onReset, onSave }: FormFooterProps) => {
   return (
-    <div className="shrink-0 border-t border-gray-100 bg-white px-6 py-4">
+    <div className="shrink-0 border-t border-stone-100 bg-white px-6 py-4">
       <div className="flex gap-3">
         <button
           onClick={onReset}
-          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-sm border border-gray-300 bg-white px-4 text-sm font-bold text-gray-700 transition-colors hover:bg-gray-50"
+          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-sm border border-stone-300 bg-white px-4 text-sm font-bold text-stone-700 transition-colors hover:bg-gray-50"
         >
           Sıfırla
         </button>
@@ -192,9 +192,9 @@ interface TextInputProps {
 const TextInput = ({ field, value, onChange }: TextInputProps) => {
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-medium text-gray-800">{field.name}</label>
+      <label className="block text-sm font-medium text-stone-800">{field.name}</label>
       {field.description && (
-        <p className="flex items-center gap-x-2 rounded border border-gray-200 bg-gray-100 px-2 py-1 text-xs text-gray-600">
+        <p className="flex items-center gap-x-2 rounded border border-stone-200 bg-stone-100 px-2 py-1 text-xs text-gray-600">
           <Info className="size-3" />
           {field.description}
         </p>
@@ -203,7 +203,7 @@ const TextInput = ({ field, value, onChange }: TextInputProps) => {
         type="text"
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="h-11 w-full rounded-lg border border-gray-200 bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
+        className="h-11 w-full rounded-lg border border-stone-200 bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
       />
     </div>
   )
@@ -222,9 +222,9 @@ interface TextareaInputProps {
 const TextareaInput = ({ field, value, onChange }: TextareaInputProps) => {
   return (
     <div className="space-y-1.5">
-      <label className="block text-sm font-medium text-gray-800">{field.name}</label>
+      <label className="block text-sm font-medium text-stone-800">{field.name}</label>
       {field.description && (
-        <p className="flex items-center gap-x-2 rounded border border-gray-200 bg-gray-100 px-2 py-1 text-xs text-gray-600">
+        <p className="flex items-center gap-x-2 rounded border border-stone-200 bg-stone-100 px-2 py-1 text-xs text-gray-600">
           <Info className="size-3" />
           {field.description}
         </p>
@@ -233,7 +233,7 @@ const TextareaInput = ({ field, value, onChange }: TextareaInputProps) => {
         value={value}
         onChange={(e) => onChange(e.target.value)}
         rows={4}
-        className="w-full resize-none rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
+        className="w-full resize-none rounded-lg border border-stone-200 bg-white px-3 py-2.5 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
       />
     </div>
   )
@@ -251,11 +251,11 @@ interface ToggleInputProps {
 
 const ToggleInput = ({ field, value, onChange }: ToggleInputProps) => {
   return (
-    <div className="-mt-3 flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2">
+    <div className="-mt-3 flex items-center justify-between rounded-lg border border-stone-200 bg-white px-4 py-2">
       <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium text-gray-800">{field.name}</label>
+        <label className="text-sm font-medium text-stone-800">{field.name}</label>
         {field.description && (
-          <p className="flex items-center gap-x-2 rounded border border-gray-200 bg-gray-100 px-2 py-1 text-xs text-gray-600">
+          <p className="flex items-center gap-x-2 rounded border border-stone-200 bg-stone-100 px-2 py-1 text-xs text-gray-600">
             <Info className="size-3" />
             {field.description}
           </p>
@@ -266,7 +266,7 @@ const ToggleInput = ({ field, value, onChange }: ToggleInputProps) => {
         type="button"
         onClick={() => onChange(!value)}
         data-active={value}
-        className="relative h-6 w-11 rounded-full bg-gray-200 transition-colors data-[active=true]:bg-primary"
+        className="relative h-6 w-11 rounded-full bg-stone-200 transition-colors data-[active=true]:bg-primary"
       >
         <span
           data-active={value}
@@ -311,15 +311,15 @@ const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-gray-800">{field.name}</label>
+      <label className="block text-sm font-medium text-stone-800">{field.name}</label>
       {field.description && (
-        <p className="flex items-center gap-x-2 rounded border border-gray-200 bg-gray-100 px-2 py-1 text-xs text-gray-600">
+        <p className="flex items-center gap-x-2 rounded border border-stone-200 bg-stone-100 px-2 py-1 text-xs text-gray-600">
           <Info className="size-3" />
           {field.description}
         </p>
       )}
       {/* Type Selector */}
-      <div className="flex overflow-hidden rounded-lg border border-gray-200">
+      <div className="flex overflow-hidden rounded-lg border border-stone-200">
         {(['https', 'mailto', 'tel'] as const).map((linkType) => {
           const isActive = value.type === linkType
           return (
@@ -329,7 +329,7 @@ const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
               onClick={() => handleTypeChange(linkType)}
               className={twMerge(
                 'flex-1 px-3 py-2 text-xs font-bold uppercase transition-colors',
-                isActive ? 'bg-primary text-white' : 'bg-gray-50 text-gray-600 hover:bg-gray-100',
+                isActive ? 'bg-primary text-white' : 'bg-stone-50 text-stone-600 hover:bg-gray-100',
               )}
             >
               {linkType === 'https' ? 'Web' : linkType === 'mailto' ? 'Mail' : 'Tel'}
@@ -344,7 +344,7 @@ const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
         value={value.value}
         onChange={(e) => handleValueChange(e.target.value)}
         placeholder={getPlaceholder()}
-        className="h-11 w-full rounded-lg border border-gray-200 bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
+        className="h-11 w-full rounded-lg border border-stone-200 bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
       />
     </div>
   )

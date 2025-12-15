@@ -5,19 +5,17 @@ import { useSearch } from '@tanstack/react-router'
 import { SafePortal } from '@/components/safe-portal'
 
 export interface EditableLinkProps {
-  href: string
-  seedValue?: string | null | undefined
+  defaultValue: LinkData // Default link bilgisi
+  seedValue?: LinkData | null // User'dan gelen dinamik link bilgisi (opsiyonel)
   className?: string
   editKey: string
-  linkType: LinkData['type']
 }
 
 export const EditableLink = ({
-  href,
+  defaultValue,
   seedValue,
   className,
   editKey,
-  linkType,
 }: EditableLinkProps) => {
   const search = useSearch({ from: '/docs' })
   const editable = search.editable === 'yes'
@@ -29,21 +27,15 @@ export const EditableLink = ({
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 })
   const [formValue, setFormValue] = useState('')
-  const [formType, setFormType] = useState<LinkData['type']>(linkType)
+  const [formType, setFormType] = useState<LinkData['type']>('https')
 
-  const isSeedMode = seedValue && seedValue !== href
-
-  // Initial değerler artık sadece prop'lardan geliyor
-  const initialValue = isSeedMode && seedValue ? seedValue : cleanValue(href, linkType)
-
-  const currentData: LinkData = savedData ?? {
-    type: linkType,
-    value: initialValue,
-  }
+  // Priority: savedData > seedValue > defaultValue
+  const currentData: LinkData = savedData ?? seedValue ?? defaultValue
 
   const hasUserEdit = savedData !== undefined && savedData.value.length > 0
-  const hasSeedContent = isSeedMode && currentData.value.length > 0
-  const isEditedAndFilled = hasUserEdit || hasSeedContent
+  const hasSeedData = seedValue !== null && seedValue !== undefined && seedValue.value.length > 0
+  const isEditedOrSeeded = hasUserEdit || hasSeedData
+
   const finalHref = buildHref(currentData.type, currentData.value)
 
   const handleLinkClick = (e: React.MouseEvent) => {
@@ -80,17 +72,17 @@ export const EditableLink = ({
       return 'border border-black border-dashed bg-black/70 text-white px-2 py-1 outline-none min-w-10 z-20 relative'
     }
 
-    if (isEditedAndFilled) {
-      return 'border border-dashed border-gray-400 bg-gray-300 px-2 py-0'
+    if (isEditedOrSeeded) {
+      return 'border border-dashed border-neutral-300 bg-neutral-200 px-2 py-0'
     }
 
     return 'border border-dashed border-orange-400 bg-orange-100 px-2 py-0 min-w-10'
   }
 
-  // Seed mode için initial set - type artık prop'tan geliyor
+  // İlk render'da seedValue varsa ve henüz user edit yoksa, seed'i store'a kaydet
   useEffect(() => {
-    if (isSeedMode && savedData === undefined && seedValue) {
-      setEdit(editKey, { value: seedValue, type: linkType })
+    if (seedValue && savedData === undefined) {
+      setEdit(editKey, seedValue)
     }
   }, [])
 
@@ -129,14 +121,14 @@ export const EditableLink = ({
         <SafePortal>
           <div
             data-modal="editable-link"
-            className="absolute z-50 w-64 rounded-md border border-gray-200 bg-white p-4 shadow-lg"
+            className="absolute z-50 w-64 rounded-md border border-stone-200 bg-white p-4 shadow-lg"
             style={{ top: modalPosition.top, left: modalPosition.left }}
           >
-            <h4 className="mb-3 text-xs font-semibold tracking-wide text-gray-500 uppercase">
+            <h4 className="mb-3 text-xs font-semibold tracking-wide text-stone-500 uppercase">
               Edit Link
             </h4>
 
-            <div className="mb-3 flex overflow-hidden rounded-md border border-gray-200">
+            <div className="mb-3 flex overflow-hidden rounded-md border border-stone-200">
               {(['https', 'mailto', 'tel'] as const).map((type) => (
                 <button
                   key={type}
@@ -145,7 +137,7 @@ export const EditableLink = ({
                     'flex-1 px-2 py-1.5 text-[10px] font-medium uppercase transition-colors',
                     formType === type
                       ? 'bg-black text-white'
-                      : 'bg-gray-50 text-gray-600 hover:bg-gray-100',
+                      : 'bg-stone-50 text-neutral-600 hover:bg-neutral-100',
                   )}
                 >
                   {type === 'https' ? 'Web' : type === 'mailto' ? 'Mail' : 'Tel'}
@@ -157,7 +149,7 @@ export const EditableLink = ({
               type="text"
               value={formValue}
               onChange={(e) => setFormValue(e.target.value)}
-              className="mb-3 w-full rounded-md border border-gray-300 px-3 py-2 text-xs outline-none focus:border-black focus:ring-1 focus:ring-black"
+              className="mb-3 w-full rounded-md border border-stone-300 px-3 py-2 text-xs outline-none focus:border-black focus:ring-1 focus:ring-black"
               placeholder={
                 formType === 'mailto'
                   ? 'email@example.com'
@@ -171,13 +163,13 @@ export const EditableLink = ({
             <div className="flex gap-2">
               <button
                 onClick={handleSave}
-                className="flex-1 rounded-md bg-black py-1.5 text-xs font-medium text-white transition-colors hover:bg-gray-800"
+                className="flex-1 rounded-md bg-black py-1.5 text-xs font-medium text-white transition-colors hover:bg-stone-800"
               >
                 Save
               </button>
               <button
                 onClick={handleCancel}
-                className="flex-1 rounded-md border border-gray-200 bg-white py-1.5 text-xs font-medium text-gray-700 transition-colors hover:bg-gray-50"
+                className="flex-1 rounded-md border border-stone-200 bg-white py-1.5 text-xs font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
               >
                 Cancel
               </button>
@@ -188,12 +180,6 @@ export const EditableLink = ({
       )}
     </>
   )
-}
-
-const cleanValue = (href: string, type: LinkData['type']): string => {
-  if (type === 'mailto') return href.replace('mailto:', '')
-  if (type === 'tel') return href.replace('tel:', '')
-  return href.replace(/^https?:\/\//, '')
 }
 
 const buildHref = (type: LinkData['type'], value: string): string => {

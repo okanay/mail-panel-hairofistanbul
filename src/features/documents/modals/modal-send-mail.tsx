@@ -103,27 +103,27 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
   return (
     <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white md:h-auto md:max-h-[85vh] md:w-lg md:max-w-lg md:rounded-lg md:shadow-2xl">
       {/* Header */}
-      <div className="flex shrink-0 items-center justify-between border-b border-gray-100 px-6 py-4">
+      <div className="flex shrink-0 items-center justify-between border-b border-stone-100 px-6 py-4">
         <div>
-          <h2 className="text-xl font-bold text-gray-950">Mail Gönder</h2>
-          <p className="mt-0.5 text-xs text-gray-500">Dokümanınızı PDF olarak gönderin</p>
+          <h2 className="text-xl font-bold text-stone-950">Mail Gönder</h2>
+          <p className="mt-0.5 text-xs text-stone-500">Dokümanınızı PDF olarak gönderin</p>
         </div>
         <button
           onClick={onClose}
-          className="group flex size-8 items-center justify-center rounded-full border border-gray-100 bg-gray-50 transition-colors hover:border-gray-200 hover:bg-red-50"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-gray-200 hover:bg-red-50"
         >
-          <X className="size-4 text-gray-500 transition-colors group-hover:text-red-600" />
+          <X className="size-4 text-stone-500 transition-colors group-hover:text-red-600" />
         </button>
       </div>
 
       {/* Content */}
-      <div className="relative overflow-y-auto bg-gray-50/50 px-6 py-4">
+      <div className="relative overflow-y-auto bg-stone-50/50 px-6 py-4">
         {/* Loading State */}
         {isProcessing && (
           <div className="z-10 flex h-40 items-center justify-center bg-white/80 backdrop-blur-sm">
             <div className="flex flex-col items-center gap-3">
               <Loader2 className="size-8 animate-spin text-primary" />
-              <p className="text-sm font-medium text-gray-600">
+              <p className="text-sm font-medium text-stone-600">
                 {isSaving ? 'Doküman kaydediliyor...' : 'Mail gönderiliyor...'}
               </p>
             </div>
@@ -149,8 +149,8 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
             </div>
 
             <div className="space-y-2">
-              <div className="rounded-lg border border-gray-200 bg-white p-3">
-                <p className="text-xs font-medium text-gray-500">PDF URL</p>
+              <div className="rounded-lg border border-stone-200 bg-white p-3">
+                <p className="text-xs font-medium text-stone-500">PDF URL</p>
                 <a
                   href={emailData.url}
                   target="_blank"
@@ -161,15 +161,15 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                 </a>
               </div>
 
-              <div className="rounded-lg border border-gray-200 bg-white p-3">
-                <p className="text-xs font-medium text-gray-500">Dosya Hash</p>
-                <p className="mt-1 truncate text-sm text-gray-900">{emailData.hash}</p>
+              <div className="rounded-lg border border-stone-200 bg-white p-3">
+                <p className="text-xs font-medium text-stone-500">Dosya Hash</p>
+                <p className="mt-1 truncate text-sm text-stone-900">{emailData.hash}</p>
               </div>
 
               {emailData.emailSent && emailData.emailMessageId && (
-                <div className="rounded-lg border border-gray-200 bg-white p-3">
-                  <p className="text-xs font-medium text-gray-500">Email Message ID</p>
-                  <p className="mt-1 truncate text-sm text-gray-900">{emailData.emailMessageId}</p>
+                <div className="rounded-lg border border-stone-200 bg-white p-3">
+                  <p className="text-xs font-medium text-stone-500">Email Message ID</p>
+                  <p className="mt-1 truncate text-sm text-stone-900">{emailData.emailMessageId}</p>
                 </div>
               )}
             </div>
@@ -181,7 +181,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
           <form id="mail-form" onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             {/* Email Address */}
             <div className="space-y-1.5">
-              <label htmlFor="emailAddress" className="block text-sm font-medium text-gray-800">
+              <label htmlFor="emailAddress" className="block text-sm font-medium text-stone-800">
                 Email Adresi <span className="text-red-500">*</span>
               </label>
               <Controller
@@ -196,7 +196,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                     className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm ${
                       errors.emailAddress
                         ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
-                        : 'border-gray-200'
+                        : 'border-stone-200'
                     }`}
                   />
                 )}
@@ -208,7 +208,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
 
             {/* Email Title */}
             <div className="space-y-1.5">
-              <label htmlFor="emailTitle" className="block text-sm font-medium text-gray-800">
+              <label htmlFor="emailTitle" className="block text-sm font-medium text-stone-800">
                 Mail Başlığı <span className="text-red-500">*</span>
               </label>
               <Controller
@@ -223,7 +223,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                     className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm ${
                       errors.emailTitle
                         ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
-                        : 'border-gray-200'
+                        : 'border-stone-200'
                     }`}
                   />
                 )}
@@ -235,7 +235,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
 
             {/* Email Description */}
             <div className="space-y-1.5">
-              <label htmlFor="emailDescription" className="block text-sm font-medium text-gray-800">
+              <label htmlFor="emailDescription" className="block text-sm font-medium text-stone-800">
                 Mail Açıklaması
               </label>
               <Controller
@@ -250,7 +250,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
                     className={`w-full resize-none rounded-lg border bg-white px-3 py-2.5 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm ${
                       errors.emailDescription
                         ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
-                        : 'border-gray-200'
+                        : 'border-stone-200'
                     }`}
                   />
                 )}
@@ -264,7 +264,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
       </div>
 
       {/* Footer */}
-      <div className="shrink-0 border-t border-gray-100 bg-white px-6 py-4">
+      <div className="shrink-0 border-t border-stone-100 bg-white px-6 py-4">
         <button
           type="submit"
           form="mail-form"
