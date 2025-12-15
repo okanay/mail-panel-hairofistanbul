@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { ModalComponentProps, ModalInstance, useModalStore } from './store'
+import { useFocusTrap } from '@/hooks/use-focus-trap'
 
 const ANIMATION_DURATION = 200
 
@@ -25,10 +26,11 @@ export function ModalWrapper() {
 }
 
 function ModalLayer({ modal }: { modal: ModalInstance }) {
-  const { close, modalPending } = useModalStore()
+  const { close, modalPending, isTopModal } = useModalStore()
   const [isClosing, setIsClosing] = useState(false)
   const [isMounted, setIsMounted] = useState(false)
   const isClosingRef = useRef(false)
+  const isTop = isTopModal(modal.id)
 
   const handleClose = () => {
     if (isClosingRef.current || modalPending) return
@@ -47,6 +49,11 @@ function ModalLayer({ modal }: { modal: ModalInstance }) {
     onClose: handleClose,
   }
 
+  const trapRef = useFocusTrap({
+    active: isTop && isMounted && !isClosing,
+    onEscape: handleClose,
+  })
+
   useEffect(() => {
     requestAnimationFrame(() => {
       setIsMounted(true)
@@ -55,6 +62,7 @@ function ModalLayer({ modal }: { modal: ModalInstance }) {
 
   return (
     <div
+      ref={trapRef}
       data-modal-id={modal.id}
       data-pending={modalPending}
       data-modal-layer

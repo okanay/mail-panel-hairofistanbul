@@ -91,8 +91,8 @@ function RootDocument({ children }: { children: React.ReactNode }) {
         <AuthProvider initialUser={data.user}>
           <FramerMotion>
             <DropdownStoreProvider>
-              <ModalStoreProvider inertName="app">
-                <div id="app">{data.user || skipLogin === 'yes' ? children : <LoginPage />}</div>
+              <ModalStoreProvider>
+                {data.user || skipLogin === 'yes' ? children : <LoginPage />}
               </ModalStoreProvider>
             </DropdownStoreProvider>
           </FramerMotion>
