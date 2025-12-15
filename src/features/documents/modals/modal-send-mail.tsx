@@ -49,7 +49,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
       emailTitle: EMAIL_TEMPLATES[type][language].title,
       emailDescription: EMAIL_TEMPLATES[type][language].description,
     },
-    mode: 'onChange',
+    mode: 'onSubmit',
   })
 
   const { mutate, isPending } = useSendEmail({
@@ -235,7 +235,10 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
 
             {/* Email Description */}
             <div className="space-y-1.5">
-              <label htmlFor="emailDescription" className="block text-sm font-medium text-stone-800">
+              <label
+                htmlFor="emailDescription"
+                className="block text-sm font-medium text-stone-800"
+              >
                 Mail Açıklaması
               </label>
               <Controller
