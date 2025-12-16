@@ -59,7 +59,8 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
   const handleDelete = (hash: string) => {
     openConfirmationModal({
       title: 'Dokümanı Sil',
-      description: `Doküman kaydını silmek istediğinize emin misiniz? Geçmişte oluşturulan PDF belgeleri korunmaya devam eder.`,
+      description:
+        'Bu işlem sadece doküman kaydını siler, daha önce oluşturulmuş PDF dosyaları etkilenmez ve saklanmaya devam eder.',
       confirmText: 'Sil',
       cancelText: 'İptal',
       variant: 'danger',

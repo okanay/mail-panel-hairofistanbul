@@ -2,7 +2,18 @@ import { logoutServerFn } from '@/api/handlers/logout'
 import { useProfileEditModal } from '@/features/auth/modals/modal-edit-profile'
 import { useAuth } from '@/providers/auth'
 import { Link, useNavigate, useSearch } from '@tanstack/react-router'
-import { Download, Eye, FormInput, History, Home, LogOut, Mail, Save, Settings } from 'lucide-react'
+import {
+  Download,
+  Eye,
+  FilePlus,
+  FormInput,
+  History,
+  Home,
+  LogOut,
+  Mail,
+  Save,
+  Settings,
+} from 'lucide-react'
 import { LoadingIndicator } from '../../../components/loading-indicator'
 import { useDownloadModal } from '../modals/modal-download'
 import { useFormModeModal } from '../modals/modal-form-mode'
@@ -11,6 +22,7 @@ import { useMailModal } from '../modals/modal-send-mail'
 import { useSaveDocument } from '../queries/use-save-document'
 import { useSendEmail } from '../queries/use-send-email'
 import { useDocumentStore } from '../store'
+import { useConfirmationModal } from '../modals/modal-confirmation'
 
 interface Props {
   formData?: FormFieldConfig[]
@@ -26,6 +38,7 @@ export const EditorMenu = ({ formData }: Props) => {
 
   const isMenuHidden = search.hideMenu === 'yes'
   const isMenuVisible = search.showMenu === 'yes'
+  const hasHash = Boolean(search.hash)
 
   const [saveDocument] = useSaveDocument()
 
@@ -34,6 +47,7 @@ export const EditorMenu = ({ formData }: Props) => {
   const { openProfileEditModal } = useProfileEditModal()
   const { openFormModeModal } = useFormModeModal()
   const { openDownloadModal } = useDownloadModal()
+  const { openConfirmationModal } = useConfirmationModal()
 
   const { mutate: downloadPdf, isPending } = useSendEmail({
     store,
@@ -93,6 +107,35 @@ export const EditorMenu = ({ formData }: Props) => {
   const handleOpenFormMode = () => {
     if (formData) {
       openFormModeModal({ formData, store })
+    }
+  }
+
+  const handleNewDocument = async () => {
+    if (search.hash) {
+      openConfirmationModal({
+        title: 'Yeni Kayıt',
+        description: `Mevcut bir dökümanınız var. Yeni bir döküman oluşturmak istediğinize emin misiniz?`,
+        confirmText: 'Kayıt Oluştur',
+        cancelText: 'İptal',
+        variant: 'warning',
+        onSubmit: () => {
+          return new Promise<void>((resolve) => {
+            navigate({
+              replace: true,
+              search: {
+                ...search,
+                hash: undefined,
+              },
+            })
+              .then(() => {
+                saveDocument.refetch()
+              })
+              .finally(() => resolve())
+          })
+        },
+      })
+    } else {
+      saveDocument.refetch()
     }
   }
 
@@ -190,11 +233,20 @@ export const EditorMenu = ({ formData }: Props) => {
                 label="İndir"
               />
 
+              {hasHash && (
+                <MenuButton
+                  onClick={() => saveDocument.refetch()}
+                  disabled={isLoading}
+                  icon={<Save className="size-4" />}
+                  label="Kaydet"
+                />
+              )}
+
               <MenuButton
-                onClick={() => saveDocument.refetch()}
+                onClick={handleNewDocument}
                 disabled={isLoading}
-                icon={<Save className="size-4" />}
-                label="Kaydet"
+                icon={<FilePlus className="size-4" />}
+                label="Yeni Kayıt"
               />
 
               <MenuButton

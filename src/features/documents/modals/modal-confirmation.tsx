@@ -1,5 +1,5 @@
 import { useModalStore } from '@/features/modals/store'
-import { X, AlertTriangle, Loader2 } from 'lucide-react'
+import { X, Loader2, Info, TriangleAlert, FileWarning } from 'lucide-react'
 
 interface ConfirmationModalProps {
   onClose: () => void
@@ -29,20 +29,24 @@ export function ConfirmationModal({
       icon: 'text-red-600',
       iconBg: 'bg-red-50',
       button: 'bg-red-600 hover:bg-red-700 border-red-600',
+      iconComponent: TriangleAlert,
     },
     warning: {
-      icon: 'text-yellow-600',
-      iconBg: 'bg-yellow-50',
-      button: 'bg-yellow-600 hover:bg-yellow-700 border-yellow-600',
+      icon: 'text-orange-600',
+      iconBg: 'bg-orange-50',
+      button: 'bg-orange-600 hover:bg-orange-700 border-orange-600',
+      iconComponent: FileWarning,
     },
     info: {
       icon: 'text-blue-600',
       iconBg: 'bg-blue-50',
-      button: 'bg-blue-600 hover:bg-blue-700 border-blue-600',
+      button: 'bg-teal-600 hover:bg-teal-700 border-teal-600',
+      iconComponent: Info,
     },
   }
 
   const styles = variantStyles[variant]
+  const Icon = styles.iconComponent
 
   const handleSubmit = async () => {
     setModalPending(true)
@@ -69,7 +73,7 @@ export function ConfirmationModal({
           <div
             className={`flex size-10 shrink-0 items-center justify-center rounded-full ${styles.iconBg}`}
           >
-            <AlertTriangle className={`size-5 ${styles.icon}`} />
+            <Icon className={`size-5 ${styles.icon}`} />
           </div>
           <div>
             <h2 className="text-xl font-bold text-stone-950">{title}</h2>
