@@ -114,7 +114,7 @@ export const EditorMenu = ({ formData }: Props) => {
     if (search.hash) {
       openConfirmationModal({
         title: 'Yeni Kayıt',
-        description: `Mevcut bir dökümanınız var. Yeni bir döküman oluşturmak istediğinize emin misiniz?`,
+        description: `Mevcut bir belgeniz var. Yeni bir belge oluşturmak istediğinizden emin misiniz? Devam ederseniz, mevcut değişiklikleriniz yeni belgeye aktarılacak.`,
         confirmText: 'Kayıt Oluştur',
         cancelText: 'İptal',
         variant: 'warning',
