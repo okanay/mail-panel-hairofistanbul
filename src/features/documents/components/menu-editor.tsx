@@ -113,8 +113,8 @@ export const EditorMenu = ({ formData }: Props) => {
   const handleNewDocument = async () => {
     if (search.hash) {
       openConfirmationModal({
-        title: 'Yeni Kayıt',
-        description: `Mevcut bir belgeniz var. Yeni bir belge oluşturmak istediğinizden emin misiniz? Devam ederseniz, mevcut değişiklikleriniz yeni belgeye aktarılacak.`,
+        title: 'Yeni Kayıt Oluştur',
+        description: `Yeni bir kayıt oluşturmak üzeresiniz. Mevcut değişiklikleriniz yeni belgeye aktarılacak. Devam etmek istiyor musunuz?`,
         confirmText: 'Kayıt Oluştur',
         cancelText: 'İptal',
         variant: 'warning',
@@ -159,23 +159,31 @@ export const EditorMenu = ({ formData }: Props) => {
     <div className="pointer-events-none fixed top-0 left-0 z-50 flex w-full justify-start p-4">
       <LoadingIndicator isVisible={isLoading}>{loadingMessage}</LoadingIndicator>
       <div className="pointer-events-auto flex flex-col">
-        {/* User Profile Card & Hide*/}
-        <div className="relative">
-          {/* User Profile */}
-          <div
-            hidden={!isMenuVisible}
-            className="flex w-full flex-col items-start gap-2 rounded-t-lg border border-stone-200 bg-white p-3"
-          >
-            <div className="flex w-full items-start justify-between gap-2">
+        {/* Menüyü Göster */}
+        <button
+          onClick={handleToggleEditMode}
+          data-hidden={!isMenuVisible}
+          hidden={isMenuVisible}
+          className="absolute top-4 left-2 w-fit rounded-full bg-primary px-4 py-2 text-xs font-semibold text-nowrap text-white transition-opacity duration-300 hover:opacity-75"
+        >
+          Menüyü Göster
+        </button>
+
+        <div
+          hidden={!isMenuVisible}
+          className="flex w-full min-w-46 flex-col items-start rounded-t-2xl border border-stone-200 bg-white/70 py-4 backdrop-blur-xs"
+        >
+          <div className="flex w-full flex-col px-2">
+            <div className="mb-1.5 ml-1 flex w-full items-start justify-between gap-2">
               <button
                 onClick={openProfileEditModal}
                 disabled={isLoading}
-                className="flex size-8 items-center justify-center rounded-lg border-primary bg-primary text-white transition-opacity duration-300 hover:opacity-75 disabled:cursor-not-allowed disabled:opacity-75"
+                className="flex size-8 items-center justify-center rounded-full border-primary bg-primary-400 text-white transition-colors duration-300 hover:bg-primary-500 disabled:cursor-not-allowed disabled:opacity-80"
               >
                 <Settings className="size-4" />
               </button>
               <div className="min-w-0 flex-1">
-                <p className="truncate text-sm font-medium text-stone-900">
+                <p className="truncate text-xs font-medium text-stone-900">
                   {user?.name || 'Kullanıcı'}
                 </p>
                 <p className="truncate text-xs text-stone-500">@{user?.username}</p>
@@ -188,98 +196,84 @@ export const EditorMenu = ({ formData }: Props) => {
                 ...prev,
                 hash: undefined,
               })}
-              className="flex h-9 w-full items-center gap-2.5 rounded-md px-3 text-sm font-medium text-stone-700 transition-opacity hover:bg-stone-100"
+              className="flex h-9 w-full items-center gap-2.5 rounded-md px-3 text-xs font-medium text-stone-700 transition-opacity hover:bg-primary-200/40"
             >
-              <Home className="-ml-1 size-4" />
+              <Home className="size-4" />
               <span>Anasayfa</span>
             </Link>
 
             <MenuButton
               onClick={handleLogout}
               disabled={isLoading}
-              icon={<LogOut className="-ml-1 size-4" />}
+              icon={<LogOut className="size-4" />}
               label="Çıkış Yap"
               variant="danger"
             />
           </div>
 
-          {/* Account Section */}
-          <button
-            onClick={handleToggleEditMode}
-            data-hidden={!isMenuVisible}
-            hidden={isMenuVisible}
-            className="absolute top-0 left-2 w-fit rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-nowrap text-white transition-opacity duration-300 hover:opacity-75"
-          >
-            Menüyü Göster
-          </button>
+          <hr className="my-1 h-px w-full border-stone-200" />
 
-          {/* Main Menu */}
-          <div
-            hidden={!isMenuVisible}
-            className="pointer-events-auto flex w-fit min-w-52 flex-col gap-1 border-x border-stone-200 bg-white py-2"
-          >
+          <div className="flex w-full flex-col px-2">
             {/* Document Actions Section */}
-            <div className="space-y-0.5 px-2">
-              <MenuButton
-                onClick={handleToggleEditMode}
-                icon={<Eye className="size-4" />}
-                label={'İncele'}
-              />
+            <MenuButton
+              onClick={handleToggleEditMode}
+              icon={<Eye className="size-4" />}
+              label={'İncele'}
+            />
 
-              <MenuButton
-                onClick={handleDownload}
-                disabled={isLoading}
-                icon={<Download className="size-4" />}
-                label="İndir"
-              />
+            <MenuButton
+              onClick={handleDownload}
+              disabled={isLoading}
+              icon={<Download className="size-4" />}
+              label="İndir"
+            />
 
-              {hasHash && (
-                <MenuButton
-                  onClick={() => saveDocument.refetch()}
-                  disabled={isLoading}
-                  icon={<Save className="size-4" />}
-                  label="Kaydet"
-                />
-              )}
+            <MenuButton
+              onClick={() => saveDocument.refetch()}
+              disabled={isLoading}
+              icon={<Save className="size-4" />}
+              label="Kaydet"
+            />
 
+            {hasHash && (
               <MenuButton
                 onClick={handleNewDocument}
                 disabled={isLoading}
                 icon={<FilePlus className="size-4" />}
-                label="Yeni Kayıt"
+                label={'Yeni Kayıt'}
               />
+            )}
 
-              <MenuButton
-                onClick={handleOpenFormMode}
-                icon={<FormInput className="size-4" />}
-                label="Form Modu"
+            <MenuButton
+              onClick={handleOpenFormMode}
+              icon={<FormInput className="size-4" />}
+              label="Form Modu"
+            />
+
+            <MenuButton
+              onClick={openDocumentHistoryModal}
+              disabled={isLoading}
+              icon={<History className="size-4" />}
+              label="Geçmiş Belgeler"
+            />
+          </div>
+
+          <hr className="my-1 h-px w-full border-stone-200" />
+
+          {/* Language Section */}
+          <div className="w-full space-y-1.5 px-4 py-1.5">
+            <p className="text-xs font-medium tracking-wider text-stone-500 uppercase">Dil</p>
+            <div className="grid grid-cols-2 gap-2">
+              <LanguageButton
+                language="tr"
+                isActive={config.language === 'tr'}
+                onClick={() => handleToggleLanguage('tr')}
               />
-
-              <MenuButton
-                onClick={openDocumentHistoryModal}
-                disabled={isLoading}
-                icon={<History className="size-4" />}
-                label="Geçmiş Belgeler"
+              <LanguageButton
+                language="en"
+                isActive={config.language === 'en'}
+                onClick={() => handleToggleLanguage('en')}
               />
-            </div>
-
-            <hr className="my-1 border-stone-200" />
-
-            {/* Language Section */}
-            <div className="space-y-1.5 px-4 py-1.5">
-              <p className="text-xs font-medium tracking-wider text-stone-500 uppercase">Dil</p>
-              <div className="grid grid-cols-2 gap-2">
-                <LanguageButton
-                  language="tr"
-                  isActive={config.language === 'tr'}
-                  onClick={() => handleToggleLanguage('tr')}
-                />
-                <LanguageButton
-                  language="en"
-                  isActive={config.language === 'en'}
-                  onClick={() => handleToggleLanguage('en')}
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -289,7 +283,7 @@ export const EditorMenu = ({ formData }: Props) => {
           hidden={!isMenuVisible}
           onClick={openMailModal}
           disabled={isLoading}
-          className="flex h-11 items-center justify-center gap-2 rounded-b-lg border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white transition-opacity hover:opacity-80 disabled:cursor-not-allowed disabled:opacity-80"
+          className="flex h-11 items-center justify-center gap-2 rounded-b-2xl border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white transition-colors duration-300 hover:bg-primary-500 disabled:cursor-not-allowed disabled:opacity-80"
         >
           <span>Mail Gönder</span>
           <Mail className="size-4" strokeWidth="2" />
@@ -309,9 +303,11 @@ type MenuButtonProps = {
 
 const MenuButton = ({ onClick, disabled, icon, label, variant = 'default' }: MenuButtonProps) => {
   const baseClasses =
-    'flex h-9 w-full items-center font-medium gap-2.5 rounded-md px-3 text-sm  transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-75'
+    'flex h-9 w-full items-center font-medium gap-2.5 rounded-md px-3 text-xs  transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-75'
   const variantClasses =
-    variant === 'danger' ? 'text-red-600 hover:bg-red-50' : 'text-gray-700 hover:bg-gray-100'
+    variant === 'danger'
+      ? 'text-rose-600 hover:bg-rose-100/40'
+      : 'text-gray-700 hover:bg-primary-200/40'
 
   return (
     <button onClick={onClick} disabled={disabled} className={`${baseClasses} ${variantClasses}`}>
@@ -331,7 +327,7 @@ const LanguageButton = ({ language, isActive, onClick }: LanguageButtonProps) =>
   <button
     onClick={onClick}
     disabled={isActive}
-    className="flex h-8 items-center justify-center rounded-md border border-stone-200 bg-white text-xs font-medium text-stone-700 transition-[colors_opacity] duration-300 hover:bg-gray-100 disabled:cursor-not-allowed disabled:bg-primary disabled:text-white disabled:hover:bg-primary disabled:hover:opacity-75"
+    className="flex h-8 items-center justify-center rounded-md border border-stone-200 bg-white text-xs font-medium text-stone-700 transition-[colors_opacity] duration-300 hover:bg-primary-200/40 disabled:cursor-not-allowed disabled:bg-primary disabled:text-white disabled:hover:bg-primary disabled:hover:opacity-100"
   >
     {language.toUpperCase()}
   </button>
