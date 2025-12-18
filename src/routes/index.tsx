@@ -24,9 +24,9 @@ function RouteComponent() {
     })
   }
 
-  const languages: { code: DocumentLanguage; label: string }[] = [
-    { code: 'en', label: 'İngilizce' },
-    { code: 'tr', label: 'Türkçe' },
+  const languages: { code: DocumentLanguage; label: string; isDisable: boolean }[] = [
+    { code: 'en', label: 'İngilizce', isDisable: false },
+    { code: 'tr', label: 'Türkçe', isDisable: false },
   ]
 
   const documentTypes = [
@@ -36,6 +36,7 @@ function RouteComponent() {
       description: 'Konaklama ve havalimanı transfer hizmeti dahil tam kapsamlı paket',
       route: `/docs/${selectedLanguage}/with-otel`,
       icon: Building2,
+      isDisable: false,
     },
     {
       title: 'Transfer Paketi',
@@ -43,6 +44,7 @@ function RouteComponent() {
       description: 'Havalimanı transfer hizmeti dahil, konaklama hariç paket seçeneği',
       route: `/docs/${selectedLanguage}/without-otel`,
       icon: Car,
+      isDisable: true,
     },
     {
       title: 'Sadece İşlem',
@@ -50,6 +52,7 @@ function RouteComponent() {
       description: 'Sadece medikal işlem paketi, konaklama ve ulaşım hizmetleri hariç',
       route: `/docs/${selectedLanguage}/without-otel-transfer`,
       icon: FileText,
+      isDisable: true,
     },
   ]
 
@@ -69,7 +72,9 @@ function RouteComponent() {
               <button
                 key={lang.code}
                 onClick={() => handleSwitchLanguage(lang.code)}
-                className={`flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-medium transition-all duration-200 ${
+                disabled={lang.isDisable}
+                aria-busy={lang.isDisable}
+                className={`flex items-center gap-2 rounded-lg border px-5 py-2.5 text-sm font-medium transition-all duration-200 aria-busy:pointer-events-none aria-busy:cursor-not-allowed aria-busy:bg-stone-200 aria-busy:opacity-75 ${
                   selectedLanguage === lang.code
                     ? 'border-primary bg-primary text-white shadow-md'
                     : 'border-stone-100 bg-white text-stone-700 hover:border-primary/50 hover:bg-gray-50'
@@ -92,7 +97,9 @@ function RouteComponent() {
                   editable: 'yes',
                   showMenu: 'yes',
                 }}
-                className={`group relative flex h-auto w-full flex-col rounded-xl border border-stone-100 bg-white p-6`}
+                disabled={doc.isDisable}
+                aria-busy={doc.isDisable}
+                className={`group relative flex h-auto w-full flex-col rounded-xl border border-stone-100 bg-white p-6 aria-busy:pointer-events-none aria-busy:cursor-not-allowed aria-busy:bg-stone-200 aria-busy:opacity-75`}
               >
                 <div className="mb-4">
                   <h2

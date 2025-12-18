@@ -27,13 +27,13 @@ export const EditablePage = ({ children, className, index }: EditablePageProps) 
       />
 
       <div className="relative z-20 h-full">
-        <header className="mb-4 flex justify-center">
-          <img src="/logo-y.svg" alt="Hair Of Istanbul" className="size-32" />
-        </header>
+        <div className="mb-4 flex justify-center">
+          <img src="/logo-y.svg" alt="Hair Of Istanbul" className="size-24" />
+        </div>
 
-        <main className="z-30 h-[calc(100%-10rem)] px-[1cm]">
+        <div className="z-30 h-[calc(100%-10rem)] px-[1.5cm]">
           <div className={twMerge('h-full')}>{children}</div>
-        </main>
+        </div>
       </div>
 
       <footer className="absolute bottom-[0.5cm] w-full">

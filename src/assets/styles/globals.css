@@ -7,7 +7,10 @@
   --font-custom-commuters : 'Commuters Sans', 'Helvetica Neue', 'Arial', 'sans-serif';
 
 
-  --color-primary : #779e7c;  /* #87AC8A; */
+  --color-primary : #87AC8A;
+  --color-primary-heavy : #468A4C;
+
+
   --color-primary-50: #f2f7f2;
   --color-primary-100: #e1ebe0;
   --color-primary-200: #c3d7c4;

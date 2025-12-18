@@ -289,7 +289,7 @@ const InnerComponent = ({ field, className, focusClassName }: EditableTextProps)
 
 export const EditableText = ({ ...props }: EditableTextProps) => {
   return (
-    <ClientOnly fallback={<span className="inline-flex h-2.5 w-30 animate-pulse bg-stone-200" />}>
+    <ClientOnly fallback={<span className="inline-flex h-3.5 w-34 animate-pulse bg-stone-200" />}>
       <InnerComponent {...props} />
     </ClientOnly>
   )
