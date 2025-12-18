@@ -24,6 +24,7 @@ export const documentStoreTable = sqliteTable(
       .notNull()
       .references(() => userTable.id, { onDelete: 'cascade' }),
     hash: text().notNull(),
+    version: text().notNull(),
     title: text(),
     description: text(),
     language: text().notNull(),

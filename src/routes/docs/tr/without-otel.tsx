@@ -15,6 +15,7 @@ function InnerComponent() {
     <DocumentStoreProvider
       initialStore={safeStore}
       initialConfig={{
+        version: 'v1',
         language: 'tr',
         type: 'without-otel',
         from: '/docs/tr/without-otel',

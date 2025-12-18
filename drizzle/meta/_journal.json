@@ -15,6 +15,13 @@
       "when": 1765621309822,
       "tag": "0001_red_randall_flagg",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1766041123492,
+      "tag": "0002_public_praxagora",
+      "breakpoints": true
     }
   ]
 }

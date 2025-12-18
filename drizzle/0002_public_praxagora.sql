@@ -1,0 +1,1 @@
+ALTER TABLE `document_store` ADD `version` text NOT NULL;

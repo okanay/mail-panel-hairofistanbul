@@ -1,8 +1,7 @@
-import { createNewStoreServerFn } from '@/api/handlers/store-create'
-import { saveStoreServerFn } from '@/api/handlers/store-save'
 import { useQuery } from '@tanstack/react-query'
 import { useNavigate, useSearch } from '@tanstack/react-router'
 import { useDocumentStore } from '../store'
+import { storeCreateServerFn, storeSaveServerFn } from '@/api/handlers/store-upsert'
 
 export const SAVE_QUERY_KEY = ['store-save-operation'] as const
 
@@ -18,11 +17,16 @@ export const useSaveDocument = () => {
       let response
 
       if (isCreate) {
-        response = await createNewStoreServerFn({
-          data: { content_json: edits, content_type: config.type, language: config.language },
+        response = await storeCreateServerFn({
+          data: {
+            version: config.version,
+            content_json: edits,
+            content_type: config.type,
+            language: config.language,
+          },
         })
       } else {
-        response = await saveStoreServerFn({
+        response = await storeSaveServerFn({
           data: { hash: String(search.hash!), content: edits, language: config.language },
         })
       }

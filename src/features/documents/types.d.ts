@@ -10,8 +10,10 @@ type DocumentPathsLocation =
 type DocumentPaths = DocumentPathsLocation & keyof RegisteredRouter['routesByPath']
 type DocumentLanguage = 'tr' | 'en'
 type DocumentContentType = 'with-otel' | 'without-otel' | 'without-otel-transfer'
+type DocumentVersion = 'v1'
 
 type DocumentConfig = {
+  version: DocumentVersion
   language: DocumentLanguage
   type: DocumentContentType
   from: DocumentPaths
