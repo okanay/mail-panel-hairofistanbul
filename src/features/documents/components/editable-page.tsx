@@ -14,7 +14,7 @@ export const EditablePage = ({ children, className, index }: EditablePageProps) 
         width: '21cm',
       }}
       className={twMerge(
-        'relative overflow-hidden border-t-8 border-t-primary bg-white py-[0.5cm]',
+        'relative overflow-hidden border-t-8 border-t-primary-heavy bg-white py-[0.5cm]',
         className,
       )}
       aria-label={`Page ${index + 1}`}
@@ -23,16 +23,16 @@ export const EditablePage = ({ children, className, index }: EditablePageProps) 
         src="/statue.svg"
         alt=""
         aria-hidden="true"
-        className="absolute top-0 left-0 z-10 h-full w-full opacity-5"
+        className="absolute top-0 left-0 z-10 h-full w-full opacity-8"
       />
 
       <div className="relative z-20 h-full">
         <div className="mb-4 flex justify-center">
-          <img src="/logo-y.svg" alt="Hair Of Istanbul" className="size-24" />
+          <img src="/logo-y.svg" alt="Hair Of Istanbul" className="size-24 scale-130" />
         </div>
 
-        <div className="z-30 h-[calc(100%-10rem)] px-[1.5cm]">
-          <div className={twMerge('h-full')}>{children}</div>
+        <div className="z-30 h-[calc(100%-10rem)] px-[1.4cm]">
+          <div className={twMerge('h-full pt-2')}>{children}</div>
         </div>
       </div>
 
