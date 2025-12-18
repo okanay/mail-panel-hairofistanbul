@@ -102,13 +102,13 @@ const InnerComponent = ({ field, className, focusClassName }: EditableTextProps)
 
     if (isFocused) {
       return twMerge(
-        'border border-black border-dashed bg-black/70 text-white px-2 py-1 outline-none min-w-10 z-20 relative',
+        'border border-black border-dashed bg-black/70 text-white! px-2 py-1 outline-none min-w-10 z-20 relative',
         focusClassName,
       )
     }
 
     if (isEditedAndFilled) {
-      return 'border border-dashed border-neutral-300 bg-neutral-200 px-2 py-0'
+      return 'border border-dashed border-stone-300 bg-stone-200 px-2 py-0'
     }
 
     return 'border border-dashed border-orange-400 bg-orange-100 px-2 py-0 min-w-10'

@@ -71,11 +71,11 @@ const InnerComponent = ({ defaultValue, seedValue, className, editKey }: Editabl
     if (!editable) return ''
 
     if (isModalOpen) {
-      return 'border border-black border-dashed bg-black/70 text-white px-2 py-1 outline-none min-w-10 z-20 relative'
+      return 'border border-black border-dashed bg-black/70 text-white! px-2 py-1 outline-none min-w-10 z-20 relative'
     }
 
     if (isEditedOrSeeded) {
-      return 'border border-dashed border-neutral-300 bg-neutral-200 px-2 py-0'
+      return 'border border-dashed border-stone-300 bg-stone-200 px-2 py-0'
     }
 
     return 'border border-dashed border-orange-400 bg-orange-100 px-2 py-0 min-w-10'
@@ -127,7 +127,7 @@ const InnerComponent = ({ defaultValue, seedValue, className, editKey }: Editabl
             style={{ top: modalPosition.top, left: modalPosition.left }}
           >
             <h4 className="mb-3 text-xs font-semibold tracking-wide text-stone-500 uppercase">
-              Edit Link
+              Bağlantı Düzenleme
             </h4>
 
             <div className="mb-3 flex overflow-hidden rounded-md border border-stone-200">
@@ -139,7 +139,7 @@ const InnerComponent = ({ defaultValue, seedValue, className, editKey }: Editabl
                     'flex-1 px-2 py-1.5 text-[10px] font-medium uppercase transition-colors',
                     formType === type
                       ? 'bg-black text-white'
-                      : 'bg-stone-50 text-neutral-600 hover:bg-neutral-100',
+                      : 'bg-stone-50 text-stone-600 hover:bg-stone-100',
                   )}
                 >
                   {type === 'https' ? 'Web' : type === 'mailto' ? 'Mail' : 'Tel'}
@@ -167,13 +167,13 @@ const InnerComponent = ({ defaultValue, seedValue, className, editKey }: Editabl
                 onClick={handleSave}
                 className="flex-1 rounded-md bg-black py-1.5 text-xs font-medium text-white transition-colors hover:bg-stone-800"
               >
-                Save
+                Kaydet
               </button>
               <button
                 onClick={handleCancel}
-                className="flex-1 rounded-md border border-stone-200 bg-white py-1.5 text-xs font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
+                className="flex-1 rounded-md border border-stone-200 bg-white py-1.5 text-xs font-medium text-stone-700 transition-colors hover:bg-stone-50"
               >
-                Cancel
+                İptal
               </button>
             </div>
           </div>

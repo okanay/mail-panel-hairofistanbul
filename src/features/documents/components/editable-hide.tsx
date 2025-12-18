@@ -34,7 +34,7 @@ const InnerComponent = ({ children, className, editKey }: EditableHideProps) => 
         <button
           onClick={toggleVisibility}
           className={twMerge(
-            'absolute top-0 -left-9 z-10 flex size-4 items-center justify-center rounded-md border border-stone-300 bg-white text-neutral-600 shadow-sm transition-all hover:bg-neutral-50 hover:text-neutral-900',
+            'absolute top-0 -left-9 z-10 flex size-4 items-center justify-center rounded-md border border-stone-300 bg-white text-stone-600 shadow-sm transition-all hover:bg-stone-50 hover:text-stone-900',
           )}
         >
           {isHidden ? <EyeOff size={10} /> : <Eye size={10} />}
