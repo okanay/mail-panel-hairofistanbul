@@ -23,7 +23,7 @@ export const EditablePage = ({ children, className, index }: EditablePageProps) 
         src="/statue.svg"
         alt=""
         aria-hidden="true"
-        className="absolute top-0 left-0 z-10 h-full w-full opacity-8"
+        className="absolute top-0 left-0 z-10 h-full w-full opacity-7"
       />
 
       <div className="relative z-20 h-full">
