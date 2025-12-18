@@ -196,7 +196,7 @@ export const EditorMenu = ({ formData }: Props) => {
                 ...prev,
                 hash: undefined,
               })}
-              className="flex h-9 w-full items-center gap-2.5 rounded-md px-3 text-xs font-medium text-stone-700"
+              className="flex h-9 w-full items-center gap-2.5 rounded-md border border-transparent px-3 text-xs font-medium hover:border-current/26 hover:bg-current/10 hover:ring-0 disabled:cursor-not-allowed disabled:opacity-75"
             >
               <Home className="size-4" />
               <span>Anasayfa</span>

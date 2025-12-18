@@ -170,7 +170,7 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                           {/* Document Meta Info */}
                           <div className="flex flex-wrap items-center gap-2">
                             <div className="flex items-center gap-1.5 text-xs text-stone-600">
-                              {formatDate(item.created_at)}
+                              {formatDate(item.updated_at)}
                             </div>
                             <span className="size-1 rounded-full bg-stone-300" />
                             <p className="text-xs text-stone-600">
