@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import { DocumentStore } from '../store'
 import { sendEmailServerFn } from '@/api/handlers/send-email'
+import { useModalStore } from '@/features/modals/store'
 
 interface UseSendEmailOptions {
   store: DocumentStore
@@ -18,6 +19,8 @@ interface SendEmailPayload {
 }
 
 export const useSendEmail = ({ store, onSuccess, onError }: UseSendEmailOptions) => {
+  const { setModalPending } = useModalStore()
+
   const mutation = useMutation({
     mutationFn: async (payload: SendEmailPayload) => {
       const frontendUrl = import.meta.env.VITE_APP_FRONTEND_URL + store.config.from
@@ -30,6 +33,7 @@ export const useSendEmail = ({ store, onSuccess, onError }: UseSendEmailOptions)
         throw new Error('Email address and title are required when sendMail is true')
       }
 
+      setModalPending(true)
       const response = await sendEmailServerFn({
         data: {
           url: frontendUrl,
@@ -43,6 +47,8 @@ export const useSendEmail = ({ store, onSuccess, onError }: UseSendEmailOptions)
             emailDescription: payload.emailDescription,
           }),
         },
+      }).finally(() => {
+        setModalPending(false)
       })
 
       if (!response.success || !response.data) {

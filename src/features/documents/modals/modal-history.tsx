@@ -107,9 +107,9 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
         </div>
         <button
           onClick={onClose}
-          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-gray-200 hover:bg-red-50"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
         >
-          <X className="size-4 text-stone-800 transition-colors group-hover:text-red-600" />
+          <X className="size-4 text-stone-500 transition-colors" />
         </button>
       </div>
 
@@ -204,7 +204,7 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                         </Link>
                         <button
                           onClick={() => handleEdit(item)}
-                          className="flex size-8 items-center justify-center rounded-lg border border-stone-200 bg-stone-50 text-gray-600 transition-colors hover:border-gray-400 hover:bg-gray-100"
+                          className="flex size-8 items-center justify-center rounded-lg border border-stone-200 bg-stone-50 text-stone-600 transition-colors hover:border-stone-400 hover:bg-stone-100"
                         >
                           <NotebookPen className="size-4" />
                         </button>
@@ -276,7 +276,7 @@ function EmailInfoModal({ emailMeta, onClose }: EmailInfoModalProps) {
         </div>
         <button
           onClick={onClose}
-          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-gray-200 hover:bg-red-50"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-red-50"
         >
           <X className="size-4 text-stone-800 transition-colors group-hover:text-red-600" />
         </button>
@@ -386,7 +386,7 @@ export function EditDocumentModal({ params, onClose }: EditDocumentProps) {
         <button
           onClick={onClose}
           disabled={isPending}
-          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-gray-200 hover:bg-red-50 disabled:opacity-50"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-red-50 disabled:opacity-50"
         >
           <X className="size-4 text-stone-800 transition-colors group-hover:text-red-600" />
         </button>
@@ -430,7 +430,7 @@ export function EditDocumentModal({ params, onClose }: EditDocumentProps) {
             type="button"
             onClick={onClose}
             disabled={isPending}
-            className="flex flex-1 items-center justify-center rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-800 transition-colors hover:bg-gray-50 disabled:opacity-50"
+            className="flex flex-1 items-center justify-center rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-800 transition-colors hover:bg-stone-50 disabled:opacity-50"
           >
             İptal
           </button>

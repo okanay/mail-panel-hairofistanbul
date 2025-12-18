@@ -17,9 +17,9 @@ export function DownloadModal({ onClose, url }: DownloadModalProps) {
         </div>
         <button
           onClick={onClose}
-          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-gray-200 hover:bg-red-50"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
         >
-          <X className="size-4 text-stone-500 transition-colors group-hover:text-red-600" />
+          <X className="size-4 text-stone-500 transition-colors" />
         </button>
       </div>
 

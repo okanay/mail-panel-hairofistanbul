@@ -83,9 +83,9 @@ export function ConfirmationModal({
         <button
           onClick={handleCancel}
           disabled={modalPending}
-          className="group flex size-8 shrink-0 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-gray-200 hover:bg-gray-100 disabled:opacity-50"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
         >
-          <X className="size-4 text-stone-500" />
+          <X className="size-4 text-stone-500 transition-colors" />
         </button>
       </div>
 
@@ -95,7 +95,7 @@ export function ConfirmationModal({
           type="button"
           onClick={handleCancel}
           disabled={modalPending}
-          className="flex h-11 flex-1 items-center justify-center rounded-lg border border-stone-200 bg-white px-4 text-sm font-medium text-stone-700 transition-all hover:bg-gray-50 disabled:opacity-50"
+          className="flex h-11 flex-1 items-center justify-center rounded-lg border border-stone-200 bg-white px-4 text-sm font-medium text-stone-700 transition-all hover:bg-stone-50 disabled:opacity-50"
         >
           {cancelText}
         </button>

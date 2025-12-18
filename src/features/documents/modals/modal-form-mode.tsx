@@ -89,9 +89,9 @@ const FormHeader = ({ onClose }: FormHeaderProps) => {
       </div>
       <button
         onClick={onClose}
-        className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-gray-200 hover:bg-red-50"
+        className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
       >
-        <X className="size-4 text-stone-500 transition-colors group-hover:text-red-600" />
+        <X className="size-4 text-stone-500 transition-colors" />
       </button>
     </div>
   )
@@ -139,7 +139,7 @@ const FormFooter = ({ onReset, onSave }: FormFooterProps) => {
       <div className="flex gap-3">
         <button
           onClick={onReset}
-          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-sm border border-stone-300 bg-white px-4 text-sm font-bold text-stone-700 transition-colors hover:bg-gray-50"
+          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-sm border border-stone-300 bg-white px-4 text-sm font-bold text-stone-700 transition-colors hover:bg-stone-50"
         >
           Sıfırla
         </button>
@@ -198,7 +198,7 @@ const TextInput = ({ field, value, onChange }: TextInputProps) => {
     <div className="space-y-1.5">
       <label className="block text-sm font-medium text-stone-800">{field.name}</label>
       {field.description && (
-        <p className="flex items-center gap-x-2 rounded border border-stone-200 bg-stone-100 px-2 py-1 text-xs text-gray-600">
+        <p className="flex items-center gap-x-2 rounded border border-stone-200 bg-stone-100 px-2 py-1 text-xs text-stone-600">
           <Info className="size-3" />
           {field.description}
         </p>
@@ -238,7 +238,7 @@ const ToggleInput = ({ field, value, onChange }: ToggleInputProps) => {
       <div className="flex flex-col gap-2">
         <label className="text-sm font-medium text-stone-800">{field.name}</label>
         {field.description && (
-          <p className="flex items-center gap-x-2 rounded border border-stone-200 bg-stone-100 px-2 py-1 text-xs text-gray-600">
+          <p className="flex items-center gap-x-2 rounded border border-stone-200 bg-stone-100 px-2 py-1 text-xs text-stone-600">
             <Info className="size-3" />
             {field.description}
           </p>
@@ -296,7 +296,7 @@ const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
     <div className="space-y-2">
       <label className="block text-sm font-medium text-stone-800">{field.name}</label>
       {field.description && (
-        <p className="flex items-center gap-x-2 rounded border border-stone-200 bg-stone-100 px-2 py-1 text-xs text-gray-600">
+        <p className="flex items-center gap-x-2 rounded border border-stone-200 bg-stone-100 px-2 py-1 text-xs text-stone-600">
           <Info className="size-3" />
           {field.description}
         </p>
@@ -312,7 +312,9 @@ const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
               onClick={() => handleTypeChange(linkType)}
               className={twMerge(
                 'flex-1 px-3 py-2 text-xs font-bold uppercase transition-colors',
-                isActive ? 'bg-primary text-white' : 'bg-stone-50 text-stone-600 hover:bg-gray-100',
+                isActive
+                  ? 'bg-primary text-white'
+                  : 'bg-stone-50 text-stone-600 hover:bg-stone-100',
               )}
             >
               {linkType === 'https' ? 'Web' : linkType === 'mailto' ? 'Mail' : 'Tel'}

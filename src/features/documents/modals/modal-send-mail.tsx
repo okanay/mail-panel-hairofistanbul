@@ -32,6 +32,7 @@ interface MailModalProps {
 export function MailModal({ onClose, store, isSaving }: MailModalProps) {
   const { language, type } = store.config
   const search = useSearch({ from: store.config.from })
+  const { modalPending } = useModalStore()
   const [emailData, setEmailData] = useState<any>(null)
   const [emailError, setEmailError] = useState<string | null>(null)
   const { mutate: updateEmailMeta } = useUpdateEmailMeta()
@@ -110,9 +111,10 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
         </div>
         <button
           onClick={onClose}
-          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-gray-200 hover:bg-red-50"
+          disabled={modalPending}
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
         >
-          <X className="size-4 text-stone-500 transition-colors group-hover:text-red-600" />
+          <X className="size-4 text-stone-500 transition-colors" />
         </button>
       </div>
 
