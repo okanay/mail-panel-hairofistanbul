@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 export interface EditableTextProps {
-  field: TextFieldConfig
+  field: FormModeTextInputConfig
   className?: string
   focusClassName?: string
 }
