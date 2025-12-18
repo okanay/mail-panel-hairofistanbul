@@ -183,7 +183,7 @@ export const WithOtelPageTR = () => {
         <article className="flex flex-col gap-y-6">
           {/* --- GREETING SECTION --- */}
           <section className="flex flex-col gap-y-2">
-            <h1 className="text-[15px] font-bold text-black">
+            <h1 className="font-bold text-black">
               Sayın <EditableText field={f('p1-customer-name')} />,
             </h1>
             <p className="text-justify">

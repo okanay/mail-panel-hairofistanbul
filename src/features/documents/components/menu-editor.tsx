@@ -265,14 +265,14 @@ export const EditorMenu = ({ formData }: Props) => {
             <p className="text-xs font-medium tracking-wider text-stone-500 uppercase">Dil</p>
             <div className="grid grid-cols-2 gap-2">
               <LanguageButton
-                language="tr"
-                isActive={config.language === 'tr'}
-                onClick={() => handleToggleLanguage('tr')}
-              />
-              <LanguageButton
                 language="en"
                 isActive={config.language === 'en'}
                 onClick={() => handleToggleLanguage('en')}
+              />
+              <LanguageButton
+                language="tr"
+                isActive={config.language === 'tr'}
+                onClick={() => handleToggleLanguage('tr')}
               />
             </div>
           </div>

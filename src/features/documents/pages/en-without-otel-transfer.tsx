@@ -134,7 +134,7 @@ export const WithoutOtelTransferPageEN = () => {
       <EditablePage index={0}>
         <article className="flex flex-col gap-y-6">
           <section className="flex flex-col gap-y-2">
-            <h1 className="text-[15px] font-bold text-black">
+            <h1 className="font-bold text-black">
               Dear <EditableText field={f('p1-customer-name')} />,
             </h1>
             <p className="text-justify">
