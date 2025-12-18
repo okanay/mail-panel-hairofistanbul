@@ -27,7 +27,7 @@ export const useSaveDocument = () => {
         })
       } else {
         response = await storeSaveServerFn({
-          data: { hash: String(search.hash!), content: edits, language: config.language },
+          data: { hash: String(search.hash!), content_json: edits, language: config.language },
         })
       }
 
