@@ -171,7 +171,7 @@ export const WithOtelPageEN = () => {
         : undefined,
       inputMode: 'link',
     },
-  ] as const satisfies FormFieldConfig[]
+  ] as const satisfies FornModeInputConfig[]
 
   const f = useField(formData)
 

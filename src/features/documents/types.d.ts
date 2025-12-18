@@ -1,3 +1,6 @@
+// ---------------
+// DOCUMENT CONFIG
+// ---------------
 type DocumentPathsLocation =
   | '/docs'
   | '/docs/en/with-otel'
@@ -12,45 +15,45 @@ type DocumentLanguage = 'tr' | 'en'
 type DocumentContentType = 'with-otel' | 'without-otel' | 'without-otel-transfer'
 type DocumentVersion = 'v1'
 
-type DocumentConfig = {
-  version: DocumentVersion
-  language: DocumentLanguage
-  type: DocumentContentType
-  from: DocumentPaths
-}
+// ---------------
+// FORM MODE
+// ---------------
 
-type FormFieldInputMode = 'text' | 'textarea' | 'toggle' | 'link'
+type ForModeInputModes = 'text' | 'textarea' | 'toggle' | 'link'
 
-type LinkData = {
+type FormModeLinkInputData = {
   value: string
   type: 'mailto' | 'tel' | 'https'
 }
 
-type FieldBase = {
+type FormModeInputBaseConfig = {
   name: string
   description?: string
   editKey: string
 }
 
-interface TextFieldConfig extends FieldBase {
+interface FormModeTextInputConfig extends FormModeInputBaseConfig {
   defaultValue: string
   seedValue?: string | null
-  inputMode: Extract<FormFieldInputMode, 'text' | 'textarea'>
+  inputMode: Extract<ForModeInputModes, 'text' | 'textarea'>
 }
 
-interface ToggleFieldConfig extends FieldBase {
+interface FormModeToggleInputConfig extends FormModeInputBaseConfig {
   defaultValue: boolean
   seedValue?: boolean
   inputMode: 'toggle'
 }
 
-interface LinkFieldConfig extends FieldBase {
-  defaultValue: LinkData
-  seedValue?: LinkData
+interface FormModeLinkInputConfig extends FormModeInputBaseConfig {
+  defaultValue: FormModeLinkInputData
+  seedValue?: FormModeLinkInputData
   inputMode: 'link'
 }
 
-type FormFieldConfig = TextFieldConfig | LinkFieldConfig | ToggleFieldConfig
+type FornModeInputConfig =
+  | FormModeTextInputConfig
+  | FormModeLinkInputConfig
+  | FormModeToggleInputConfig
 
 // Union type for all possible form values
-type FormFieldValue = string | boolean | LinkData | null
+type FormModeInputValue = string | boolean | FormModeLinkInputData | null

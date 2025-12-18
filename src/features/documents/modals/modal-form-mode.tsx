@@ -10,17 +10,17 @@ import { twMerge } from 'tailwind-merge'
 
 interface FormModeModalProps {
   onClose: () => void
-  formData: FormFieldConfig[]
+  formData: FornModeInputConfig[]
   store: DocumentStore
 }
 
 export function FormModeModal({ onClose, formData, store }: FormModeModalProps) {
-  const [formValues, setFormValues] = useState<Record<string, FormFieldValue>>(() => {
-    const initialValues: Record<string, FormFieldValue> = {}
+  const [formValues, setFormValues] = useState<Record<string, FormModeInputValue>>(() => {
+    const initialValues: Record<string, FormModeInputValue> = {}
 
     formData.forEach((field) => {
       const storeValue = store.edits[field.editKey]
-      let finalValue: FormFieldValue
+      let finalValue: FormModeInputValue
 
       if (storeValue !== undefined) {
         finalValue = storeValue
@@ -37,7 +37,7 @@ export function FormModeModal({ onClose, formData, store }: FormModeModalProps) 
     return initialValues
   })
 
-  const handleChange = (editKey: string, value: FormFieldValue) => {
+  const handleChange = (editKey: string, value: FormModeInputValue) => {
     setFormValues((prev) => ({
       ...prev,
       [editKey]: value,
@@ -52,7 +52,7 @@ export function FormModeModal({ onClose, formData, store }: FormModeModalProps) 
   }
 
   const handleReset = () => {
-    const resetValues: Record<string, FormFieldValue> = {}
+    const resetValues: Record<string, FormModeInputValue> = {}
 
     formData.forEach((field) => {
       resetValues[field.editKey] = field.seedValue ?? field.defaultValue
@@ -102,9 +102,9 @@ const FormHeader = ({ onClose }: FormHeaderProps) => {
 // ============================================================================
 
 interface FormContentProps {
-  formData: FormFieldConfig[]
-  formValues: Record<string, FormFieldValue>
-  onChange: (editKey: string, value: FormFieldValue) => void
+  formData: FornModeInputConfig[]
+  formValues: Record<string, FormModeInputValue>
+  onChange: (editKey: string, value: FormModeInputValue) => void
 }
 
 const FormContent = ({ formData, formValues, onChange }: FormContentProps) => {
@@ -159,9 +159,9 @@ const FormFooter = ({ onReset, onSave }: FormFooterProps) => {
 // ============================================================================
 
 interface FormFieldProps {
-  field: FormFieldConfig
-  value: FormFieldValue
-  onChange: (value: FormFieldValue) => void
+  field: FornModeInputConfig
+  value: FormModeInputValue
+  onChange: (value: FormModeInputValue) => void
 }
 
 const FormField = ({ field, value, onChange }: FormFieldProps) => {
@@ -174,7 +174,7 @@ const FormField = ({ field, value, onChange }: FormFieldProps) => {
       return <ToggleInput field={field} value={value as boolean} onChange={onChange} />
 
     case 'link':
-      return <LinkInput field={field} value={value as LinkData} onChange={onChange} />
+      return <LinkInput field={field} value={value as FormModeLinkInputData} onChange={onChange} />
 
     default:
       return null
@@ -186,7 +186,7 @@ const FormField = ({ field, value, onChange }: FormFieldProps) => {
 // ============================================================================
 
 interface TextInputProps {
-  field: TextFieldConfig
+  field: FormModeTextInputConfig
   value: string
   onChange: (value: string) => void
 }
@@ -227,7 +227,7 @@ const TextInput = ({ field, value, onChange }: TextInputProps) => {
 // ============================================================================
 
 interface ToggleInputProps {
-  field: ToggleFieldConfig
+  field: FormModeToggleInputConfig
   value: boolean
   onChange: (value: boolean) => void
 }
@@ -265,13 +265,13 @@ const ToggleInput = ({ field, value, onChange }: ToggleInputProps) => {
 // ============================================================================
 
 interface LinkInputProps {
-  field: LinkFieldConfig
-  value: LinkData
-  onChange: (value: LinkData) => void
+  field: FormModeLinkInputConfig
+  value: FormModeLinkInputData
+  onChange: (value: FormModeLinkInputData) => void
 }
 
 const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
-  const handleTypeChange = (type: LinkData['type']) => {
+  const handleTypeChange = (type: FormModeLinkInputData['type']) => {
     onChange({ ...value, type })
   }
 
@@ -344,7 +344,7 @@ export const useFormModeModal = () => {
     formData,
     store,
   }: {
-    formData: FormFieldConfig[]
+    formData: FornModeInputConfig[]
     store: DocumentStore
   }) => {
     open(FormModeModal as any, { formData, store })

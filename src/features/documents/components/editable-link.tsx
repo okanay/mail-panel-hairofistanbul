@@ -5,13 +5,13 @@ import { ClientOnly, useSearch } from '@tanstack/react-router'
 import { SafePortal } from '@/components/safe-portal'
 
 export interface EditableLinkProps {
-  defaultValue: LinkData
-  seedValue?: LinkData | null
+  defaultValue: FormModeLinkInputData
+  seedValue?: FormModeLinkInputData | null
   className?: string
   editKey: string
 }
 
-const buildHref = (type: LinkData['type'], value: string): string => {
+const buildHref = (type: FormModeLinkInputData['type'], value: string): string => {
   if (!value) return '#'
   if (type === 'mailto') return `mailto:${value}`
   if (type === 'tel') return `tel:${value}`
@@ -23,16 +23,16 @@ const InnerComponent = ({ defaultValue, seedValue, className, editKey }: Editabl
   const editable = search.editable === 'yes'
   const { edits, setEdit } = useDocumentStore()
 
-  const savedData = edits[editKey] as LinkData | undefined
+  const savedData = edits[editKey] as FormModeLinkInputData | undefined
   const linkRef = useRef<HTMLAnchorElement>(null)
 
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [modalPosition, setModalPosition] = useState({ top: 0, left: 0 })
   const [formValue, setFormValue] = useState('')
-  const [formType, setFormType] = useState<LinkData['type']>('https')
+  const [formType, setFormType] = useState<FormModeLinkInputData['type']>('https')
 
   // Priority: savedData > seedValue > defaultValue
-  const currentData: LinkData = savedData ?? seedValue ?? defaultValue
+  const currentData: FormModeLinkInputData = savedData ?? seedValue ?? defaultValue
 
   const hasUserEdit = savedData !== undefined && savedData.value.length > 0
   const hasSeedData = seedValue !== null && seedValue !== undefined && seedValue.value.length > 0

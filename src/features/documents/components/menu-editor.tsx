@@ -25,7 +25,7 @@ import { useDocumentStore } from '../store'
 import { useConfirmationModal } from '../modals/modal-confirmation'
 
 interface Props {
-  formData?: FormFieldConfig[]
+  formData?: FornModeInputConfig[]
 }
 
 export const EditorMenu = ({ formData }: Props) => {

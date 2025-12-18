@@ -116,16 +116,16 @@ export const WithoutOtelPageEN = () => {
       defaultValue: {
         value: '+90 532 650 00 00',
         type: 'tel',
-      } as LinkData,
+      } as FormModeLinkInputData,
       seedValue: user?.phone
         ? ({
             value: user.phone,
             type: 'tel',
-          } as LinkData)
+          } as FormModeLinkInputData)
         : undefined,
       inputMode: 'link',
     },
-  ] as const satisfies FormFieldConfig[]
+  ] as const satisfies FornModeInputConfig[]
 
   const f = useField(formData)
 

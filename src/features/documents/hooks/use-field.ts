@@ -6,8 +6,8 @@
 // "K, T içindeki field'ların editKey'lerinden BİRİ olmalı"
 // (T listesinin keylerinden biri: 'd1-p4-k1' | 'd1-p4-k2' gibi)
 
-export const useField = <T extends FormFieldConfig[]>(formData: T) => {
-  const fieldMap = new Map<string, FormFieldConfig>()
+export const useField = <T extends FornModeInputConfig[]>(formData: T) => {
+  const fieldMap = new Map<string, FornModeInputConfig>()
 
   formData.forEach((field) => {
     fieldMap.set(field.editKey, field)
