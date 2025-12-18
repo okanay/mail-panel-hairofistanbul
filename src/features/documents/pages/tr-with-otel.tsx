@@ -189,9 +189,9 @@ export const WithOtelPageTR = () => {
             <p className="text-justify">
               Bu mesajın size sağlık ve iyilik getirmesini dileriz. Hair of Istanbul ekibi adına,{' '}
               <EditableText field={f('p1-proc-date-main')} className="font-bold" /> tarihindeki saç
-              ekimi operasyonunuzu resmi olarak onaylamaktan mutluluk duyuyoruz. Bu e-posta,
-              kapsamlı randevu onayınız ve rehberiniz niteliğindedir. Kusursuz ve başarılı bir
-              deneyim için aşağıdaki bilgileri dikkatlice incelemenizi rica ederiz.
+              ekimi operasyonunuzu resmi olarak onaylamaktan mutluluk duyuyoruz. Bu belge, kapsamlı
+              randevu onayınız ve rehberiniz niteliğindedir. Kusursuz ve başarılı bir deneyim için
+              aşağıdaki bilgileri dikkatlice incelemenizi rica ederiz.
             </p>
           </section>
 

@@ -189,7 +189,7 @@ export const WithOtelPageEN = () => {
             <p className="text-justify">
               We hope this message finds you well. On behalf of the entire team at Hair of Istanbul,
               we are delighted to formally confirm your scheduled hair transplant procedure for{' '}
-              <EditableText field={f('p1-proc-date-main')} className="font-bold" />. This email
+              <EditableText field={f('p1-proc-date-main')} className="font-bold" />. This document
               serves as your comprehensive appointment confirmation and guide. To ensure a seamless
               and successful experience, we kindly ask you to review the following information
               carefully.
