@@ -1,8 +1,10 @@
 import { useAuth } from '@/providers/auth'
+import { EditableContainer } from '../components/editable-container'
 import { EditableHide } from '../components/editable-hide'
 import { EditableLink } from '../components/editable-link'
 import { EditablePage } from '../components/editable-page'
 import { EditableText } from '../components/editable-text'
+import { SquareBullet } from '../components/icon-square'
 import { EditorMenu } from '../components/menu-editor'
 import { useField } from '../hooks/use-field'
 
@@ -10,104 +12,106 @@ export const WithoutOtelTransferPageTR = () => {
   const { user } = useAuth()
 
   const formData = [
+    // --- PAGE 1 ---
     {
       name: 'Müşteri Adı',
-      editKey: 'd3-p1-k1',
-      defaultValue: 'MÜŞTERİ-ADI',
+      editKey: 'p1-customer-name',
+      defaultValue: 'Sayın Breuer',
       inputMode: 'text',
     },
     {
-      name: 'Operasyon Tarihi (Ana)',
-      editKey: 'd3-p1-k2',
-      defaultValue: 'Salı, 28 Temmuz 1998',
+      name: 'Operasyon Tarihi',
+      editKey: 'p1-proc-date-main',
+      defaultValue: 'Cuma, 27 Mart 2026',
       inputMode: 'text',
     },
     {
-      name: '1. Gün: Varış Tarihi',
-      editKey: 'd3-p1-k3',
-      defaultValue: '(Perşembe, 26 Mart 2026)',
+      name: '1. Gün: Tarih',
+      editKey: 'p1-day1-date',
+      defaultValue: 'Perşembe, 26 Mart 2026',
       inputMode: 'text',
     },
     {
-      name: '2. Gün: Operasyon Tarihi',
-      editKey: 'd3-p1-k4',
-      defaultValue: '(Cuma, 27 Mart 2026)',
+      name: '1. Gün: Talimat',
+      editKey: 'p1-day1-text',
+      defaultValue: `Randevunuzdan bir gün önce kesin varış saatinizi bildiren bir mesaj alacaksınız. Lütfen teyit edilen saatte kliniğimize geliniz. Günün akışı şu şekilde olacaktır:`,
+      inputMode: 'textarea',
+    },
+    // --- PAGE 2 ---
+    {
+      name: '2. Gün: Tarih',
+      editKey: 'p2-day2-date',
+      defaultValue: '( Cuma, 27 Mart 2026 )',
       inputMode: 'text',
     },
     {
-      name: '3. Gün: Kontrol Tarihi',
-      editKey: 'd3-p2-k1',
-      defaultValue: '(Cumartesi, 28 Mart 2026)',
+      name: '3. Gün: Tarih',
+      editKey: 'p2-day3-date',
+      defaultValue: '( Cumartesi, 28 Mart 2026 )',
       inputMode: 'text',
     },
+    // --- PAGE 3 ---
     {
       name: 'Toplam Paket Değeri',
-      editKey: 'd3-p3-f1-e1',
-      defaultValue: '$4,300',
+      editKey: 'p3-finance-total-val',
+      defaultValue: '€2,000',
       inputMode: 'text',
     },
     {
       name: 'Toplamı Gizle',
-      editKey: 'd3-p3-f1-h1',
+      editKey: 'p3-finance-total-hide',
       defaultValue: false,
       inputMode: 'toggle',
     },
     {
       name: 'Depozito Miktarı',
-      editKey: 'd3-p3-f2-e2',
-      defaultValue: '€500 (Non-refundable)',
+      editKey: 'p3-finance-deposit-val',
+      defaultValue: '€500 (İade Edilemez)',
       inputMode: 'text',
     },
     {
       name: 'Depozitoyu Gizle',
-      editKey: 'd3-p3-f2-h2',
+      editKey: 'p3-finance-deposit-hide',
       defaultValue: false,
       inputMode: 'toggle',
     },
     {
       name: 'Kalan Bakiye',
-      editKey: 'd3-p3-f3-e3',
-      defaultValue: '€3,800',
+      editKey: 'p3-finance-balance-val',
+      defaultValue: '€1,500',
       inputMode: 'text',
     },
     {
       name: 'Bakiyeyi Gizle',
-      editKey: 'd3-p3-f3-h3',
+      editKey: 'p3-finance-balance-hide',
       defaultValue: false,
       inputMode: 'toggle',
     },
     {
-      name: 'Son Ödeme Tarihi Hakkında',
-      editKey: 'd3-p3-f4-e4',
-      defaultValue: 'İşlem günü, ödemenin tamamı yapılmalıdır.',
+      name: 'Son Ödeme Tarihi',
+      editKey: 'p3-finance-duedate-val',
+      defaultValue: 'Tamamı operasyon gününde ödenmelidir.',
       inputMode: 'text',
     },
     {
       name: 'Son Ödeme Tarihini Gizle',
-      editKey: 'd3-p3-f4-h4',
+      editKey: 'p3-finance-duedate-hide',
       defaultValue: false,
       inputMode: 'toggle',
     },
+    // --- PAGE 4 ---
     {
       name: 'Temsilci Adı',
-      editKey: 'd3-p3-k8',
-      defaultValue: 'AD-SOYAD',
+      editKey: 'p4-rep-name',
+      defaultValue: 'Ergun Meylani',
       seedValue: user?.name,
       inputMode: 'text',
     },
     {
       name: 'Temsilci Telefonu',
-      editKey: 'd3-p3-k9',
-      defaultValue: {
-        value: '+90 532 650 00 00',
-        type: 'tel',
-      } as FormModeLinkInputData,
-      seedValue: user?.phone
-        ? ({
-            value: user.phone,
-            type: 'tel',
-          } as FormModeLinkInputData)
-        : undefined,
+      editKey: 'p4-rep-phone',
+      defaultValue: { value: '+90 532 650 51 51', type: 'tel' },
+      seedValue: user?.phone ? { value: user.phone, type: 'tel' } : undefined,
       inputMode: 'link',
     },
   ] as const satisfies FornModeInputConfig[]
@@ -115,148 +119,128 @@ export const WithoutOtelTransferPageTR = () => {
   const f = useField(formData)
 
   return (
-    <main className="flex flex-col bg-stone-50 text-black md:items-center md:justify-center">
+    <main className="flex flex-col bg-stone-50 text-[14px] leading-tight text-black md:items-center md:justify-center">
       <EditorMenu formData={formData} />
-      <EditablePage index={0} className="text-[10.5px] leading-relaxed">
-        <header className="flex flex-col gap-y-1">
-          <h1 className="font-semibold">
-            Sayın <EditableText field={f('d3-p1-k1')} className="font-bold" />,
-          </h1>
 
-          <p>
-            Hair of İstanbul ailesinin tamamı adına, saç nakli işleminizin{' '}
-            <EditableText field={f('d3-p1-k2')} className="font-bold" /> tarihine planlandığını
-            resmi olarak onaylamaktan mutluluk duyuyoruz. Bu belge, randevunuzun kapsamı ve rehberi
-            niteliğindedir. Sorunsuz ve başarılı bir deneyim sağlamak için, lütfen aşağıdaki
-            bilgileri dikkatle incelemenizi rica ediyoruz.
-          </p>
-        </header>
+      {/* --- PAGE 1 --- */}
+      <EditablePage index={0}>
+        <article className="flex flex-col gap-y-6">
+          <section className="flex flex-col gap-y-2">
+            <h1 className="text-[15px] font-bold text-black">
+              Sayın <EditableText field={f('p1-customer-name')} />,
+            </h1>
+            <p className="text-justify">
+              Bu mesajın size sağlık ve iyilik getirmesini dileriz. Hair of Istanbul ekibi adına,{' '}
+              <EditableText field={f('p1-proc-date-main')} className="font-bold" /> tarihindeki saç
+              ekimi operasyonunuzu resmi olarak onaylamaktan mutluluk duyuyoruz. Bu belge, kapsamlı
+              randevu onayınız ve rehberiniz niteliğindedir. Kusursuz ve başarılı bir deneyim için
+              aşağıdaki bilgileri dikkatlice incelemenizi rica ederiz.
+            </p>
+          </section>
 
-        <article className="mt-6 flex flex-col gap-y-6">
+          {/* --- SECTION 1: MEDICAL INFO --- */}
           <section>
-            <h2 className="font-custom-commuters text-[14px] text-primary">
-              <span className="font-bold">1. KRİTİK TIBBİ BİLGİ</span>
-              <span className="block">VE AÇIKLAMALAR</span>
+            <h2 className="mb-4 font-custom-commuters text-[22px] leading-tight text-primary">
+              <span className="font-bold">1. KRİTİK TIBBİ BİLGİLER</span>
+              <span className="block">& BEYANLAR</span>
             </h2>
 
-            <p className="my-2">
-              Güvenliğiniz bizim için en yüksek önceliktir. Lütfen aşağıdaki zorunlu koşulları
-              dikkate alınız:
-            </p>
-
-            <div className="flex flex-col gap-y-4">
+            <div className="flex flex-col gap-y-5">
+              {/* Item 1 */}
               <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Operasyon
-                  Öncesi Tarama
+                <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                  <SquareBullet /> Operasyon Öncesi Tarama
                 </h3>
                 <p>
-                  İşlem günü kliniğimizde zorunlu HIV ve Hepatit B/C kan testleri yapılacaktır. Her
-                  iki hastalıktan birinin pozitif sonucu çıkması, maalesef işlemin yapılmasını
-                  engelleyecektir.
+                  Operasyon gününde kliniğimizde zorunlu HIV ve Hepatit B/C kan testleri
+                  yapılacaktır. Herhangi bir testin pozitif çıkması durumunda, üzülerek belirtmek
+                  isteriz ki operasyonu gerçekleştirmemiz mümkün olmayacaktır.
                 </p>
               </div>
 
+              {/* Item 2 */}
               <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> İşlem
-                  Kontrendikasyonları:
+                <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                  <SquareBullet /> Operasyon Engelleri (Kontrendikasyonlar):
                 </h3>
                 <p>
-                  Epilepsi öyküsü, keloid yara izleri (vücudunuzun herhangi bir yerinde) veya
-                  Diyabet tanısına sahipseniz,{' '}
-                  <span className="font-bold">
-                    lütfen müşteri temsilcinizle en kısa sürede iletişime geçiniz.
+                  Epilepsi geçmişiniz, keloid skarlaşma, sedef hastalığı, folikülit (vücudunuzun
+                  herhangi bir yerinde) veya Diyabetiniz varsa,{' '}
+                  <span className="font-bold text-black">
+                    lütfen en kısa sürede müşteri temsilcinizle iletişime geçiniz.
                   </span>{' '}
-                  Bu durumlar özel tıbbi inceleme gerektirir ve işlemin yapılmasını engelleyebilir.
+                  Bu durumlar özel bir tıbbi inceleme gerektirir ve operasyonun yapılmasına engel
+                  olabilir.
                 </p>
               </div>
 
+              {/* Item 3 */}
               <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Gerekli
-                  Tıbbi Açıklama:
+                <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                  <SquareBullet /> Zorunlu Tıbbi Beyan:
                 </h3>
-                <p>
-                  Herhangi bir kronik hastalık durumunda, lütfen WhatsApp aracılığıyla adanmış
-                  müşteri temsilcinize bilgi vermeniz gerekmektedir:
+                <p className="mb-2">
+                  Aşağıdaki gibi başka herhangi bir kronik tıbbi durumunuz varsa, WhatsApp üzerinden
+                  özel müşteri temsilcinizi bilgilendirmeniz gerekmektedir:
                 </p>
-                <ul className="ml-4 list-disc">
+                <ul className="ml-4 flex list-disc flex-col gap-y-1.5 pl-2">
                   <li>Kalp hastalığı</li>
                   <li>Yüksek tansiyon</li>
                   <li>Egzama veya seboreik dermatit</li>
                   <li>
-                    Veya düzenli olarak kullanmakta olduğunuz reçeteli veya reçetesiz ilaçlar.
+                    Veya düzenli olarak reçeteli ya da reçetesiz herhangi bir ilaç kullanıyorsanız.
                   </li>
                 </ul>
               </div>
 
+              {/* Item 4 */}
               <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Olası
-                  Erteleme:
+                <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                  <SquareBullet /> Olası Erteleme:
                 </h3>
                 <p>
-                  Donor veya alıcı bölgede aktif egzama veya seboreik dermatit varsa, işlemin 3–5
-                  gün ertelenmesi gerekebilir ve cildinin tamamen iyileşmesine izin verilmelidir. Bu
-                  durumda, uçuş değişikliği ve otel konaklamasının uzatılması ile ilgili tüm
-                  masraflardan siz sorumlu olacaksınız.
+                  Donör veya ekim yapılacak bölgelerde aktif egzama veya seboreik dermatit mevcutsa,
+                  cildin tamamen iyileşmesi için operasyonun 3–5 gün ertelenmesi gerekebilir. Böyle
+                  bir durumda, uçuşunuzun yeniden planlanması ve otel konaklamanızın uzatılmasıyla
+                  ilgili tüm masraflar tarafınıza ait olacaktır.
                 </p>
               </div>
             </div>
           </section>
 
           <section>
-            <h2 className="font-custom-commuters text-[14px] text-primary">
-              <span className="font-bold">2. RANDEVUNUZ</span>
-              <span className="block">PROGRAM VE GÜZERGAH</span>
+            <h2 className="mb-4 font-custom-commuters text-[22px] leading-tight text-primary uppercase">
+              <span className="font-bold">2. RANDEVU PROGRAMINIZ</span>
+              <span className="block">VE SEYAHAT PLANINIZ</span>
             </h2>
 
-            <div className="mt-2 flex flex-col gap-y-5">
+            <div className="flex flex-col gap-y-6">
+              {/* Day 1: Procedure Day */}
               <div>
-                <h2 className="text-[14px]">
-                  <span className="font-bold">Gün 1: Varış ve Karşılama </span>
-                  <EditableText field={f('d3-p1-k3')} />
-                </h2>
-
-                <p className="mb-2">
-                  Randevunuzdan bir gün önce kesin varış saatinizi içeren bir mesaj alacaksınız.
-                  Lütfen belirtilen saatte kliniğimize gelmek için gelebilirsiniz. Gün aşağıdaki
-                  şekilde ilerleyecektir:
-                </p>
-
-                <div className="mb-3 space-y-1">
-                  <div>
-                    <span className="font-bold">1. Operasyon öncesi kontroller: </span>
-                    <span>EKG ve kapsamlı kan testi.</span>
-                  </div>
-                  <div>
-                    <span className="font-bold">2. Danışmanlık: </span>
-                    <span>Doktorumuzla derinlemesine bir görüşme.</span>
-                  </div>
-                  <div>
-                    <span className="font-bold">3. Tasarım Oturumu: </span>
-                    <span>
-                      Estetik ekibimiz tarafından özel saç çizgisi tasarımı. İşlem, yeterli tıbbi
-                      izin ve saç çizgisi tasarımınız için son onayınız alındıktan sonra
-                      başlayacaktır. İşlem, Foliküler Ünite Ekstraksiyon (FUE) tekniği kullanılarak
-                      lokal anestezi altında yapılacak ve genellikle 6–8 saat sürecektir.
-                      Paketinizin bir parçası olarak gerekli operasyon sonrası tüm ilaçları ve{' '}
-                      <span className="font-bold">bir PRP seansı</span> alacaksınız.
-                    </span>
-                  </div>
+                <h3 className="mb-2 text-[16px] text-black">
+                  <span className="font-bold">1. Gün: Operasyon Günü </span>
+                  ( <EditableText field={f('p1-day1-date')} className="font-custom-commuters" /> )
+                </h3>
+                <EditableContainer>
+                  <p className="mb-3 text-justify">
+                    <EditableText field={f('p1-day1-text')} focusClassName="py-0 text-[14px]/4" />
+                  </p>
+                </EditableContainer>
+                <div className="flex flex-col gap-y-2 pl-2">
+                  <p>
+                    1. <b>Ön kontroller:</b> EKG ve kapsamlı kan tahlilleri.
+                  </p>
+                  <p>
+                    2. <b>Konsültasyon:</b> Doktorumuzla detaylı görüşme.
+                  </p>
+                  <p>
+                    3. <b>Tasarım:</b> Estetik ekibimizle saç çizgisi tasarımı.
+                  </p>
                 </div>
-              </div>
-
-              <div>
-                <h2 className="text-[14px]">
-                  <span className="font-bold">Gün 2: Operasyon Günü </span>
-                  <EditableText field={f('d3-p1-k4')} />
-                </h2>
-                <p>
-                  Lütfen donor bölgesindeki bandajın çıkarılması ve tıbbi ekibimiz tarafından
-                  ilerlemenin değerlendirilmesi için kliniğe dönünüz. Randevu saatini operasyon günü
-                  sırasında belirleyeceğiz.
+                <p className="mt-3 text-justify">
+                  Operasyon, tıbbi onay ve tasarım onayınızdan sonra başlayacaktır. İşlem FUE
+                  tekniği ile lokal anestezi altında yapılır ve 6–8 saat sürer. Paket dahilinde
+                  ilaçlar ve <span className="font-bold">bir seans PRP</span> sağlanır.
                 </p>
               </div>
             </div>
@@ -264,296 +248,328 @@ export const WithoutOtelTransferPageTR = () => {
         </article>
       </EditablePage>
 
-      <EditablePage index={1} className="text-[10.5px] leading-relaxed">
+      {/* --- PAGE 2 --- */}
+      <EditablePage index={1}>
         <article className="flex flex-col gap-y-6">
-          <section>
-            <h2 className="text-[14px]">
-              <span className="font-bold">Gün 3: Operasyon Sonrası Kontrol </span>
-              <EditableText field={f('d3-p2-k1')} />
-            </h2>
+          {/* Day 2: Post-Procedure Check */}
+          <div>
+            <h3 className="mb-2 text-[16px] text-black">
+              <span className="font-bold">2. Gün: Operasyon Sonrası Kontrol </span>
+              <EditableText field={f('p2-day2-date')} className="font-custom-commuters" />
+            </h3>
             <p>
-              Son ziyaretinizde ilk profesyonel saç yıkama ve ev bakım rutininiz hakkında ayrıntılı
-              bir eğitim alacaksınız. Bu, iyileşme sürecinizi tam olarak yönetebilmeniz için sizi
-              hazırlaması sağlayacaktır. Kontrol saatini kontrol sırasında belirleyeceğiz.
+              Bandajın çıkarılması ve durum değerlendirmesi için kliniğe tekrar gelmelisiniz.
+              Randevu saati operasyon günü teyit edilecektir.
+            </p>
+          </div>
+
+          {/* Day 3: Aftercare Session */}
+          <section>
+            <h3 className="mb-2 text-[16px] text-black">
+              <span className="font-bold">3. Gün: Bakım & Yıkama </span>
+              <EditableText field={f('p2-day3-date')} className="font-custom-commuters" />
+            </h3>
+            <p>
+              Son ziyaretinizde ilk profesyonel saç yıkamanız yapılacak ve evde bakım eğitimi
+              verilecektir. Randevu saati kontrol günü teyit edilecektir.
             </p>
           </section>
 
+          {/* Section 3: Essential Prep */}
           <section>
-            <h2 className="font-custom-commuters text-[14px] text-primary">
+            <h2 className="mb-4 font-custom-commuters text-[22px] leading-tight text-primary uppercase">
               <span className="font-bold">3. OPERASYON ÖNCESİ</span>
-              <span className="block">HAZIRLIK TÜRLERİ</span>
-            </h2>
-
-            <p className="mt-2">
-              İşleminiz için optimal koşullar sağlamak amacıyla lütfen bu talimatlar doğrultusunda
-              hareket ediniz:
-            </p>
-
-            <div className="mt-3 flex flex-col gap-y-4">
-              <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Madde
-                  Kullanımı Abstinansı:
-                </h3>
-                <p>
-                  İşlemden <span className="font-bold">bir hafta</span> önce alkol tüketiminden
-                  kaçının, çünkü kanı seyreltebilir.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> İlaç
-                  Yönetimi:
-                </h3>
-                <p>
-                  Tüm kan sulandırıcı ilaçları (örneğin aspirin, ibuprofen) önceki{' '}
-                  <span className="font-bold">bir hafta</span> boyunca kesiniz.
-                </p>
-              </div>
-
-              <div className="rounded-xs border border-primary bg-white p-2">
-                <p>
-                  <span className="font-bold">Önemli:</span> Herhangi bir reçeteli ilacı kesmeden
-                  önce kişisel doktorunuzdan onay almanız gereklidir.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Saç
-                  Hazırlığı:
-                </h3>
-                <p>
-                  Randevunuzdan bir ay öncesine kadar saçınızı (arka ve yanları da dahil) kesmeyin,
-                  kesmez veya traş etmeyin. <span className="font-bold">bir ay</span>
-                  Doğru bir değerlendirmeye ve en iyi saç çizgisi tasarımına olanak tanır.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Tıbbi
-                  Açıklama:
-                </h3>
-                <p>
-                  Lütfen tüm düzenli ilaçlarınızı (adı ve dozu) ve bilinen tıbbi koşullarınızı bize
-                  bilgilendiriniz.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Seyahat
-                  Lojistiği:
-                </h3>
-                <p>
-                  Dönüş uçuşunuzu <span className="font-bold">kontrol bagajı ile</span> rezerve
-                  ediniz. Sağlanan bakım şampuanı ve tıbbi köpük 100ml'i aşarken kabin bagajında
-                  taşınamaz.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Kıyafet:
-                </h3>
-                <p>
-                  İşlem günü ve takip eden günlerde geniş, rahat kıyafet giyin. Geniş yaka veya ön
-                  fermuarlı (örneğin, cepli gömlek) ve işlenen alanla temas etmeyin.
-                </p>
-              </div>
-
-              <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Rahatlık
-                  Eşyası:
-                </h3>
-                <p>
-                  İlk iyileşme gecelerinde başın düzgün şekilde yükseltilmesini desteklemek için{' '}
-                  <span className="font-bold">U şeklinde bir seyahat yastığı</span> getirmenizi
-                  şiddetle tavsiye ederiz.
-                </p>
-              </div>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="font-custom-commuters text-[14px] text-primary uppercase">
-              <span className="font-bold">4. PAKET ÖZETİ VE</span>
-              <span className="block">FİNANSAL ANLAŞMA</span>
-            </h2>
-
-            <div className="mt-4">
-              <h3 className="mb-2 text-[11px] font-bold text-black">
-                Paketiniz Dahilindeki Hizmetler:
-              </h3>
-              <ul className="ml-4 list-disc space-y-1">
-                <li>FUE tekniği kullanılarak Saç Nakli işlemi.</li>
-                <li>Profesyonel tercüman hizmeti.</li>
-                <li>Tüm operasyon sonrası ilaçlar.</li>
-                <li>Bir (1) PRP seansı.</li>
-                <li>Bakım kiti (Şampuan ve Köpük Spreyi).</li>
-              </ul>
-            </div>
-          </section>
-        </article>
-      </EditablePage>
-
-      <EditablePage index={2} className="text-[10.5px] leading-relaxed">
-        <article className="flex flex-col gap-y-6">
-          <section>
-            <div>
-              <h3 className="mb-2 font-bold text-black">Finansal Şartlar:</h3>
-              <ul className="ml-4 list-disc space-y-1">
-                <EditableHide editKey={f('d3-p3-f1-h1').editKey}>
-                  <li>
-                    <span className="font-bold">Toplam Paket Değeri: </span>
-                    <EditableText field={f('d3-p3-f1-e1')} />
-                  </li>
-                </EditableHide>
-
-                <EditableHide editKey={f('d3-p3-f2-h2').editKey}>
-                  <li>
-                    <span className="font-bold">Alınan Depozito: </span>
-                    <EditableText field={f('d3-p3-f2-e2')} />
-                  </li>
-                </EditableHide>
-
-                <EditableHide editKey={f('d3-p3-f3-h3').editKey}>
-                  <li>
-                    <span className="font-bold">Kalan Bakiye: </span>
-                    <EditableText field={f('d3-p3-f3-e3')} />
-                  </li>
-                </EditableHide>
-
-                <EditableHide editKey={f('d3-p3-f4-h4').editKey}>
-                  <li>
-                    <span className="font-bold">Son Ödeme Tarihi: </span>
-                    <EditableText field={f('d3-p3-f4-e4')} />
-                  </li>
-                </EditableHide>
-              </ul>
-            </div>
-
-            <div className="mt-4">
-              <h3 className="mb-2 font-bold text-black">Ödeme Detayları:</h3>
-              <ul className="ml-4 list-disc space-y-1">
-                <li>
-                  <span className="font-bold">Kabul Edilen Yöntemler: </span>
-                  Nakit (EUR/USD/GBP), Başlıca Kripto Paralar, Banka/Kredi Kartı veya Banka
-                  Transferi.
-                </li>
-                <li>
-                  <span className="font-bold">Önemli Not: </span>
-                  Kart aracılığıyla yapılan ödemeler zorunlu{' '}
-                  <span className="font-bold">%10 KDV</span> uygulamasına tabidir.
-                </li>
-                <li>
-                  <span className="font-bold">Kabul Edilen Para Birimleri: </span>
-                  EUR, USD, GBP, CAD, AUD, CHF, TRY. *Kabul edemiyoruz: İskoç/İrlanda Sterlini, eski
-                  dizi ABD banknotları veya €500 değerleri.*
-                </li>
-                <li>
-                  <span className="font-bold">Seyahat Öncesi: </span>
-                  Lütfen ödeme kartınızın uluslararası işlemler için etkinleştirildiğinden ve
-                  bakiyeyi karşılamak için yeterli limitinin olduğundan emin olunuz.
-                </li>
-              </ul>
-            </div>
-          </section>
-
-          <section>
-            <h2 className="mb-3 font-custom-commuters text-[14px] text-primary uppercase">
-              <span className="font-bold">5. DEPOZİTO VE İPTAL POLİTİKASI</span>
+              <span className="block">TEMEL HAZIRLIKLAR</span>
             </h2>
 
             <p className="mb-4">
-              €500 depozitiniz randevunuzu güvence altına alır ve iade edilmez. Ancak, bu koşullar
-              altında gelecekteki bir tarih için geçerli olacaktır:
+              Operasyonunuz için en uygun koşulları sağlamak adına lütfen bu talimatlara uyunuz:
             </p>
 
-            <div className="flex flex-col gap-y-3">
+            <div className="flex flex-col gap-y-4">
+              {/* Medication Management & Box */}
               <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Yeniden
-                  Zamanlama:
+                <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                  <SquareBullet /> İlaç Yönetimi:
+                </h3>
+                <p className="mb-3">
+                  Kan sulandırıcı ilaçları (örn. aspirin, ibuprofen){' '}
+                  <span className="font-bold">bir hafta</span> önceden kesiniz.
+                </p>
+
+                {/* Important Box */}
+                <div className="border border-primary/60 p-3">
+                  <p className="leading-snug">
+                    <span className="font-bold">Önemli:</span> Reçeteli herhangi bir ilacı
+                    bırakmadan önce mutlaka kendi doktorunuzdan onay almalısınız.
+                  </p>
+                </div>
+              </div>
+
+              {/* Hair Preparation */}
+              <div>
+                <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                  <SquareBullet /> Saç Hazırlığı:
                 </h3>
                 <p>
-                  Orijinal randevunuzdan en az <span className="font-bold">14 gün</span> önce
-                  WhatsApp aracılığıyla yazılı bildirim.
+                  Randevunuzdan <b>bir ay</b> önce saçınızı (arka ve yanlar dahil) kestirmeyiniz,
+                  kısaltmayınız veya tıraş etmeyiniz. Bu, doğru bir değerlendirme ve mümkün olan en
+                  iyi saç çizgisi tasarımı için gereklidir.
                 </p>
               </div>
 
+              {/* Medical Disclosure */}
               <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Tıbbi Acil
-                  Durum:
+                <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                  <SquareBullet /> Tıbbi Beyan:
                 </h3>
-                <p>Doğrulanabilir bir tıbbi sertifikanın sağlanması.</p>
+                <p>
+                  Lütfen düzenli kullandığınız tüm ilaçları (isim ve dozaj) ve bilinen tıbbi
+                  durumlarınızı bize bildiriniz.
+                </p>
               </div>
 
+              {/* Travel Logistics */}
               <div>
-                <h3 className="font-bold text-primary">
-                  <span className="inline-flex -translate-y-[1.5px] scale-110">■</span> Uçuş İptali:
+                <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                  <SquareBullet /> Seyahat Lojistiği:
                 </h3>
-                <p>Resmi havayolu belgesi sunumu</p>
+                <p>
+                  Dönüş uçuşunuzu <b> bagajlı olarak ayırtınız</b>. Size verilecek olan bakım
+                  şampuanı ve medikal köpük 100 ml’yi aştığı için kabin bagajında taşınamaz.
+                </p>
               </div>
 
-              <p className="mt-2 text-black">
-                14 günlük pencere içinde gerekli bildirim veya belgelerin sağlanmaması,
-                depozitinizin kaybedilmesine neden olacaktır.
-              </p>
+              {/* Attire */}
+              <div>
+                <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                  <SquareBullet /> Kıyafet:
+                </h3>
+                <p>
+                  İşlem yapılan bölgeye teması önlemek için operasyon günü ve sonraki günlerde geniş
+                  yakalı veya önden fermuarlı/düğmeli (örn. gömlek) rahat kıyafetler giyiniz.
+                </p>
+              </div>
+
+              {/* Comfort Item */}
+              <div>
+                <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                  <SquareBullet /> Konfor Ürünü:
+                </h3>
+                <p>
+                  İlk iyileşme gecelerinde başınızı doğru pozisyonda tutabilmeniz ve rahat
+                  uyuyabilmeniz için <b> U-şekilli bir seyahat yastığı</b> getirmenizi şiddetle
+                  tavsiye ederiz.
+                </p>
+              </div>
             </div>
           </section>
+        </article>
+      </EditablePage>
 
-          <section>
-            <h2 className="mb-3 font-custom-commuters text-[14px] text-primary uppercase">
-              <span className="font-bold">6. SON ADIMLAR VE İLETİŞİM</span>
-              <span className="block">BİLGİLERİ</span>
-            </h2>
+      {/* --- PAGE 3 --- */}
+      <EditablePage index={2}>
+        <article className="flex h-full flex-col">
+          <div className="flex flex-col gap-y-6">
+            {/* Section 4: Package Summary Header & List */}
+            <section className="mt-4">
+              <h2 className="mb-4 font-custom-commuters text-[22px] leading-tight text-primary uppercase">
+                <span className="font-bold">4. PAKET ÖZETİ &</span>
+                <span className="block">FİNANSAL SÖZLEŞME</span>
+              </h2>
 
-            <div className="flex flex-col gap-y-2">
-              <p>
-                Seyahatinizden önce herhangi bir sorunuz olması durumunda, size yardımcı olmak için
-                buradayız.
+              <h3 className="mb-2 font-bold text-black">Paketiniz Şunları Kapsar:</h3>
+              <ul className="ml-4 flex list-disc flex-col gap-y-1.5 pl-2">
+                <li>FUE tekniği ile Saç Ekimi işlemi, Özel tercümanlık hizmeti ve Bakım kiti.</li>
+                <li>Özel tercümanlık hizmeti.</li>
+                <li>Operasyon sonrası ilaçlar.</li>
+                <li>Bir (1) seans PRP.</li>
+                <li>Bakım kiti (Şampuan & Köpük).</li>
+              </ul>
+            </section>
+
+            {/* Financial Terms */}
+            <section>
+              <h3 className="mb-2 font-bold text-black">Finansal Şartlar:</h3>
+              <ul className="ml-4 flex list-disc flex-col gap-y-1.5 pl-2">
+                <EditableHide editKey={f('p3-finance-total-hide').editKey}>
+                  <li>
+                    <span className="font-bold">Toplam Paket Değeri: </span>
+                    <EditableText field={f('p3-finance-total-val')} />
+                  </li>
+                </EditableHide>
+                <EditableHide editKey={f('p3-finance-deposit-hide').editKey}>
+                  <li>
+                    <span className="font-bold">Alınan Depozito: </span>
+                    <EditableText field={f('p3-finance-deposit-val')} />
+                  </li>
+                </EditableHide>
+                <EditableHide editKey={f('p3-finance-balance-hide').editKey}>
+                  <li>
+                    <span className="font-bold">Kalan Bakiye: </span>
+                    <EditableText field={f('p3-finance-balance-val')} />
+                  </li>
+                </EditableHide>
+                <EditableHide editKey={f('p3-finance-duedate-hide').editKey}>
+                  <li>
+                    <span className="font-bold">Ödeme Tarihi: </span>
+                    <EditableText field={f('p3-finance-duedate-val')} />
+                  </li>
+                </EditableHide>
+              </ul>
+            </section>
+
+            {/* --- PAYMENT DETAILS (Devam) --- */}
+            <section>
+              <h4 className="mb-2 flex items-center gap-x-1.5 text-[14px] font-bold text-primary-heavy">
+                <SquareBullet /> Ödeme Detayları:
+              </h4>
+              <ul className="ml-4 flex list-disc flex-col gap-y-1.5 pl-2">
+                <li>
+                  <p>
+                    <span className="font-bold">Kabul Edilen Yöntemler: </span>
+                    Nakit (EUR/USD/GBP), Kripto Para, Banka/Kredi Kartı veya Banka Havalesi.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <span className="font-bold">Önemli Not: </span>
+                    Kart ile yapılan ödemelerde zorunlu <span className="font-bold">
+                      %10 KDV
+                    </span>{' '}
+                    uygulanmaktadır.
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <span className="font-bold">Kabul Edilen Para Birimleri: </span>
+                    EUR, USD, GBP, CAD, AUD, CHF, TRY. *İskoç/İrlanda Sterlini, eski seri ABD
+                    banknotları veya 500€ banknotları kabul edilmemektedir.*
+                  </p>
+                </li>
+                <li>
+                  <p>
+                    <span className="font-bold">Seyahat Öncesi: </span>
+                    Lütfen ödeme kartınızın uluslararası işlemlere açık olduğundan ve bakiyeyi
+                    karşılayacak yeterli limite sahip olduğundan emin olunuz.
+                  </p>
+                </li>
+              </ul>
+            </section>
+
+            {/* --- SECTION 5: DEPOSIT & CANCELLATION --- */}
+            <section>
+              <h2 className="mb-4 font-custom-commuters text-[22px] leading-tight text-primary uppercase">
+                <span className="font-bold">5. DEPOZİTO & İPTAL POLİTİKASI</span>
+              </h2>
+
+              <p className="mb-4">
+                500€ tutarındaki depozitonuz randevunuzu garanti altına alır ve iade edilemez.
+                Ancak, aşağıdaki belirli koşullar altında ileri bir tarih için geçerliliğini korur:
               </p>
-              <p>
-                Size olağanüstü bir deneyim ve harika sonuçlar sağlamaya kararlıyız. İstanbul'a hoş
-                geldiniz diyerek sabırsızlıkla sizleri bekliyoruz.
-              </p>
-              <p className="mt-2 font-semibold text-black">Saygı ve sevgilerimizle,</p>
-            </div>
-          </section>
 
-          <section>
-            <div className="flex items-center gap-x-4">
-              <img src="/logo-x.svg" alt="Hair Of Istanbul" className="h-24 w-28" />
+              <div className="flex flex-col gap-y-4">
+                <div>
+                  <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                    <SquareBullet /> Yeniden Planlama:
+                  </h3>
+                  <p>
+                    Orijinal randevunuzdan en az 14 gün önce WhatsApp üzerinden yazılı bildirim
+                    yapılması.
+                  </p>
+                </div>
 
-              <div className="border-l border-stone-200 py-4 pl-4 text-[16px] font-bold text-black">
-                <EditableText field={f('d3-p3-k8')} />
+                <div>
+                  <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                    <SquareBullet /> Acil Tıbbi Durum:
+                  </h3>
+                  <p>Doğrulanabilir bir tıbbi rapor sunulması.</p>
+                </div>
+
+                <div>
+                  <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
+                    <SquareBullet /> Uçuş İptali:
+                  </h3>
+                  <p>Resmi havayolu belgelerinin sunulması.</p>
+                </div>
+
+                <p className="mt-2 text-black">
+                  14 günlük süre içinde gerekli bildirimin yapılmaması veya belgelerin sunulmaması
+                  durumunda depozitonuz yanacaktır.
+                </p>
+              </div>
+            </section>
+          </div>
+        </article>
+      </EditablePage>
+
+      {/* --- PAGE 4 --- */}
+      <EditablePage index={3}>
+        <article className="flex h-full flex-col">
+          <div className="flex flex-col gap-y-6">
+            {/* --- SECTION 6: FINAL STEPS --- */}
+            <section>
+              <h2 className="mb-4 font-custom-commuters text-[22px] leading-tight text-primary uppercase">
+                <span className="font-bold">6. SON ADIMLAR & İLETİŞİM</span>
+                <span className="block">BİLGİLERİ</span>
+              </h2>
+
+              <div className="flex flex-col gap-y-2">
+                <p>
+                  Yolculuğunuzdan önce herhangi bir sorunuz olursa, size yardımcı olmak için
+                  buradayız. <br /> <br />
+                  Size olağanüstü bir deneyim ve mükemmel sonuçlar sunmaya kararlıyız. Sizi
+                  İstanbul’da ağırlamayı dört gözle bekliyoruz. <br /> <br />
+                  En içten dileklerimizle
+                </p>
+              </div>
+            </section>
+          </div>
+
+          {/* --- FOOTER SECTION --- */}
+          <section className="mt-6">
+            <div className="flex items-center gap-x-6">
+              {/* Logo */}
+              <img src="/logo-x.svg" alt="Hair Of Istanbul" className="h-20 w-auto" />
+
+              {/* Representative Name */}
+              <div className="border-l border-stone-200 py-3 pl-6">
+                <EditableText
+                  field={f('p4-rep-name')}
+                  className="font-custom-commuters text-[18px] font-medium text-black"
+                />
               </div>
             </div>
 
-            <div className="mt-3 grid grid-cols-2 gap-x-8 border-t border-stone-200 pt-6">
+            {/* Contact & Address Row (Justify Between) */}
+            <div className="flex justify-between pt-6">
+              {/* Left: Contact Info */}
               <div className="flex flex-col gap-y-1">
                 <h4 className="mb-1 font-bold text-black">İletişim</h4>
                 <EditableLink
-                  editKey={f('d3-p3-k9').editKey}
-                  defaultValue={f('d3-p3-k9').defaultValue}
-                  seedValue={f('d3-p3-k9').seedValue}
+                  editKey={f('p4-rep-phone').editKey}
+                  defaultValue={f('p4-rep-phone').defaultValue}
+                  seedValue={f('p4-rep-phone').seedValue}
+                  className="transition-colors hover:text-primary"
                 />
-                <a href="https://www.hairofistanbul.com" className="underline">
+                <a
+                  href="https://www.hairofistanbul.com"
+                  className="underline transition-colors hover:text-primary"
+                >
                   www.hairofistanbul.com
                 </a>
-                <a href="mailto:info@hairofistanbul.com" className="underline">
+                <a
+                  href="mailto:info@hairofistanbul.com"
+                  className="underline transition-colors hover:text-primary"
+                >
                   info@hairofistanbul.com
                 </a>
               </div>
 
-              <div className="flex flex-col gap-y-1">
+              {/* Right: Address Info */}
+              <div className="flex max-w-[50%] flex-col gap-y-1">
                 <h4 className="mb-1 font-bold text-black">Adres</h4>
-                <p className="whitespace-pre-line underline">
+                <p className="text-left whitespace-pre-line">
                   Yalı Ataköy, Ataköy 2-5-6. Kısım Mah., Rauf Orbay Cd. No:4 D:C Blok, 34158
                   Bakırköy / İstanbul, Türkiye
                 </p>

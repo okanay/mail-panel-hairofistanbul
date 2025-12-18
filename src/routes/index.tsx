@@ -1,5 +1,5 @@
 import { createFileRoute, Link, useNavigate, useSearch } from '@tanstack/react-router'
-import { Building2, Car, FileText } from 'lucide-react'
+import { ArrowRight, Building2, Car, FileText } from 'lucide-react'
 import { useState } from 'react'
 
 export const Route = createFileRoute('/')({
@@ -44,7 +44,7 @@ function RouteComponent() {
       description: 'Havalimanı transfer hizmeti dahil, konaklama hariç paket seçeneği',
       route: `/docs/${selectedLanguage}/without-otel`,
       icon: Car,
-      isDisable: true,
+      isDisable: false,
     },
     {
       title: 'Sadece İşlem',
@@ -52,7 +52,7 @@ function RouteComponent() {
       description: 'Sadece medikal işlem paketi, konaklama ve ulaşım hizmetleri hariç',
       route: `/docs/${selectedLanguage}/without-otel-transfer`,
       icon: FileText,
-      isDisable: true,
+      isDisable: false,
     },
   ]
 
@@ -115,9 +115,9 @@ function RouteComponent() {
                 <div className="mt-auto flex items-center justify-between border-t border-stone-100 pt-4 text-stone-800">
                   <span className="text-xs font-medium">Doküman Şablonu</span>
                   <span
-                    className={`text-xs font-medium opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100`}
+                    className={`flex items-center gap-x-2 text-xs font-medium opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100`}
                   >
-                    Görüntüle →
+                    Görüntüle <ArrowRight className="size-4 text-stone-600" />
                   </span>
                 </div>
               </Link>

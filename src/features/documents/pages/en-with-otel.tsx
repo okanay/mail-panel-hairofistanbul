@@ -180,7 +180,7 @@ export const WithOtelPageEN = () => {
       <EditorMenu formData={formData} />
       {/* PAGE : 1 */}
       <EditablePage index={0}>
-        <article className="flex flex-col gap-y-8">
+        <article className="flex flex-col gap-y-6">
           {/* --- GREETING SECTION --- */}
           <section className="flex flex-col gap-y-2">
             <h1 className="text-[15px] font-bold text-black">
@@ -442,6 +442,7 @@ export const WithOtelPageEN = () => {
               Please adhere to these instructions to ensure optimal conditions for your procedure:
             </p>
 
+            {/* Substance Abstinence */}
             <div>
               <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
                 <SquareBullet /> Substance Abstinence:
@@ -459,23 +460,23 @@ export const WithOtelPageEN = () => {
         <article className="flex flex-col gap-y-6">
           {/* --- SECTION: PREPARATION (Continued from Page 2) --- */}
           <section className="flex flex-col gap-y-4">
-            {/* Medication Management & Box */}
+            {/* Medication Management */}
             <div>
               <h3 className="mb-1 flex items-center gap-x-1.5 font-bold text-primary-heavy">
                 <SquareBullet /> Medication Management:
               </h3>
-              <p className="mb-3">
+              <p>
                 Discontinue all blood-thinning medications (e.g., aspirin, ibuprofen) for{' '}
                 <span className="font-bold">one week</span> prior.
               </p>
+            </div>
 
-              {/* Important Box */}
-              <div className="border border-primary/60 p-3">
-                <p className="leading-snug">
-                  <span className="font-bold">Important:</span> You must obtain approval from your
-                  personal physician before stopping any prescribed medication.
-                </p>
-              </div>
+            {/* Important Box */}
+            <div className="border border-primary/60 p-3">
+              <p className="leading-snug">
+                <span className="font-bold">Important:</span> You must obtain approval from your
+                personal physician before stopping any prescribed medication.
+              </p>
             </div>
 
             {/* Hair Preparation */}
@@ -484,9 +485,9 @@ export const WithOtelPageEN = () => {
                 <SquareBullet /> Hair Preparation:
               </h3>
               <p>
-                Do not cut, trim, or shave your hair (including the back and sides) for one month
-                before your appointment. This allows for an accurate assessment and the best
-                possible hairline design.
+                Do not cut, trim, or shave your hair (including the back and sides) for{' '}
+                <b>one month</b> before your appointment. This allows for an accurate assessment and
+                the best possible hairline design.
               </p>
             </div>
 
@@ -507,8 +508,8 @@ export const WithOtelPageEN = () => {
                 <SquareBullet /> Travel Logistics:
               </h3>
               <p>
-                Book your return flight with checked baggage. The provided aftercare shampoo and
-                medical foam exceed 100ml and cannot be carried in cabin luggage.
+                Book your return flight <b>with checked baggage</b>. The provided aftercare shampoo
+                and medical foam exceed 100ml and cannot be carried in cabin luggage.
               </p>
             </div>
 
@@ -530,7 +531,7 @@ export const WithOtelPageEN = () => {
                 <SquareBullet /> Comfort Item:
               </h3>
               <p>
-                We highly recommend bringing a U-shaped travel pillow for sleeping during the
+                We highly recommend bringing a <b>U-shaped travel pillow</b> for sleeping during the
                 initial recovery nights to support proper head elevation.
               </p>
             </div>
@@ -691,16 +692,18 @@ export const WithOtelPageEN = () => {
 
               <div className="flex flex-col gap-y-2">
                 <p>
-                  Should you have any questions prior to your journey, we are here to assist you. 
+                  Should you have any questions prior to your journey, we are here to assist you.
+                  <br /> <br />
                   We are committed to providing you with an exceptional experience and outstanding
-                  results. We look forward to welcoming you to Istanbul. <b>Warmest regards,</b>
+                  results. We look forward to welcoming you to Istanbul. <br /> <br /> Warmest
+                  regards,
                 </p>
               </div>
             </section>
           </div>
 
           {/* --- FOOTER SECTION --- */}
-          <section className="mt-10">
+          <section className="mt-6">
             <div className="flex items-center gap-x-6">
               {/* Logo */}
               <img src="/logo-x.svg" alt="Hair Of Istanbul" className="h-20 w-auto" />

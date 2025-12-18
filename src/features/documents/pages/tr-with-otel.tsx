@@ -16,7 +16,7 @@ export const WithOtelPageTR = () => {
     {
       name: 'Müşteri Adı',
       editKey: 'p1-customer-name',
-      defaultValue: 'Sayın Breuer',
+      defaultValue: 'Breuer',
       inputMode: 'text',
     },
     {
@@ -180,7 +180,7 @@ export const WithOtelPageTR = () => {
       <EditorMenu formData={formData} />
       {/* PAGE : 1 */}
       <EditablePage index={0}>
-        <article className="flex flex-col gap-y-8">
+        <article className="flex flex-col gap-y-6">
           {/* --- GREETING SECTION --- */}
           <section className="flex flex-col gap-y-2">
             <h1 className="text-[15px] font-bold text-black">
@@ -481,7 +481,7 @@ export const WithOtelPageTR = () => {
                 <SquareBullet /> Saç Hazırlığı:
               </h3>
               <p>
-                Randevunuzdan bir ay önce saçınızı (arka ve yanlar dahil) kestirmeyiniz,
+                Randevunuzdan <b>bir ay</b> önce saçınızı (arka ve yanlar dahil) kestirmeyiniz,
                 kısaltmayınız veya tıraş etmeyiniz. Bu, doğru bir değerlendirme ve mümkün olan en
                 iyi saç çizgisi tasarımı için gereklidir.
               </p>
@@ -504,8 +504,8 @@ export const WithOtelPageTR = () => {
                 <SquareBullet /> Seyahat Lojistiği:
               </h3>
               <p>
-                Dönüş uçuşunuzu bagajlı olarak ayırtınız. Size verilecek olan bakım şampuanı ve
-                medikal köpük 100 ml’yi aştığı için kabin bagajında taşınamaz.
+                Dönüş uçuşunuzu <b> bagajlı olarak ayırtınız</b>. Size verilecek olan bakım şampuanı
+                ve medikal köpük 100 ml’yi aştığı için kabin bagajında taşınamaz.
               </p>
             </div>
 
@@ -527,8 +527,8 @@ export const WithOtelPageTR = () => {
               </h3>
               <p>
                 İlk iyileşme gecelerinde başınızı doğru pozisyonda tutabilmeniz ve rahat
-                uyuyabilmeniz için U-şekilli bir seyahat yastığı getirmenizi şiddetle tavsiye
-                ederiz.
+                uyuyabilmeniz için <b> U-şekilli bir seyahat yastığı</b> getirmenizi şiddetle
+                tavsiye ederiz.
               </p>
             </div>
           </section>
@@ -692,15 +692,17 @@ export const WithOtelPageTR = () => {
               <div className="flex flex-col gap-y-2">
                 <p>
                   Yolculuğunuzdan önce herhangi bir sorunuz olursa, size yardımcı olmak için
-                  buradayız. Size olağanüstü bir deneyim ve mükemmel sonuçlar sunmaya kararlıyız.
-                  Sizi İstanbul’da ağırlamayı dört gözle bekliyoruz. <b>En içten dileklerimizle,</b>
+                  buradayız. <br /> <br />
+                  Size olağanüstü bir deneyim ve mükemmel sonuçlar sunmaya kararlıyız. Sizi
+                  İstanbul’da ağırlamayı dört gözle bekliyoruz. <br /> <br />
+                  En içten dileklerimizle
                 </p>
               </div>
             </section>
           </div>
 
           {/* --- FOOTER SECTION --- */}
-          <section className="mt-10">
+          <section className="mt-6">
             <div className="flex items-center gap-x-6">
               {/* Logo */}
               <img src="/logo-x.svg" alt="Hair Of Istanbul" className="h-20 w-auto" />

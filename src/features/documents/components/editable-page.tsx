@@ -36,7 +36,7 @@ export const EditablePage = ({ children, className, index }: EditablePageProps) 
         </div>
       </div>
 
-      <footer className="absolute bottom-[0.5cm] w-full">
+      <footer className="absolute bottom-[0.75cm] w-full">
         <p className="text-center text-sm font-medium text-stone-800" aria-label="Page number">
           {index + 1}
         </p>
