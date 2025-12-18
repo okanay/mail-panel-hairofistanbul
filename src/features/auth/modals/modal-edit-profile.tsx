@@ -85,9 +85,9 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
         <button
           onClick={onClose}
           disabled={isPending}
-          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-[colors_opacity] duration-180 hover:border-stone-200 hover:bg-stone-100 focus:border-0 disabled:cursor-not-allowed"
         >
-          <X className="size-4 text-stone-500 transition-colors" />
+          <X className="size-4 text-stone-500 transition-[colors_opacity] duration-180 focus:border-0" />
         </button>
       </div>
 
@@ -142,7 +142,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                   type="text"
                   placeholder="İsminizi giriniz"
                   disabled={isPending}
-                  className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
+                  className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-[colors_opacity] duration-180 outline-none focus:border focus:border-primary-500 focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
                     errors.name
                       ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                       : 'border-stone-200'
@@ -173,7 +173,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                   placeholder="ornek@email.com"
                   autoComplete="new-password"
                   disabled={isPending}
-                  className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
+                  className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-[colors_opacity] duration-180 outline-none focus:border focus:border-primary-500 focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
                     errors.email
                       ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                       : 'border-stone-200'
@@ -203,7 +203,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                   type="tel"
                   placeholder="+90 555 123 45 67"
                   disabled={isPending}
-                  className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
+                  className={`h-11 w-full rounded-lg border bg-white px-3 text-base transition-[colors_opacity] duration-180 outline-none focus:border focus:border-primary-500 focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
                     errors.phone
                       ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                       : 'border-stone-200'
@@ -237,7 +237,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                         type={showPassword ? 'text' : 'password'}
                         placeholder="Yeni Şifre"
                         disabled={isPending}
-                        className={`h-11 w-full rounded-lg border bg-white px-3 pr-11 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
+                        className={`h-11 w-full rounded-lg border bg-white px-3 pr-11 text-base transition-[colors_opacity] duration-180 outline-none focus:border focus:border-primary-500 focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 sm:text-sm ${
                           errors.password
                             ? 'border-red-300 focus:border-red-500 focus:ring-red-200'
                             : 'border-stone-200'
@@ -246,12 +246,12 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute top-1/2 right-3 -translate-y-1/2 text-stone-500 hover:text-stone-700"
+                        className="absolute top-1/2 right-3 size-6 -translate-y-1/2 rounded-full p-1 text-stone-500 hover:text-stone-700"
                       >
                         {showPassword ? (
-                          <EyeOff className="h-5 w-5" />
+                          <EyeOff className="size-full" />
                         ) : (
-                          <Eye className="h-5 w-5" />
+                          <Eye className="size-full" />
                         )}
                       </button>
                     </>
@@ -270,7 +270,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
           type="button"
           onClick={onClose}
           disabled={isPending}
-          className="flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-stone-200 bg-white px-4 text-sm font-medium text-stone-800 transition-all hover:bg-stone-50 disabled:opacity-50"
+          className="flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-stone-200 bg-white px-4 text-sm font-medium text-stone-800 transition-[colors_opacity] duration-180 hover:bg-stone-50 focus:border-0 disabled:opacity-50"
         >
           İptal
         </button>
@@ -278,7 +278,7 @@ export function ProfileEditModal({ onClose }: ProfileEditModalProps) {
           type="submit"
           form="profile-form"
           disabled={isPending}
-          className="flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white shadow-lg transition-all hover:opacity-90 disabled:opacity-50"
+          className="flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border border-stone-950/10 bg-primary px-4 text-sm font-bold text-white shadow-lg transition-[colors_opacity] duration-180 hover:opacity-90 focus:border-0 focus:bg-primary-500 disabled:opacity-50"
         >
           {isPending ? 'Kaydediliyor...' : 'Kaydet'}
         </button>

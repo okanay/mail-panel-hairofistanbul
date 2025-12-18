@@ -89,9 +89,9 @@ const FormHeader = ({ onClose }: FormHeaderProps) => {
       </div>
       <button
         onClick={onClose}
-        className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
+        className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-[colors_opacity] duration-180 hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
       >
-        <X className="size-4 text-stone-500 transition-colors" />
+        <X className="size-4 text-stone-500 transition-[colors_opacity] duration-180" />
       </button>
     </div>
   )
@@ -139,13 +139,13 @@ const FormFooter = ({ onReset, onSave }: FormFooterProps) => {
       <div className="flex gap-3">
         <button
           onClick={onReset}
-          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-sm border border-stone-300 bg-white px-4 text-sm font-bold text-stone-700 transition-colors hover:bg-stone-50"
+          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-sm border border-stone-300 bg-white px-4 text-sm font-bold text-stone-700 transition-[colors_opacity] duration-180 hover:bg-stone-50"
         >
           Sıfırla
         </button>
         <button
           onClick={onSave}
-          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-sm border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white shadow-lg transition-all hover:opacity-90"
+          className="flex h-12 flex-1 items-center justify-center gap-2 rounded-sm border border-stone-950/10 bg-primary px-4 text-sm font-bold text-white shadow-lg transition-[colors_opacity] duration-180 hover:opacity-90 focus:bg-primary-500"
         >
           Onayla
         </button>
@@ -208,14 +208,14 @@ const TextInput = ({ field, value, onChange }: TextInputProps) => {
           value={value}
           onChange={(e) => onChange(e.target.value)}
           rows={4}
-          className="w-full resize-none rounded-lg border border-stone-200 bg-white px-3 py-2.5 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
+          className="w-full resize-none rounded-lg border border-stone-200 bg-white px-3 py-2.5 text-base transition-[colors_opacity] duration-180 outline-none focus:border focus:border-primary-500 focus:ring-0 sm:text-sm"
         />
       ) : (
         <input
           type="text"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="h-11 w-full rounded-lg border border-stone-200 bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
+          className="h-11 w-full rounded-lg border border-stone-200 bg-white px-3 text-base transition-[colors_opacity] duration-180 outline-none focus:border focus:border-primary-500 focus:ring-0 sm:text-sm"
         />
       )}
     </div>
@@ -249,7 +249,7 @@ const ToggleInput = ({ field, value, onChange }: ToggleInputProps) => {
         type="button"
         onClick={() => onChange(!value)}
         data-active={value}
-        className="relative h-6 w-11 rounded-full bg-stone-200 transition-colors data-[active=true]:bg-primary"
+        className="relative h-6 w-11 rounded-full bg-stone-200 transition-[colors_opacity] duration-180 data-[active=true]:bg-primary"
       >
         <span
           data-active={value}
@@ -311,7 +311,7 @@ const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
               type="button"
               onClick={() => handleTypeChange(linkType)}
               className={twMerge(
-                'flex-1 px-3 py-2 text-xs font-bold uppercase transition-colors',
+                'flex-1 px-3 py-2 text-xs font-bold uppercase transition-[colors_opacity] duration-180',
                 isActive
                   ? 'bg-primary text-white'
                   : 'bg-stone-50 text-stone-600 hover:bg-stone-100',
@@ -329,7 +329,7 @@ const LinkInput = ({ field, value, onChange }: LinkInputProps) => {
         value={value.value}
         onChange={(e) => handleValueChange(e.target.value)}
         placeholder={getPlaceholder()}
-        className="h-11 w-full rounded-lg border border-stone-200 bg-white px-3 text-base transition-colors outline-none focus:border-primary focus:ring-2 focus:ring-primary/20 sm:text-sm"
+        className="h-11 w-full rounded-lg border border-stone-200 bg-white px-3 text-base transition-[colors_opacity] duration-180 outline-none focus:border focus:border-primary-500 focus:ring-0 sm:text-sm"
       />
     </div>
   )

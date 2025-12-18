@@ -83,9 +83,9 @@ export function ConfirmationModal({
         <button
           onClick={handleCancel}
           disabled={modalPending}
-          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-[colors_opacity] duration-180 hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
         >
-          <X className="size-4 text-stone-500 transition-colors" />
+          <X className="size-4 text-stone-500 transition-[colors_opacity] duration-180" />
         </button>
       </div>
 
@@ -95,7 +95,7 @@ export function ConfirmationModal({
           type="button"
           onClick={handleCancel}
           disabled={modalPending}
-          className="flex h-11 flex-1 items-center justify-center rounded-lg border border-stone-200 bg-white px-4 text-sm font-medium text-stone-700 transition-all hover:bg-stone-50 disabled:opacity-50"
+          className="flex h-11 flex-1 items-center justify-center rounded-lg border border-stone-200 bg-white px-4 text-sm font-medium text-stone-700 transition-[colors_opacity] duration-180 hover:bg-stone-50 disabled:opacity-50"
         >
           {cancelText}
         </button>
@@ -103,7 +103,7 @@ export function ConfirmationModal({
           type="button"
           onClick={handleSubmit}
           disabled={modalPending}
-          className={`flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border px-4 text-sm font-bold text-white transition-all disabled:opacity-50 ${styles.button}`}
+          className={`flex h-11 flex-1 items-center justify-center gap-2 rounded-lg border px-4 text-sm font-bold text-white transition-[colors_opacity] duration-180 disabled:opacity-50 ${styles.button}`}
         >
           {modalPending ? (
             <>

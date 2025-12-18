@@ -270,7 +270,7 @@ export function MailModal({ onClose, store, isSaving }: MailModalProps) {
             !watch('emailAddress') ||
             !watch('emailTitle')
           }
-          className="flex h-12 w-full items-center justify-center gap-2 rounded-sm border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white shadow-lg transition-all hover:opacity-90 disabled:opacity-50"
+          className="flex h-12 w-full items-center justify-center gap-2 rounded-sm border border-stone-950/10 bg-primary px-4 text-sm font-bold text-white shadow-lg transition-[colors_opacity] duration-180 hover:opacity-90 focus:bg-primary-500 disabled:opacity-50"
         >
           {isProcessing ? (
             <span>{isSaving ? 'Kaydediliyor...' : 'Gönderiliyor...'}</span>

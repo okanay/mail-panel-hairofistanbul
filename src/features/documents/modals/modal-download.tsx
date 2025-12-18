@@ -17,9 +17,9 @@ export function DownloadModal({ onClose, url }: DownloadModalProps) {
         </div>
         <button
           onClick={onClose}
-          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-[colors_opacity] duration-180 hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
         >
-          <X className="size-4 text-stone-500 transition-colors" />
+          <X className="size-4 text-stone-500 transition-[colors_opacity] duration-180" />
         </button>
       </div>
 
@@ -48,7 +48,7 @@ export function DownloadModal({ onClose, url }: DownloadModalProps) {
           href={url}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex h-12 w-full items-center justify-center gap-2 rounded-sm border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white shadow-lg transition-all hover:opacity-90 disabled:opacity-50"
+          className="flex h-12 w-full items-center justify-center gap-2 rounded-sm border border-stone-950/10 bg-primary px-4 text-sm font-bold text-white shadow-lg transition-[colors_opacity] duration-180 hover:opacity-90 focus:bg-primary-500 disabled:opacity-50"
         >
           Dosyayı Görüntüle
         </a>

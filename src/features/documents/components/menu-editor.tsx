@@ -164,7 +164,7 @@ export const EditorMenu = ({ formData }: Props) => {
           onClick={handleToggleEditMode}
           data-hidden={!isMenuVisible}
           hidden={isMenuVisible}
-          className="absolute top-4 left-2 w-fit rounded-full bg-primary px-4 py-2 text-xs font-semibold text-nowrap text-white transition-opacity duration-300 hover:opacity-75"
+          className="absolute top-4 left-2 w-fit rounded-full bg-primary px-4 py-2 text-xs font-semibold text-nowrap text-white transition-opacity duration-300 hover:opacity-75 focus:bg-primary-500"
         >
           Menüyü Göster
         </button>
@@ -178,7 +178,7 @@ export const EditorMenu = ({ formData }: Props) => {
               <button
                 onClick={openProfileEditModal}
                 disabled={isLoading}
-                className="flex size-8 items-center justify-center rounded-full border-primary bg-primary-400 text-white transition-colors duration-300 hover:bg-primary-500 disabled:cursor-not-allowed disabled:opacity-80"
+                className="flex size-8 items-center justify-center rounded-full border-primary bg-primary-400 text-white transition-[colors_opacity] duration-180 hover:bg-primary-500 focus:bg-primary-500 disabled:cursor-not-allowed disabled:opacity-80"
               >
                 <Settings className="size-4" />
               </button>
@@ -196,7 +196,7 @@ export const EditorMenu = ({ formData }: Props) => {
                 ...prev,
                 hash: undefined,
               })}
-              className="flex h-9 w-full items-center gap-2.5 rounded-md px-3 text-xs font-medium text-stone-700 transition-opacity hover:bg-primary-200/40"
+              className="flex h-9 w-full items-center gap-2.5 rounded-md px-3 text-xs font-medium text-stone-700"
             >
               <Home className="size-4" />
               <span>Anasayfa</span>
@@ -283,7 +283,7 @@ export const EditorMenu = ({ formData }: Props) => {
           hidden={!isMenuVisible}
           onClick={openMailModal}
           disabled={isLoading}
-          className="flex h-11 items-center justify-center gap-2 rounded-b-2xl border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white transition-colors duration-300 hover:bg-primary-500 disabled:cursor-not-allowed disabled:opacity-80"
+          className="flex h-11 items-center justify-center gap-2 rounded-b-2xl border border-zinc-950/10 bg-primary px-4 text-sm font-bold text-white transition-[colors_opacity] duration-180 hover:bg-primary-500 focus:bg-primary-500 disabled:cursor-not-allowed disabled:opacity-80"
         >
           <span>Mail Gönder</span>
           <Mail className="size-4" strokeWidth="2" />
@@ -303,11 +303,8 @@ type MenuButtonProps = {
 
 const MenuButton = ({ onClick, disabled, icon, label, variant = 'default' }: MenuButtonProps) => {
   const baseClasses =
-    'flex h-9 w-full items-center font-medium gap-2.5 rounded-md px-3 text-xs  transition-opacity duration-300 disabled:cursor-not-allowed disabled:opacity-75'
-  const variantClasses =
-    variant === 'danger'
-      ? 'text-rose-600 hover:bg-rose-100/40'
-      : 'text-gray-700 hover:bg-primary-200/40'
+    'flex h-9 w-full items-center gap-2.5 rounded-md border border-transparent px-3 text-xs font-medium  hover:border-current/26 hover:bg-current/10 hover:ring-0 disabled:cursor-not-allowed disabled:opacity-75'
+  const variantClasses = variant === 'danger' ? 'text-rose-600' : 'text-stone-700'
 
   return (
     <button onClick={onClick} disabled={disabled} className={`${baseClasses} ${variantClasses}`}>
@@ -327,7 +324,7 @@ const LanguageButton = ({ language, isActive, onClick }: LanguageButtonProps) =>
   <button
     onClick={onClick}
     disabled={isActive}
-    className="flex h-8 items-center justify-center rounded-md border border-stone-200 bg-white text-xs font-medium text-stone-700 transition-[colors_opacity] duration-300 hover:bg-primary-200/40 disabled:cursor-not-allowed disabled:bg-primary disabled:text-white disabled:hover:bg-primary disabled:hover:opacity-100"
+    className="flex h-8 items-center justify-center rounded-md border border-stone-200 bg-white text-xs font-medium text-stone-700 transition-[colors_opacity] duration-300 hover:bg-stone-50 hover:text-primary-heavy focus:bg-stone-50 focus:text-primary-heavy disabled:cursor-not-allowed disabled:bg-primary disabled:text-white disabled:hover:bg-primary disabled:hover:opacity-100"
   >
     {language.toUpperCase()}
   </button>

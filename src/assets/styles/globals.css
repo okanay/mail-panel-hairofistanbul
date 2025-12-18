@@ -26,7 +26,7 @@
 
 @layer base {
   * {
-    @apply focus:outline-none focus:ring-1 focus:ring-primary-300 focus:bg-primary-50 focus:border-0;
+      @apply focus:outline-none;
   }
 
   *::marker {
@@ -49,4 +49,12 @@
   [role='button']:not(:disabled) {
     cursor: pointer;
   }
+
+  button, a {
+      @apply focus:ring focus:bg-current/10 focus:ring-current/26! active:ring active:border-current/30! active:bg-current/14
+  }
+}
+
+button[class*="bg-primary"] {
+    @apply focus:bg-primary-500;
 }

@@ -107,9 +107,9 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
         </div>
         <button
           onClick={onClose}
-          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-[colors_opacity] duration-180 hover:border-stone-200 hover:bg-stone-100 disabled:cursor-not-allowed"
         >
-          <X className="size-4 text-stone-500 transition-colors" />
+          <X className="size-4 text-stone-500 transition-[colors_opacity] duration-180" />
         </button>
       </div>
 
@@ -198,13 +198,13 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                           }
                           reloadDocument={true}
                           replace={true}
-                          className="flex size-8 items-center justify-center rounded-lg border border-primary-200 bg-primary-50 text-primary-600 transition-colors hover:border-primary-400 hover:bg-primary-100"
+                          className="flex size-8 items-center justify-center rounded-lg border border-primary-200 bg-primary-50 text-primary-600 transition-[colors_opacity] duration-180 hover:border-primary-400 hover:bg-primary-100 focus:border focus:border-primary-400 focus:ring-0"
                         >
                           <Eye className="size-3.5" />
                         </Link>
                         <button
                           onClick={() => handleEdit(item)}
-                          className="flex size-8 items-center justify-center rounded-lg border border-stone-200 bg-stone-50 text-stone-600 transition-colors hover:border-stone-400 hover:bg-stone-100"
+                          className="flex size-8 items-center justify-center rounded-lg border border-stone-200 bg-stone-50 text-stone-600 transition-[colors_opacity] duration-180 hover:border-stone-400 hover:bg-stone-100 focus:border focus:border-stone-400 focus:ring-0"
                         >
                           <NotebookPen className="size-4" />
                         </button>
@@ -212,14 +212,14 @@ export function DocumentHistoryModal({ onClose }: DocumentHistoryModalProps) {
                         {item.email_meta && (
                           <button
                             onClick={() => handleEmailInfo(item.email_meta, item.hash)}
-                            className="flex size-8 items-center justify-center rounded-lg border border-blue-200 bg-blue-50 text-blue-600 transition-colors hover:border-blue-400 hover:bg-blue-100"
+                            className="flex size-8 items-center justify-center rounded-lg border border-blue-200 bg-blue-50 text-blue-600 transition-[colors_opacity] duration-180 hover:border-blue-400 hover:bg-blue-100 focus:border focus:border-blue-400 focus:ring-0"
                           >
                             <MailOpen className="size-4" />
                           </button>
                         )}
                         <button
                           onClick={() => handleDelete(item.hash)}
-                          className="flex size-8 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 text-rose-600 transition-colors hover:border-rose-400 hover:bg-rose-100"
+                          className="flex size-8 items-center justify-center rounded-lg border border-rose-200 bg-rose-50 text-rose-600 transition-[colors_opacity] duration-180 hover:border-rose-400 hover:bg-rose-100 focus:border focus:border-rose-400 focus:ring-0"
                         >
                           <Trash2 className="size-3.5" />
                         </button>
@@ -276,9 +276,9 @@ function EmailInfoModal({ emailMeta, onClose }: EmailInfoModalProps) {
         </div>
         <button
           onClick={onClose}
-          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-red-50"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-[colors_opacity] duration-180 hover:border-stone-200 hover:bg-red-50"
         >
-          <X className="size-4 text-stone-800 transition-colors group-hover:text-red-600" />
+          <X className="size-4 text-stone-800 transition-[colors_opacity] duration-180 group-hover:text-red-600" />
         </button>
       </div>
 
@@ -386,9 +386,9 @@ export function EditDocumentModal({ params, onClose }: EditDocumentProps) {
         <button
           onClick={onClose}
           disabled={isPending}
-          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-colors hover:border-stone-200 hover:bg-red-50 disabled:opacity-50"
+          className="group flex size-8 items-center justify-center rounded-full border border-stone-100 bg-stone-50 transition-[colors_opacity] duration-180 hover:border-stone-200 hover:bg-red-50 disabled:opacity-50"
         >
-          <X className="size-4 text-stone-800 transition-colors group-hover:text-red-600" />
+          <X className="size-4 text-stone-800 transition-[colors_opacity] duration-180 group-hover:text-red-600" />
         </button>
       </div>
 
@@ -404,7 +404,7 @@ export function EditDocumentModal({ params, onClose }: EditDocumentProps) {
             value={title || ''}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Doküman başlığı"
-            className="rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-800 transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
+            className="rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-800 transition-[colors_opacity] duration-180 focus:border focus:border-primary-500 focus:ring-0 focus:outline-none"
             disabled={isPending}
           />
         </div>
@@ -419,7 +419,7 @@ export function EditDocumentModal({ params, onClose }: EditDocumentProps) {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Doküman açıklaması"
             rows={4}
-            className="resize-none rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-800 transition-colors focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none"
+            className="resize-none rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm text-stone-800 transition-[colors_opacity] duration-180 focus:border focus:border-primary-500 focus:ring-0 focus:outline-none"
             disabled={isPending}
           />
         </div>
@@ -430,14 +430,14 @@ export function EditDocumentModal({ params, onClose }: EditDocumentProps) {
             type="button"
             onClick={onClose}
             disabled={isPending}
-            className="flex flex-1 items-center justify-center rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-800 transition-colors hover:bg-stone-50 disabled:opacity-50"
+            className="flex flex-1 items-center justify-center rounded-lg border border-stone-200 bg-white px-4 py-2.5 text-sm font-medium text-stone-800 transition-[colors_opacity] duration-180 hover:bg-stone-50 disabled:opacity-50"
           >
             İptal
           </button>
           <button
             type="submit"
             disabled={isPending}
-            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white transition-colors hover:bg-primary/90 disabled:opacity-50"
+            className="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-white transition-[colors_opacity] duration-180 hover:bg-primary/90 disabled:opacity-50"
           >
             {isPending ? (
               <>
