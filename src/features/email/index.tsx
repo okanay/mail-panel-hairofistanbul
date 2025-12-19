@@ -1,23 +1,18 @@
 import { useModalStore } from '@/features/modals/store'
-import { Code, Type } from 'lucide-react'
-import { useEmailStore } from './store'
+import { Code } from 'lucide-react'
 import { EditorBlockRenderer } from './editor'
+import { useEmailStore } from './store'
 
 interface DemoProps {
   onClose: () => void
 }
 
 const EmailEditorContent = ({ onClose }: DemoProps) => {
-  const { getEmailTemplate } = useEmailStore()
-
-  const handleLogHtml = async () => {
-    const htmlString = await getEmailTemplate()
-    console.log(htmlString)
-  }
+  const handleLogHtml = async () => {}
 
   return (
-    <div className="flex h-dvh w-screen flex-col overflow-hidden bg-white font-mono text-stone-800">
-      <div className="z-20 flex h-16 items-center justify-between border-b border-stone-200 bg-white px-6">
+    <div className="relative flex h-dvh w-screen flex-col items-start justify-start overflow-y-auto bg-stone-100 font-mono text-stone-800">
+      <div className="fixed z-50 flex h-16 w-full shrink-0 items-center justify-between border-b border-stone-200 bg-white px-6">
         <div>
           <h2 className="font-custom-commuters text-lg font-semibold">Email Editör</h2>
           <span className="font-mono text-xs text-stone-500">version : 0</span>
@@ -34,81 +29,48 @@ const EmailEditorContent = ({ onClose }: DemoProps) => {
           </button>
         </div>
       </div>
-
-      <div className="flex flex-1 overflow-hidden">
-        <Toolbox />
-        <LivePreview />
-      </div>
+      <Toolbox />
+      <LivePreview />
     </div>
   )
 }
 
+// Toolbox
 const Toolbox = () => {
-  const { addBlock } = useEmailStore()
+  const { addContainer, mergeContainers, splitContainer, selected } = useEmailStore()
 
-  const handleAddText = () => {
-    addBlock({
-      type: 'text',
-      id: crypto.randomUUID(),
-      content: 'Buraya tıklayıp metni düzenleyebilirsiniz.',
-      styles: {
-        color: '#000',
-      },
-    })
+  const handleAddContainer = () => {
+    addContainer()
+  }
+
+  const handleMerge = () => {
+    mergeContainers(selected)
+  }
+
+  const handleSplit = () => {
+    splitContainer(selected[0])
   }
 
   return (
-    <div className="flex w-64 flex-col gap-4 border-r border-stone-200 bg-stone-50 p-4">
-      <h3 className="font-mono text-xs font-bold uppercase">İçerik Ekle</h3>
+    <div className="fixed top-0 left-0 z-40 flex h-dvh min-w-48 flex-col items-start gap-4 overflow-y-auto border-r border-stone-200 bg-white p-4 pt-20 text-start">
       <button
-        onClick={handleAddText}
-        className="flex items-center gap-3 rounded-lg border border-stone-200 bg-white p-3 text-left transition-all hover:border-primary-500 hover:shadow-sm"
+        className="h-10 w-full rounded bg-stone-800 px-6 text-start text-white"
+        onClick={handleAddContainer}
       >
-        <div className="rounded bg-primary-100 p-2 text-primary-600">
-          <Type size={18} />
-        </div>
-        <span className="text-sm font-medium text-stone-700">Metin Bloğu</span>
+        Add
       </button>
-      <h3 className="font-mono text-xs font-bold uppercase">TODO LIST</h3>
-      <ul className="flex flex-col gap-y-2 text-xs italic">
-        <li>
-          <PriorityLevel level="4">
-            Burada acaba bir üst katmanda Tiptap kullanıp alt layerda Tiptap çıktısı ile email
-            render etmek ne kadar mantıklı?
-          </PriorityLevel>
-        </li>
-        <li>
-          <PriorityLevel level="3">Dinamik olarak ayarlanabilir ekran genişliği</PriorityLevel>
-        </li>
-        <li>
-          <PriorityLevel level="3">
-            Tailwind CSS sınıfları globals.css'de olmasa bile eklenebiliyor mu?
-          </PriorityLevel>
-        </li>
-        <li>
-          <PriorityLevel level="3">Spesifik bir metin için font ekleme</PriorityLevel>
-        </li>
-        <li>
-          <PriorityLevel level="2">
-            Metin editlenirken spesifik bir kısmı seçilirse ona stil verilirse ne olacak?
-          </PriorityLevel>
-        </li>
-        <li>
-          <PriorityLevel level="2">
-            Metin editlenirken stil butonlarına outside-click nasıl olacak
-          </PriorityLevel>
-        </li>
-        <li>
-          <PriorityLevel level="1">
-            Editör modalındaki Toolbox sayfa yüksekliğini takip etmeli.
-          </PriorityLevel>
-        </li>
-        <li>
-          <PriorityLevel level="1">
-            Dökümanın sabit bir padding olması style vermeyi limitliyor.
-          </PriorityLevel>
-        </li>
-      </ul>
+      <button
+        className="h-10 w-full rounded bg-stone-800 px-6 text-start text-white"
+        onClick={handleMerge}
+      >
+        Merge ({selected.length})
+      </button>
+      <button
+        className="h-10 w-full rounded bg-stone-800 px-6 text-start text-white"
+        onClick={handleSplit}
+      >
+        Split
+      </button>
     </div>
   )
 }
@@ -117,11 +79,8 @@ const LivePreview = () => {
   const { blocks } = useEmailStore()
 
   return (
-    <div className="flex flex-1 justify-center overflow-y-auto bg-slate-100 p-8">
-      <div
-        className="min-h-150 w-full max-w-150 rounded-sm bg-white p-10 shadow-2xl"
-        style={{ fontFamily: 'Inter, sans-serif' }}
-      >
+    <div className="relative z-30 mx-auto w-full max-w-150 translate-x-24 bg-stone-100 pt-20 pb-2">
+      <div className="w-full rounded-sm bg-white shadow-2xl">
         {blocks.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-stone-200 text-stone-400">
             <p>Henüz içerik yok.</p>
@@ -131,39 +90,6 @@ const LivePreview = () => {
         )}
       </div>
     </div>
-  )
-}
-
-interface PriorityLevelProps {
-  children: React.ReactNode
-  level: string
-}
-
-const PriorityLevel = ({ children, level }: PriorityLevelProps) => {
-  let colorClass = 'text-sky-500'
-
-  switch (level) {
-    case '1':
-      colorClass = 'text-sky-500'
-      break
-    case '2':
-      colorClass = 'text-amber-500'
-      break
-    case '3':
-      colorClass = 'text-violet-500'
-      break
-    case '4':
-      colorClass = 'text-rose-500'
-      break
-    default:
-      colorClass = 'text-gray-500'
-      break
-  }
-
-  return (
-    <>
-      {children} <span className={colorClass}>L{level}</span>
-    </>
   )
 }
 

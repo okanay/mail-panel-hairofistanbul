@@ -4,20 +4,24 @@ import { EditableContainerBlock } from './blocks/container'
 import { EditableImageBlock } from './blocks/image'
 import { EditableTextBlock } from './blocks/text'
 
-export const EditorBlockRenderer = ({ block }: { block: EmailBlock }) => {
+export const EditorBlockRenderer = ({
+  block,
+  depth = 0,
+}: {
+  block: EmailBlock
+  depth?: number
+}) => {
   switch (block.type) {
     case 'container':
-    case 'column':
-      return <EditableContainerBlock block={block} />
+      return <EditableContainerBlock block={block} depth={depth} />
     case 'text':
       return <EditableTextBlock block={block} />
     case 'button':
       return <EditableButtonBlock block={block} />
     case 'image':
       return <EditableImageBlock block={block} />
-
     default:
-      return <div className="text-xs text-red-500">Bilinmeyen Blok Tipi</div>
+      return null
   }
 }
 
@@ -47,7 +51,7 @@ export const ReactEmailRenderer = ({ blocks }: { blocks: EmailBlock[] }) => {
           />
         </Head>
         <Body className="bg-white font-sans">
-          <Container style={{ maxWidth: containerWidth }} className="mx-auto my-4 w-full">
+          <Container style={{ maxWidth: containerWidth }} className="mx-auto w-full">
             {blocks.map((block) => (
               <ReactEmailComponent key={block.id} block={block} />
             ))}
