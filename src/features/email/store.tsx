@@ -107,6 +107,25 @@ const createEmailStore = () =>
           styles: {},
           children: [],
         },
+        {
+          id: 'second-container',
+          type: 'container',
+          styles: {},
+          children: [],
+        },
+        {
+          id: 'third-container',
+          type: 'container',
+          styles: {},
+          children: [
+            {
+              id: 'third-first-container',
+              type: 'container',
+              styles: {},
+              children: [],
+            },
+          ],
+        },
       ],
       selected: [],
       hovered: null,

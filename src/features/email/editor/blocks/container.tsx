@@ -33,7 +33,7 @@ export const EditableContainerBlock = ({
         onMouseLeave={() => setHovered(null)}
         data-selected={isSelected}
         data-hovered={isHovered}
-        className="mb-2 min-h-12.5 border-2 border-dashed border-gray-200 p-2 transition-colors data-[hovered=true]:border-gray-400 data-[hovered=true]:bg-gray-50 data-[selected=true]:border-primary-500 data-[selected=true]:bg-primary-50"
+        className="mb-2 min-h-12.5 cursor-pointer border-2 border-dashed border-gray-200 p-2 transition-colors data-[hovered=true]:border-gray-400 data-[hovered=true]:bg-gray-50 data-[selected=true]:border-primary-500 data-[selected=true]:bg-primary-50"
         style={{
           marginLeft: depth === 0 ? '0px' : `${4 * depth}px`,
           marginTop: depth === 0 ? '0px' : '4px',

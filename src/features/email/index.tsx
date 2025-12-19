@@ -80,7 +80,7 @@ const LivePreview = () => {
 
   return (
     <div className="relative z-30 mx-auto w-full max-w-150 translate-x-24 bg-stone-100 pt-20 pb-2">
-      <div className="w-full rounded-sm bg-white shadow-2xl">
+      <div className="min-h-150 w-full rounded-sm bg-white shadow-2xl">
         {blocks.length === 0 ? (
           <div className="flex h-full flex-col items-center justify-center rounded-lg border-2 border-dashed border-stone-200 text-stone-400">
             <p>Henüz içerik yok.</p>
