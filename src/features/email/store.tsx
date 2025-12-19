@@ -2,36 +2,89 @@ import { createContext, PropsWithChildren, useContext, useState } from 'react'
 import { createStore, StoreApi, useStore } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 import { render } from '@react-email/render'
-import { DynamicEmailRenderer } from './components/renderer'
+import { ReactEmailRenderer } from './editor'
 
 interface EmailStore {
   blocks: EmailBlock[]
-  addBlock: (block: EmailBlock) => void
+
+  addBlock: (block: EmailBlock, parentId?: string) => void
   updateBlock: (id: string, data: Partial<EmailBlock>) => void
+  removeBlock: (id: string) => void
+
   getEmailTemplate: () => Promise<string>
+}
+
+const findAndUpdateBlock = (blocks: EmailBlock[], id: string, data: any): boolean => {
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i]
+    if (block.id === id) {
+      blocks[i] = { ...block, ...data }
+      return true
+    }
+    // Eğer container ise içine bak
+    if (block.type === 'container' || block.type === 'column') {
+      const found = findAndUpdateBlock((block as ContainerBlock).children, id, data)
+      if (found) return true
+    }
+  }
+  return false
+}
+
+const findParentAndPush = (
+  blocks: EmailBlock[],
+  parentId: string,
+  newBlock: EmailBlock,
+): boolean => {
+  for (let block of blocks) {
+    if (block.id === parentId && (block.type === 'container' || block.type === 'column')) {
+      ;(block as ContainerBlock).children.push(newBlock)
+      return true
+    }
+    if (block.type === 'container' || block.type === 'column') {
+      const found = findParentAndPush((block as ContainerBlock).children, parentId, newBlock)
+      if (found) return true
+    }
+  }
+  return false
 }
 
 const createEmailStore = () =>
   createStore<EmailStore>()(
     immer((set, get) => ({
-      blocks: [],
+      blocks: [
+        {
+          id: 'root_1',
+          type: 'container',
+          styles: {
+            paddingTop: 20,
+            paddingBottom: 20,
+          },
+          children: [],
+        },
+      ],
 
-      addBlock: (block) =>
+      addBlock: (block, parentId) =>
         set((state) => {
-          state.blocks.push(block)
+          if (!parentId) {
+            state.blocks.push(block)
+          } else {
+            findParentAndPush(state.blocks, parentId, block)
+          }
         }),
 
       updateBlock: (id, data) =>
         set((state) => {
-          const blockIndex = state.blocks.findIndex((b) => b.id === id)
-          if (blockIndex > -1) {
-            state.blocks[blockIndex] = { ...state.blocks[blockIndex], ...data }
-          }
+          findAndUpdateBlock(state.blocks, id, data)
+        }),
+
+      removeBlock: (id) =>
+        set((state) => {
+          console.log('Delete not implemented deep logic yet', id, state)
         }),
 
       getEmailTemplate: async () => {
         const currentBlocks = get().blocks
-        const html = await render(<DynamicEmailRenderer blocks={currentBlocks} />)
+        const html = await render(<ReactEmailRenderer blocks={currentBlocks} />)
         return html
       },
     })),

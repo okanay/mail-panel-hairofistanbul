@@ -1,7 +1,7 @@
 import { useModalStore } from '@/features/modals/store'
-import { useEmailStore } from '../store'
 import { Code, Type } from 'lucide-react'
-import { EditableTextBlock } from '../components/blocks/text'
+import { useEmailStore } from './store'
+import { EditorBlockRenderer } from './editor'
 
 interface DemoProps {
   onClose: () => void
@@ -51,7 +51,9 @@ const Toolbox = () => {
       type: 'text',
       id: crypto.randomUUID(),
       content: 'Buraya tıklayıp metni düzenleyebilirsiniz.',
-      styles: 'text-base text-stone-700 leading-relaxed',
+      styles: {
+        color: '#000',
+      },
     })
   }
 
@@ -125,7 +127,7 @@ const LivePreview = () => {
             <p>Henüz içerik yok.</p>
           </div>
         ) : (
-          blocks.map((block) => <EditableTextBlock key={block.id} block={block} />)
+          blocks.map((block) => <EditorBlockRenderer key={block.id} block={block} />)
         )}
       </div>
     </div>

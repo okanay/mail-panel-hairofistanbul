@@ -1,4 +1,4 @@
-import { RenderDemoModal } from '@/features/email/modals/demo'
+import { RenderDemoModal } from '@/features/email'
 import { createFileRoute, Link, useNavigate, useSearch } from '@tanstack/react-router'
 import { ArrowRight, Building2, Car, FileText } from 'lucide-react'
 import { useState } from 'react'
