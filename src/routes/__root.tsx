@@ -8,6 +8,7 @@ import { HeadContent, Scripts, createRootRouteWithContext } from '@tanstack/reac
 import z from 'zod'
 import globals from '../assets/styles/globals.css?url'
 import { AuthProvider } from '../providers/auth'
+import { EmailStoreProvider } from '@/features/email/store'
 
 export const validation = z.object({
   language: z
@@ -90,11 +91,13 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <body>
         <AuthProvider initialUser={data.user}>
           <FramerMotion>
-            <DropdownStoreProvider>
-              <ModalStoreProvider>
-                {data.user || skipLogin === 'yes' ? children : <LoginPage />}
-              </ModalStoreProvider>
-            </DropdownStoreProvider>
+            <EmailStoreProvider>
+              <DropdownStoreProvider>
+                <ModalStoreProvider>
+                  {data.user || skipLogin === 'yes' ? children : <LoginPage />}
+                </ModalStoreProvider>
+              </DropdownStoreProvider>
+            </EmailStoreProvider>
           </FramerMotion>
         </AuthProvider>
         <Scripts />
