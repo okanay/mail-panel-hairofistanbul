@@ -69,11 +69,43 @@ const Toolbox = () => {
       </button>
       <h3 className="font-mono text-xs font-bold uppercase">TODO LIST</h3>
       <ul className="flex flex-col gap-y-2 text-xs italic">
-        <li>Dinamik olarak ayarlanabilir ekran genişliği (L3)</li>
-        <li>Tailwind CSS sınıfları globals.css'de olmasa bile eklenebiliyor mu? (L3)</li>
-        <li>Spesifik bir metin için font ekleme (L3)</li>
-        <li>Editör modalındaki Toolbox sayfa yüksekliğini takip etmeli. (L1) </li>
-        <li>Dökümanın sabit bir padding olması style vermeyi limitliyor. (L1)</li>
+        <li>
+          <PriorityLevel level="4">
+            Burada acaba bir üst katmanda Tiptap kullanıp alt layerda Tiptap çıktısı ile email
+            render etmek ne kadar mantıklı?
+          </PriorityLevel>
+        </li>
+        <li>
+          <PriorityLevel level="3">Dinamik olarak ayarlanabilir ekran genişliği</PriorityLevel>
+        </li>
+        <li>
+          <PriorityLevel level="3">
+            Tailwind CSS sınıfları globals.css'de olmasa bile eklenebiliyor mu?
+          </PriorityLevel>
+        </li>
+        <li>
+          <PriorityLevel level="3">Spesifik bir metin için font ekleme</PriorityLevel>
+        </li>
+        <li>
+          <PriorityLevel level="2">
+            Metin editlenirken spesifik bir kısmı seçilirse ona stil verilirse ne olacak?
+          </PriorityLevel>
+        </li>
+        <li>
+          <PriorityLevel level="2">
+            Metin editlenirken stil butonlarına outside-click nasıl olacak
+          </PriorityLevel>
+        </li>
+        <li>
+          <PriorityLevel level="1">
+            Editör modalındaki Toolbox sayfa yüksekliğini takip etmeli.
+          </PriorityLevel>
+        </li>
+        <li>
+          <PriorityLevel level="1">
+            Dökümanın sabit bir padding olması style vermeyi limitliyor.
+          </PriorityLevel>
+        </li>
       </ul>
     </div>
   )
@@ -111,5 +143,38 @@ export const RenderDemoModal = () => {
     >
       Email Editör
     </button>
+  )
+}
+
+interface PriorityLevelProps {
+  children: React.ReactNode
+  level: string
+}
+
+const PriorityLevel = ({ children, level }: PriorityLevelProps) => {
+  let colorClass = 'text-sky-500'
+
+  switch (level) {
+    case '1':
+      colorClass = 'text-sky-500'
+      break
+    case '2':
+      colorClass = 'text-amber-500'
+      break
+    case '3':
+      colorClass = 'text-violet-500'
+      break
+    case '4':
+      colorClass = 'text-rose-500'
+      break
+    default:
+      colorClass = 'text-gray-500'
+      break
+  }
+
+  return (
+    <>
+      {children} <span className={colorClass}>L{level}</span>
+    </>
   )
 }

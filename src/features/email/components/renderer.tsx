@@ -1,6 +1,16 @@
 import { Html, Container, Text, Tailwind, Head, Body, Font } from '@react-email/components'
 
-export const DynamicEmailRenderer = ({ blocks }: { blocks: EmailBlock[] }) => {
+type Settings = { maxWidth: string }
+
+export const DynamicEmailRenderer = ({
+  blocks,
+  settings,
+}: {
+  blocks: EmailBlock[]
+  settings: Settings
+}) => {
+  const containerWidth = settings?.maxWidth || '600px'
+
   return (
     <Tailwind>
       <Html lang="tr">
@@ -15,7 +25,7 @@ export const DynamicEmailRenderer = ({ blocks }: { blocks: EmailBlock[] }) => {
           />
         </Head>
         <Body className="bg-white font-sans">
-          <Container className="mx-auto my-4 w-full max-w-150">
+          <Container style={{ maxWidth: containerWidth }} className="mx-auto my-4 w-full">
             {blocks.map((block) => {
               if (block.type === 'text') {
                 return (

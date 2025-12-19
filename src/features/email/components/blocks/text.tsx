@@ -1,5 +1,18 @@
 import { useState, useRef, useEffect } from 'react'
 import { useEmailStore } from '../../store'
+import { twMerge } from 'tailwind-merge'
+import {
+  AArrowUp,
+  Bold,
+  Italic,
+  List,
+  MarsStroke,
+  PaintBucket,
+  Strikethrough,
+  Text,
+  TypeOutline,
+  Underline,
+} from 'lucide-react'
 
 export const EditableTextBlock = ({ block }: { block: EmailBlock }) => {
   const { updateBlock } = useEmailStore()
@@ -23,10 +36,30 @@ export const EditableTextBlock = ({ block }: { block: EmailBlock }) => {
   }
 
   return (
-    <div className="group relative mb-2">
+    <div onBlur={handleBlur} onFocus={() => setIsFocused(true)} className="group relative mb-2">
       {isFocused && (
-        <div className="absolute -top-6 left-0 z-10 flex items-center gap-2 rounded-t-md bg-blue-600 px-2 py-1 text-xs text-white">
-          <span>Metin Düzenleniyor</span>
+        <div className="absolute -top-6 left-2 z-10 flex items-center gap-2">
+          <button className="size-5 rounded-sm bg-stone-200 p-1 text-stone-900 hover:bg-current/16 focus:bg-current/18 active:bg-current/18">
+            <Bold className="size-full" />
+          </button>
+          <button className="size-5 rounded-sm bg-stone-200 p-1 text-stone-900 hover:bg-current/16 focus:bg-current/18 active:bg-current/18">
+            <Italic className="size-full" />
+          </button>
+          <button className="size-5 rounded-sm bg-stone-200 p-1 text-stone-900 hover:bg-current/16 focus:bg-current/18 active:bg-current/18">
+            <Underline className="size-full" />
+          </button>
+          <button className="size-5 rounded-sm bg-stone-200 p-1 text-stone-900 hover:bg-current/16 focus:bg-current/18 active:bg-current/18">
+            <List className="size-full" />
+          </button>
+          <button className="size-5 rounded-sm bg-stone-200 p-1 text-stone-900 hover:bg-current/16 focus:bg-current/18 active:bg-current/18">
+            <PaintBucket className="size-full" />
+          </button>
+          <button className="size-5 rounded-sm bg-stone-200 p-1 text-stone-900 hover:bg-current/16 focus:bg-current/18 active:bg-current/18">
+            <TypeOutline className="size-full" />
+          </button>
+          <button className="size-5 rounded-sm bg-stone-200 p-1 text-stone-900 hover:bg-current/16 focus:bg-current/18 active:bg-current/18">
+            <Strikethrough className="size-full" />
+          </button>
         </div>
       )}
 
@@ -34,9 +67,11 @@ export const EditableTextBlock = ({ block }: { block: EmailBlock }) => {
         ref={contentRef}
         contentEditable
         suppressContentEditableWarning={true}
-        onFocus={() => setIsFocused(true)}
-        onBlur={handleBlur}
-        className={`min-h-[1.5em] transition-all outline-none ${block.styles} ${isFocused ? 'rounded bg-blue-50/50 ring-2 ring-blue-500 ring-offset-2' : 'border border-transparent hover:border-dashed hover:border-gray-300 hover:bg-gray-50'} `}
+        className={twMerge(
+          'min-h-[1.5em] border border-dashed border-transparent transition-all outline-none hover:border-current/20 hover:bg-current/12',
+          block.styles,
+          isFocused && 'border-solid! border-current/20 bg-current/12',
+        )}
       >
         {block.content}
       </div>
