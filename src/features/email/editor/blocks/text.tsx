@@ -1,3 +1,12 @@
 export const EditableTextBlock = ({ block }: { block: TextBlock }) => {
-  return <div className="group relative mb-2">{JSON.stringify(block)}</div>
+  return (
+    <div
+      id={block.id}
+      data-block={`text-${block.id}`}
+      className={`my-2 inline-block`}
+      style={block.styles}
+    >
+      {block.content}
+    </div>
+  )
 }

@@ -1,6 +1,11 @@
 export const EditableImageBlock = ({ block }: { block: ImageBlock }) => {
   return (
-    <div id={block.id} className={`inline-block`} style={block.styles}>
+    <div
+      id={block.id}
+      className={`inline-block`}
+      style={block.styles}
+      data-block={`image-${block.id}`}
+    >
       <img
         src={block.props.src}
         alt={block.props.alt}

@@ -4,6 +4,7 @@ export const EditableContainerBlock = ({ block }: { block: ContainerBlock }) => 
   return (
     <div
       id={block.id}
+      data-block={`container-${block.id}`}
       className="group relative z-10 min-h-12.5 border border-dashed border-primary-200 transition-all duration-200 hover:border-primary-400"
     >
       {block.children.map((child) => (

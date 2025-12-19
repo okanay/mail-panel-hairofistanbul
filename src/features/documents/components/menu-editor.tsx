@@ -196,7 +196,7 @@ export const EditorMenu = ({ formData }: Props) => {
                 ...prev,
                 hash: undefined,
               })}
-              className="flex h-9 w-full items-center gap-2.5 rounded-md border border-transparent px-3 text-xs font-medium hover:border-current/26 hover:bg-current/10 hover:ring-0 disabled:cursor-not-allowed disabled:opacity-75"
+              className="flex h-9 w-full items-center gap-2.5 rounded-md border border-transparent px-3 text-xs font-medium text-stone-700 hover:border-current/20 hover:bg-current/6 hover:ring-0 disabled:cursor-not-allowed disabled:opacity-75"
             >
               <Home className="size-4" />
               <span>Anasayfa</span>
@@ -303,7 +303,7 @@ type MenuButtonProps = {
 
 const MenuButton = ({ onClick, disabled, icon, label, variant = 'default' }: MenuButtonProps) => {
   const baseClasses =
-    'flex h-9 w-full items-center gap-2.5 rounded-md border border-transparent px-3 text-xs font-medium  hover:border-current/26 hover:bg-current/10 hover:ring-0 disabled:cursor-not-allowed disabled:opacity-75'
+    'flex h-9 w-full items-center gap-2.5 rounded-md border border-transparent px-3 text-xs font-medium  hover:border-current/20 hover:bg-current/6 hover:ring-0 disabled:cursor-not-allowed disabled:opacity-75'
   const variantClasses = variant === 'danger' ? 'text-rose-600' : 'text-stone-700'
 
   return (

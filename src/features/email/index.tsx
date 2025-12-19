@@ -134,20 +134,6 @@ const LivePreview = () => {
   )
 }
 
-export const RenderDemoModal = () => {
-  const { open } = useModalStore()
-
-  return (
-    <button
-      type="button"
-      onClick={() => open(EmailEditorContent)}
-      className="absolute top-2 right-6 my-4 h-10 rounded-lg bg-stone-600 px-6 text-sm font-medium text-white"
-    >
-      Email Editör
-    </button>
-  )
-}
-
 interface PriorityLevelProps {
   children: React.ReactNode
   level: string
@@ -178,5 +164,19 @@ const PriorityLevel = ({ children, level }: PriorityLevelProps) => {
     <>
       {children} <span className={colorClass}>L{level}</span>
     </>
+  )
+}
+
+export const RenderDemoModal = () => {
+  const { open } = useModalStore()
+
+  return (
+    <button
+      type="button"
+      onClick={() => open(EmailEditorContent)}
+      className="absolute top-2 right-6 my-4 hidden h-12 rounded-lg bg-stone-600 px-6 font-mono text-xs font-medium text-white hover:bg-stone-700 lg:block"
+    >
+      TEST FEATURE
+    </button>
   )
 }

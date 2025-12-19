@@ -1,6 +1,6 @@
 export const EditableButtonBlock = ({ block }: { block: ButtonBlock }) => {
   return (
-    <div id={block.id} style={block.styles}>
+    <div id={block.id} style={block.styles} data-block={`button-${block.id}`}>
       <a
         href={block.props.url}
         target={block.props.target}
