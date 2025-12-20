@@ -5,15 +5,18 @@ interface TextPropertiesProps {
 export const TextProperties = ({ block }: TextPropertiesProps) => {
   return (
     <div className="mt-4 flex flex-col gap-y-3">
-      <h3 className="px-4 text-xs font-bold text-stone-400 uppercase">Properties</h3>
-      <div className="px-4">
+      <h3 className="px-4 text-xs font-medium text-stone-500 uppercase">Properties</h3>
+
+      <div className="flex flex-col items-start justify-between gap-y-1 border-b border-stone-200 px-4 pb-4">
         <span className="text-xs text-stone-500">Type</span>
-        <p className="text-sm font-medium">Text</p>
+        <p className="text-xs font-medium">Text</p>
+        <div>
+          <span className="text-xs text-stone-500">ID</span>
+          <p className="font-mono text-xs text-stone-600">{block.id.slice(0, 8)}...</p>
+        </div>
       </div>
-      <div className="px-4">
-        <span className="text-xs text-stone-500">Content</span>
-        <p className="text-xs text-stone-600">{block.content}</p>
-      </div>
+
+      <div className="flex flex-col gap-y-3 px-4"></div>
     </div>
   )
 }

@@ -8,14 +8,16 @@ export const Toolbox = () => {
   return (
     <div className="flex w-56 flex-col gap-4 overflow-y-auto border-r border-stone-200 bg-white p-4">
       <section className="flex flex-col gap-y-2">
-        <h3 className="mb-2 text-xs font-bold text-stone-400 uppercase">Bloklar</h3>
+        <h3 className="mb-2 text-xs font-medium text-stone-500 uppercase">Bloklar</h3>
         <ToolboxAddContainer />
         <ToolboxAddText />
         <ToolboxAddButton />
         <ToolboxAddImage />
       </section>
-
-      <ToolboxHistory />
+      <section>
+        <h3 className="mb-2 text-xs font-medium text-stone-500 uppercase">Kontrol</h3>
+        <ToolboxHistory />
+      </section>
     </div>
   )
 }

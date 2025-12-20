@@ -7,24 +7,21 @@ export const ToolboxHistory = () => {
   const canRedo = futureStates.length > 0
 
   return (
-    <section>
-      <h3 className="mb-2 text-xs font-bold text-stone-400 uppercase">Kontrol</h3>
-      <div className="flex gap-2">
-        <button
-          onClick={() => undo()}
-          disabled={!canUndo}
-          className="flex-1 rounded bg-stone-800 px-3 py-2 text-xs font-semibold text-white hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          Geri
-        </button>
-        <button
-          onClick={() => redo()}
-          disabled={!canRedo}
-          className="flex-1 rounded bg-stone-800 px-3 py-2 text-xs font-semibold text-white hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          İleri
-        </button>
-      </div>
-    </section>
+    <div className="flex gap-2">
+      <button
+        onClick={() => undo()}
+        disabled={!canUndo}
+        className="flex-1 rounded bg-stone-800 px-3 py-2 text-xs font-semibold text-white hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        Geri
+      </button>
+      <button
+        onClick={() => redo()}
+        disabled={!canRedo}
+        className="flex-1 rounded bg-stone-800 px-3 py-2 text-xs font-semibold text-white hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        İleri
+      </button>
+    </div>
   )
 }

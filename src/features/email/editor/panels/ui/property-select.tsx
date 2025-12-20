@@ -26,7 +26,7 @@ export const PropertySelect = ({ label, value, options, onChange }: PropertySele
       <select
         value={localValue}
         onChange={(e) => handleChange(e.target.value)}
-        className="w-28 rounded border border-stone-200 bg-white px-2 py-1 text-xs text-stone-700 outline-none focus:border-blue-500"
+        className="w-28 appearance-none rounded border border-stone-200 bg-white px-2 py-1 text-xs text-stone-700 outline-none focus:border-blue-500"
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>

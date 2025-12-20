@@ -29,7 +29,7 @@ export const ToolboxAddContainer = () => {
   return (
     <button
       onClick={() => handleAdd()}
-      className="rounded border border-stone-200 bg-stone-50 px-3 py-2 text-left text-sm font-semibold capitalize hover:bg-stone-100"
+      className="h-10 bg-stone-800 px-4 text-left text-xs font-medium text-stone-100 uppercase hover:bg-stone-900"
     >
       Container
     </button>
