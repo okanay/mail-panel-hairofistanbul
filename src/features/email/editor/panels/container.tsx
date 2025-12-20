@@ -93,6 +93,14 @@ export const ContainerProperties = ({ block }: ContainerPropertiesProps) => {
         />
 
         <PropertyText
+          label="Padding"
+          styleKey="padding"
+          value={block.styles?.padding}
+          placeholder="4px"
+          onBlur={handleStyleChange}
+        />
+
+        <PropertyText
           label="Width"
           styleKey="width"
           value={block.styles?.width}
@@ -121,6 +129,14 @@ export const ContainerProperties = ({ block }: ContainerPropertiesProps) => {
           styleKey="color"
           value={block.styles?.color}
           placeholder="#00000"
+          onBlur={handleStyleChange}
+        />
+
+        <PropertyText
+          label="Border"
+          styleKey="border"
+          value={block.styles?.border}
+          placeholder="1px solid #000000"
           onBlur={handleStyleChange}
         />
       </div>

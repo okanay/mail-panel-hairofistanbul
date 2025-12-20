@@ -35,7 +35,7 @@ export const PropertyText = ({
         placeholder={placeholder}
         onChange={(e) => setLocalValue(e.target.value)}
         onBlur={handleBlur}
-        className="w-28 rounded border border-stone-200 bg-white px-2 py-1 text-xs text-stone-700 outline-none focus:border-blue-500"
+        className="w-40 rounded border border-stone-200 bg-white px-2 py-1 text-xs text-stone-700 outline-none focus:border-blue-500"
       />
     </div>
   )

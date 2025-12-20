@@ -32,5 +32,5 @@ export const PropertiesPanel = () => {
     }
   }
 
-  return <aside className="w-64 border-l border-stone-200 bg-white">{PropertiesComponent}</aside>
+  return <aside className="w-80 border-l border-stone-200 bg-white">{PropertiesComponent}</aside>
 }
