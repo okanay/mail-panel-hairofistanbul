@@ -13,7 +13,7 @@ export const Canvas = () => {
   }
 
   return (
-    <div className="flex flex-1 justify-center overflow-y-auto bg-primary-50 pt-6 pb-10">
+    <div className="flex flex-1 justify-center overflow-y-auto bg-primary-50 py-8">
       <DndProvider onDragEnd={handleDragEnd} renderOverlay={() => null}>
         <div className="min-h-150 w-150 rounded-lg bg-white shadow-xl">
           {rootBlock && <RecursiveRenderer block={rootBlock} />}
