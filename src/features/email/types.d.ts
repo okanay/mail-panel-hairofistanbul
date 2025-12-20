@@ -33,7 +33,6 @@ declare global {
     props: {
       src: string
       alt: string
-      url?: string
       width?: number
       height?: number
     }
