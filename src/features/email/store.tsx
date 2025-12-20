@@ -79,6 +79,176 @@ const calculateDepth = (blocks: EmailBlock[], targetId: string, currentDepth = 0
 }
 
 // ============================================
+// INITIAL EXAMPLE
+// ============================================
+
+const example: EmailBlock[] = [
+  {
+    id: 'root',
+    type: 'container',
+    styles: {
+      minHeight: '400px',
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '8px',
+    },
+    children: [
+      {
+        id: 'ca74db6c-d852-4f7b-b55c-c9635d65e9a1',
+        type: 'container',
+        children: [
+          {
+            id: '5db4d13b-bfb2-468e-a9e9-c611d842daba',
+            type: 'text',
+            content: 'Lorem ipsum dolor sit amet.',
+            styles: {
+              fontSize: '14px',
+              color: 'inherit',
+            },
+          },
+          {
+            id: '1ad66e2d-ee82-4627-8434-fb83586e683c',
+            type: 'text',
+            content: 'Lorem ipsum dolor sit amet.',
+            styles: {
+              fontSize: '14px',
+              color: 'inherit',
+            },
+          },
+        ],
+        styles: {
+          padding: '10px',
+          border: '1px dashed #e5e5e5',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '4px',
+          height: 'fit-content',
+          minHeight: '60px',
+          width: '100%',
+          backgroundColor: 'black',
+          color: 'white',
+        },
+      },
+      {
+        id: 'ece09212-9530-4fbd-b210-b929a0ab6188',
+        type: 'container',
+        children: [
+          {
+            id: '880b52b6-7fdb-4865-82cc-07d67e88673f',
+            type: 'container',
+            children: [],
+            styles: {
+              padding: '10px',
+              border: '1px dashed #e5e5e5',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '4px',
+              height: '146px',
+              minHeight: '60px',
+              width: '100%',
+            },
+          },
+          {
+            id: '0c6bc1ab-a802-4de0-81f0-e8df1bb64918',
+            type: 'container',
+            children: [
+              {
+                id: 'ef12481d-0e0d-407d-add6-f0f2843807b2',
+                type: 'container',
+                children: [],
+                styles: {
+                  padding: '10px',
+                  border: '1px dashed #e5e5e5',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px',
+                  height: 'fit-content',
+                  minHeight: '60px',
+                  width: '100%',
+                },
+              },
+              {
+                id: 'ecbc8cbb-860c-4630-bc03-3f7fa2886f7a',
+                type: 'container',
+                children: [],
+                styles: {
+                  padding: '10px',
+                  border: '1px dashed #e5e5e5',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px',
+                  height: 'fit-content',
+                  minHeight: '60px',
+                  width: '100%',
+                },
+              },
+            ],
+            styles: {
+              padding: '10px',
+              border: '1px dashed #e5e5e5',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '4px',
+              height: 'fit-content',
+              minHeight: '60px',
+              width: '100%',
+              zIndex: '1',
+              backgroundColor: 'blue',
+            },
+          },
+          {
+            id: 'e0acb19d-05bd-40e9-87a1-bb4c79693c28',
+            type: 'container',
+            children: [],
+            styles: {
+              padding: '10px',
+              border: '1px dashed #e5e5e5',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '4px',
+              height: '100%',
+              minHeight: '60px',
+              width: '100%',
+              position: 'absolute',
+              zIndex: '0',
+              backgroundColor: 'green',
+              top: '0px',
+              left: '0px',
+              color: 'white',
+            },
+          },
+        ],
+        styles: {
+          padding: '10px',
+          border: '1px dashed #e5e5e5',
+          display: 'flex',
+          flexDirection: 'row',
+          gap: '4px',
+          height: 'fit-content',
+          minHeight: '60px',
+          width: '100%',
+        },
+      },
+      {
+        id: '08e4df52-ff47-4ca3-9c19-ec5ba08daa64',
+        type: 'container',
+        children: [],
+        styles: {
+          padding: '10px',
+          border: '1px dashed #e5e5e5',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '4px',
+          height: 'fit-content',
+          minHeight: '60px',
+          width: '100%',
+        },
+      },
+    ],
+  },
+]
+
+// ============================================
 // STORE IMPLEMENTATION
 // ============================================
 
@@ -86,20 +256,7 @@ const createEmailStore = () =>
   createStore<EmailStore>()(
     temporal(
       immer((set, get) => ({
-        blocks: [
-          {
-            id: 'root',
-            type: 'container',
-            styles: {
-              padding: '20px',
-              minHeight: '200px',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-            },
-            children: [],
-          },
-        ] as EmailBlock[],
+        blocks: example,
         selected: null,
 
         setSelected: (id) =>
@@ -143,8 +300,20 @@ const createEmailStore = () =>
         updateBlock: (id, data) =>
           set((state) => {
             const block = findBlock(state.blocks, id)
-            if (block) {
-              Object.assign(block, data)
+            if (!block) return
+
+            // Styles ayrı ele al
+            const { styles, ...restData } = data
+
+            // Diğer property'leri güncelle
+            Object.assign(block, restData)
+
+            // Styles varsa merge et
+            if (styles) {
+              block.styles = {
+                ...block.styles,
+                ...styles,
+              }
             }
           }),
 

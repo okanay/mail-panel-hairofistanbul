@@ -39,7 +39,9 @@ const ContainerComponent = ({ block }: { block: ContainerBlock }) => {
       strategy={isRow ? horizontalListSortingStrategy : verticalListSortingStrategy}
     >
       {block.children.length === 0 ? (
-        <div className="w-full rounded border border-dashed border-stone-200 bg-stone-50/50 p-4 text-center text-xs text-stone-300" />
+        <div className="flex size-full flex-1 flex-col">
+          <div className="h-full w-full rounded border border-dashed border-stone-200 bg-stone-100 p-4" />
+        </div>
       ) : (
         block.children.map((child) => <RecursiveRenderer key={child.id} block={child} />)
       )}
