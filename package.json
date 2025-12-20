@@ -18,6 +18,8 @@
   },
   "dependencies": {
     "@cloudflare/vite-plugin": "^1.18.0",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.2.2",
     "@react-email/components": "^1.0.2",
     "@react-email/render": "^2.0.0",
@@ -47,6 +49,7 @@
     "uuidv7": "^1.1.0",
     "vite-tsconfig-paths": "^5.1.4",
     "zod": "^4.2.1",
+    "zundo": "^2.3.0",
     "zustand": "^5.0.9"
   },
   "devDependencies": {
