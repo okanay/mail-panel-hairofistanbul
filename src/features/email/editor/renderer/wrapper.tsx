@@ -1,7 +1,7 @@
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Grip, Trash2 } from 'lucide-react'
-import type { CSSProperties, PropsWithChildren } from 'react'
+import { ArrowDown, ArrowUp, GripVertical, Trash2 } from 'lucide-react'
+import type { MouseEvent, PropsWithChildren } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { useEmailStore } from '../../store'
 
@@ -10,11 +10,9 @@ interface BlockWrapperProps extends PropsWithChildren {
 }
 
 export const BlockWrapper = ({ block, children }: BlockWrapperProps) => {
-  const { selected, setSelected, removeBlock, moveBlockStep, getParent } = useEmailStore()
+  const { selected, setSelected, removeBlock, moveBlockStep } = useEmailStore()
 
   const isSelected = selected === block.id
-  const isRoot = block.id === 'root'
-  const parent = getParent(block.id)
 
   const {
     attributes,
@@ -26,126 +24,104 @@ export const BlockWrapper = ({ block, children }: BlockWrapperProps) => {
     isDragging,
   } = useSortable({
     id: block.id,
-    disabled: isRoot,
     data: {
       type: block.type,
       block,
-      parentId: parent?.id ?? null,
     },
   })
 
-  // Root için özel render
-  if (isRoot) {
-    return (
-      <div
-        style={block.styles}
-        className="relative h-full w-full bg-white outline-none"
-        onClick={() => setSelected('root')}
-      >
-        {children}
-      </div>
-    )
+  const style = {
+    transform: CSS.Translate.toString(transform),
+    transition,
   }
 
-  // Parent flex yönüne göre hareket ikonları
-  const isParentRow =
-    parent?.id === 'root'
-      ? block.styles?.flexDirection === 'row'
-      : parent?.styles?.display === 'flex' && parent?.styles?.flexDirection === 'row'
+  // --- ACTIONS ---
 
-  const MoveBackIcon = isParentRow ? ArrowLeft : ArrowUp
-  const MoveForwardIcon = isParentRow ? ArrowRight : ArrowDown
-
-  // Event handlers
-  const handleSelect = (e: React.MouseEvent) => {
+  const handleSelect = (e: MouseEvent) => {
     e.stopPropagation()
+    e.preventDefault()
     setSelected(block.id)
   }
 
-  const handleDelete = (e: React.MouseEvent) => {
+  const handleDelete = (e: MouseEvent) => {
     e.stopPropagation()
     removeBlock(block.id)
   }
 
-  const handleMoveBack = (e: React.MouseEvent) => {
+  const handleMoveUp = (e: MouseEvent) => {
     e.stopPropagation()
     moveBlockStep(block.id, 'before')
   }
 
-  const handleMoveForward = (e: React.MouseEvent) => {
+  const handleMoveDown = (e: MouseEvent) => {
     e.stopPropagation()
     moveBlockStep(block.id, 'after')
   }
 
-  // Drag & Drop stilleri
-  const dndStyle: CSSProperties = {
-    transform: CSS.Transform.toString(transform),
-    transition: transition || undefined,
-  }
-
-  const wrapperClasses = twMerge(
-    'group/wrapper relative',
-    !isDragging && !isSelected && 'hover:ring-1 hover:ring-blue-300',
-    !isDragging && isSelected && 'z-10 ring-2 ring-blue-500',
-    isDragging && 'opacity-40 ring-2 ring-dashed ring-blue-400',
-  )
+  // --- RENDER ---
 
   return (
     <div
       ref={setNodeRef}
-      style={{ ...block.styles, ...dndStyle }}
+      style={style}
       onClick={handleSelect}
-      className={wrapperClasses}
-      data-dragging={isDragging || undefined}
+      className={twMerge(
+        'group relative isolate', // isolate: z-index karmaşasını önler
+        'transition-all duration-200 ease-in-out',
+        // 1. Normal Durum (Hover)
+        !isSelected && !isDragging && 'hover:z-10 hover:ring-1 hover:ring-blue-400',
+        // 2. Seçili Durum
+        isSelected && 'z-20 ring-2 ring-blue-600',
+        // 3. Sürüklenme Durumu (Hayalet görüntü)
+        isDragging && 'ring-dashed z-0 opacity-50 ring-2 ring-stone-400',
+        // Boş containerların bile seçilebilmesi için min yükseklik
+        'min-h-4',
+      )}
     >
-      {/* Toolbar */}
+      {/* --- TOOLBAR (Sadece Seçiliyken Görünür) --- */}
       {isSelected && !isDragging && (
-        <div className="absolute -top-7 right-0 z-50 flex items-center gap-1 rounded bg-blue-500 p-1 shadow-xl">
-          {/* Block Type Label */}
-          <div className="px-1 text-[10px] font-bold tracking-wider text-white uppercase">
+        <div className="absolute -top-7 right-0 z-50 flex h-7 items-center overflow-hidden rounded-t bg-blue-600 text-white shadow-sm">
+          {/* Label (Blok Tipi) */}
+          <div className="border-r border-blue-500/50 px-2 text-[10px] font-bold tracking-wider uppercase">
             {block.type}
           </div>
 
-          <div className="mx-1 h-3 w-px bg-blue-400" />
-
-          {/* Move Buttons */}
+          {/* Yukarı Taşı */}
           <button
-            hidden
-            onMouseDown={handleMoveBack}
-            className="rounded p-0.5 text-white hover:bg-blue-600"
-            title="Move back"
+            onClick={handleMoveUp}
+            className="h-full px-1.5 transition-colors hover:bg-blue-700"
+            title="Yukarı Taşı"
           >
-            <MoveBackIcon size={14} />
-          </button>
-          <button
-            hidden
-            onMouseDown={handleMoveForward}
-            className="rounded p-0.5 text-white hover:bg-blue-600"
-            title="Move forward"
-          >
-            <MoveForwardIcon size={14} />
+            <ArrowUp size={12} />
           </button>
 
-          <div hidden className="mx-1 h-3 w-px bg-blue-400" />
-
-          {/* Delete Button */}
+          {/* Aşağı Taşı */}
           <button
-            onMouseDown={handleDelete}
-            className="rounded p-0.5 text-white hover:bg-red-500"
-            title="Delete"
+            onClick={handleMoveDown}
+            className="h-full px-1.5 transition-colors hover:bg-blue-700"
+            title="Aşağı Taşı"
           >
-            <Trash2 size={14} />
+            <ArrowDown size={12} />
           </button>
 
-          {/* Drag Handle */}
+          {/* Sürükle (Drag Handle) */}
           <button
             ref={setActivatorNodeRef}
+            {...listeners} // Sürükleme eventlerini sadece bu butona veriyoruz
             {...attributes}
-            {...listeners}
-            className="cursor-grab rounded p-0.5 text-white hover:bg-blue-600 active:cursor-grabbing"
-            title="Drag to reorder"
+            className="h-full cursor-grab border-l border-blue-500/50 px-1.5 hover:bg-blue-700 active:cursor-grabbing"
+            title="Sürükle"
           >
-            <Grip size={14} />
+            <GripVertical size={12} />
+          </button>
+
+          {/* Sil */}
+          <button
+            onClick={handleDelete}
+            className="h-full border-l border-blue-500/50 px-2 transition-colors hover:bg-red-500"
+            title="Sil"
+          >
+            <Trash2 size={12} />
           </button>
         </div>
       )}

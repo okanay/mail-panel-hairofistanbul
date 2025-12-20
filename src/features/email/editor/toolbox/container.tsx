@@ -10,8 +10,13 @@ export const ToolboxAddContainer = () => {
     newBlock = {
       id,
       type: 'container',
+      props: {
+        style: {
+          minHeight: '60px',
+          border: '1px dashed grey',
+        },
+      },
       children: [],
-      styles: {},
     }
 
     addBlock(newBlock)

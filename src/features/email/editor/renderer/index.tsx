@@ -1,15 +1,17 @@
 import { BlockButton } from './button'
 import { BlockContainer } from './container'
 import { BlockImage } from './image'
-import { BlockRootContainer } from './root'
 import { BlockText } from './text'
 import { BlockWrapper } from './wrapper'
 
 export const RecursiveRenderer = ({ block }: { block: EmailBlock }) => {
-  let isRoot = block.id === 'root'
   let Component = null
 
+  // 2. Component Eşleştirme
   switch (block.type) {
+    case 'container':
+      Component = <BlockContainer block={block as ContainerBlock} />
+      break
     case 'text':
       Component = <BlockText block={block as TextBlock} />
       break
@@ -19,15 +21,8 @@ export const RecursiveRenderer = ({ block }: { block: EmailBlock }) => {
     case 'image':
       Component = <BlockImage block={block as ImageBlock} />
       break
-    case 'container':
-      Component = <BlockContainer block={block as ContainerBlock} />
-      break
     default:
-      return null
-  }
-
-  if (isRoot) {
-    return <BlockRootContainer block={block as ContainerBlock} />
+      return <div className="p-2 text-xs text-red-500">Bilinmeyen Tip {block.type}</div>
   }
 
   return <BlockWrapper block={block}>{Component}</BlockWrapper>

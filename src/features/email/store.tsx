@@ -1,11 +1,14 @@
-import { createContext, PropsWithChildren, useContext, useState } from 'react'
-import { createStore, StoreApi, useStore } from 'zustand'
+import { createStore, useStore, type StoreApi } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
-import { temporal, TemporalState } from 'zundo'
+import { temporal, type TemporalState } from 'zundo'
 import { arrayMove } from '@dnd-kit/sortable'
+import { createContext, useContext, useState, type PropsWithChildren } from 'react'
+import type { Draft } from 'immer'
+import { EmailExportTemplate } from './editor/exporter'
+import { pretty, render } from '@react-email/render'
 
 // ============================================
-// TYPES
+// STORE TYPES
 // ============================================
 
 interface EmailStore {
@@ -14,37 +17,49 @@ interface EmailStore {
 
   // Actions
   setSelected: (id: string | null) => void
-  addBlock: (block: EmailBlock, parentId?: string) => void
+  addBlock: (block: EmailBlock) => void
+  updateBlock: (id: string, data: Partial<EmailBlock> & { content?: string; styles?: any }) => void
   removeBlock: (id: string) => void
-  updateBlock: (id: string, data: Partial<EmailBlock>) => void
 
   // Movement
-  reorderBlock: (activeId: string, overId: string) => void // Sadece aynı container içinde
-  transferBlock: (blockId: string, targetContainerId: string, index?: number) => void // Container'lar arası
-  moveBlockStep: (id: string, direction: 'before' | 'after') => void
+  moveBlock: (activeId: string, overId: string) => void
+  moveBlockStep: (id: string, direction: 'before' | 'after') => void // Geri eklendi
 
   // Helpers
   getBlock: (id: string) => EmailBlock | null
-  getParent: (id: string) => ContainerBlock | null
-  getDepth: (id: string) => number
+  getParent: (id: string) => BlockWithChildren | null // Geri eklendi
 
-  // Export Actions
+  // Export
   exportToHTML: () => Promise<string>
 }
 
+// Zundo'nun takip ettiği state parçası
+interface TemporalStore {
+  blocks: EmailBlock[]
+}
+
+// Store API tanımı
 type EmailStoreApi = StoreApi<EmailStore> & {
-  temporal: StoreApi<TemporalState<{ blocks: EmailBlock[] }>>
+  temporal: StoreApi<TemporalState<TemporalStore>>
 }
 
 // ============================================
-// RECURSIVE HELPERS
+// TYPE GUARDS & HELPERS
 // ============================================
+
+const hasChildren = (block: EmailBlock): block is BlockWithChildren => {
+  return ['root', 'container', 'section', 'column'].includes(block.type)
+}
+
+const hasContent = (block: EmailBlock): block is BlockWithContent => {
+  return ['text', 'button'].includes(block.type)
+}
 
 const findBlock = (blocks: EmailBlock[], id: string): EmailBlock | null => {
   for (const block of blocks) {
     if (block.id === id) return block
-    if (block.type === 'container') {
-      const found = findBlock((block as ContainerBlock).children, id)
+    if (hasChildren(block)) {
+      const found = findBlock(block.children, id)
       if (found) return found
     }
   }
@@ -54,55 +69,51 @@ const findBlock = (blocks: EmailBlock[], id: string): EmailBlock | null => {
 const findParent = (
   blocks: EmailBlock[],
   childId: string,
-  parent: ContainerBlock | null = null,
-): ContainerBlock | null => {
+  currentParent: BlockWithChildren | null = null,
+): BlockWithChildren | null => {
   for (const block of blocks) {
-    if (block.id === childId) return parent
-    if (block.type === 'container') {
-      const found = findParent((block as ContainerBlock).children, childId, block as ContainerBlock)
+    if (block.id === childId) return currentParent
+    if (hasChildren(block)) {
+      const found = findParent(block.children, childId, block)
       if (found) return found
     }
   }
   return null
 }
 
-/**
- * Bir bloğun derinliğini hesaplar
- * root = 0, root'un çocukları = 1, vs.
- */
-const calculateDepth = (blocks: EmailBlock[], targetId: string, currentDepth = 0): number => {
-  for (const block of blocks) {
-    if (block.id === targetId) return currentDepth
-    if (block.type === 'container') {
-      const found = calculateDepth((block as ContainerBlock).children, targetId, currentDepth + 1)
-      if (found !== -1) return found
-    }
-  }
-  return -1
-}
-
 // ============================================
-// INITIAL EXAMPLE
+// INITIAL STATE
 // ============================================
 
-const initial: EmailBlock[] = [
+const initialBlocks: EmailBlock[] = [
   {
     id: 'root',
     type: 'root',
-    styles: {},
+    props: {
+      lang: 'tr',
+      dir: 'ltr',
+      style: {
+        margin: '0 auto',
+        backgroundColor: 'red',
+        color: 'white',
+        padding: '20px',
+        maxWidth: '600px',
+        minHeight: '600px',
+      },
+    },
     children: [],
   },
 ]
 
 // ============================================
-// STORE IMPLEMENTATION
+// STORE CREATION
 // ============================================
 
 const createEmailStore = () =>
   createStore<EmailStore>()(
     temporal(
       immer((set, get) => ({
-        blocks: initial,
+        blocks: initialBlocks,
         selected: null,
 
         setSelected: (id) =>
@@ -110,130 +121,104 @@ const createEmailStore = () =>
             state.selected = id
           }),
 
-        addBlock: (block, parentId) =>
+        addBlock: (newBlock) =>
           set((state) => {
-            let targetParentId = parentId
+            const blocks = state.blocks as EmailBlock[]
+            const selectedId = state.selected
 
-            if (!targetParentId && state.selected) {
-              const selectedBlock = findBlock(state.blocks, state.selected)
-              if (selectedBlock?.type === 'container') {
-                targetParentId = selectedBlock.id
-              } else {
-                const parent = findParent(state.blocks, state.selected)
-                if (parent) targetParentId = parent.id
+            let targetParentId = 'root'
+            let insertIndex = -1
+
+            if (selectedId) {
+              const selectedBlock = findBlock(blocks, selectedId)
+              if (selectedBlock) {
+                if (hasChildren(selectedBlock)) {
+                  targetParentId = selectedId
+                } else {
+                  const parent = findParent(blocks, selectedId)
+                  if (parent) {
+                    targetParentId = parent.id
+                    const index = parent.children.findIndex((b) => b.id === selectedId)
+                    if (index !== -1) insertIndex = index + 1
+                  }
+                }
               }
             }
 
-            if (!targetParentId) targetParentId = 'root'
+            const targetParent = findBlock(state.blocks as EmailBlock[], targetParentId)
+            if (targetParent && hasChildren(targetParent)) {
+              if (insertIndex === -1) {
+                targetParent.children.push(newBlock as Draft<EmailBlock>)
+              } else {
+                targetParent.children.splice(insertIndex, 0, newBlock as Draft<EmailBlock>)
+              }
+              state.selected = newBlock.id
+            }
+          }),
 
-            const parentBlock = findBlock(state.blocks, targetParentId) as ContainerBlock
-            if (parentBlock?.children) {
-              parentBlock.children.push(block)
-              state.selected = block.id
+        updateBlock: (id, data) =>
+          set((state) => {
+            const block = findBlock(state.blocks as EmailBlock[], id)
+            if (!block) return
+
+            if (data.props) {
+              if (!block.props) block.props = {}
+              Object.assign(block.props, data.props)
+            }
+
+            if (data.content !== undefined && hasContent(block)) {
+              block.content = data.content
+            }
+
+            if (data.styles) {
+              if (!block.props) block.props = {}
+              // @ts-ignore
+              block.props.style = { ...block.props.style, ...data.styles }
             }
           }),
 
         removeBlock: (id) =>
           set((state) => {
             if (id === 'root') return
-            const parent = findParent(state.blocks, id)
-            if (parent) {
-              parent.children = parent.children.filter((b) => b.id !== id)
-              state.selected = null
-            }
-          }),
-
-        updateBlock: (id, data) =>
-          set((state) => {
-            const block = findBlock(state.blocks, id)
-            if (!block) return
-
-            // Styles ayrı ele al
-            const { styles, ...restData } = data
-
-            // Diğer property'leri güncelle
-            Object.assign(block, restData)
-
-            // Styles varsa merge et
-            if (styles) {
-              block.styles = {
-                ...block.styles,
-                ...styles,
+            const parent = findParent(state.blocks as EmailBlock[], id)
+            if (parent && hasChildren(parent)) {
+              const index = parent.children.findIndex((b) => b.id === id)
+              if (index !== -1) {
+                parent.children.splice(index, 1)
+                state.selected = null
               }
             }
           }),
 
-        /**
-         * SADECE aynı container içinde sıralama yapar
-         * Farklı container'daki elemanlara drop edildiğinde işlem yapmaz
-         * Bu sayede depth korunur
-         */
-        reorderBlock: (activeId, overId) =>
+        moveBlock: (activeId, overId) =>
           set((state) => {
-            const activeParent = findParent(state.blocks, activeId)
-            const overParent = findParent(state.blocks, overId)
+            const blocks = state.blocks as EmailBlock[]
+            const activeParent = findParent(blocks, activeId)
+            const overParent = findParent(blocks, overId)
 
-            // Güvenlik kontrolü
             if (!activeParent || !overParent) return
+            if (!hasChildren(activeParent) || !hasChildren(overParent)) return
 
-            // KRİTİK: Sadece aynı container içindeyse işlem yap
-            // Bu, depth'in korunmasını garanti eder
-            if (activeParent.id !== overParent.id) {
-              console.log(
-                '[reorderBlock] Farklı containerlar arası taşıma engellendi.',
-                `Active parent: ${activeParent.id}, Over parent: ${overParent.id}`,
-              )
-              return
-            }
+            if (activeParent.id === overParent.id) {
+              const oldIndex = activeParent.children.findIndex((x) => x.id === activeId)
+              const newIndex = activeParent.children.findIndex((x) => x.id === overId)
 
-            const oldIndex = activeParent.children.findIndex((x) => x.id === activeId)
-            const newIndex = activeParent.children.findIndex((x) => x.id === overId)
-
-            if (oldIndex === -1 || newIndex === -1) return
-
-            activeParent.children = arrayMove(activeParent.children, oldIndex, newIndex)
-          }),
-
-        /**
-         * Bir bloğu başka bir container'a taşır
-         * Bu fonksiyon açık bir şekilde "bu container'a taşı" demek için kullanılır
-         * Örn: Container'ın üzerine drop zone ile
-         */
-        transferBlock: (blockId, targetContainerId, index) =>
-          set((state) => {
-            if (blockId === 'root') return
-            if (blockId === targetContainerId) return
-
-            const block = findBlock(state.blocks, blockId)
-            const sourceParent = findParent(state.blocks, blockId)
-            const targetContainer = findBlock(state.blocks, targetContainerId) as ContainerBlock
-
-            if (!block || !sourceParent || !targetContainer) return
-            if (targetContainer.type !== 'container') return
-
-            // Kendisinin içine taşınamaz (sonsuz döngü önleme)
-            if (block.type === 'container') {
-              const isDescendant = findBlock((block as ContainerBlock).children, targetContainerId)
-              if (isDescendant) {
-                console.log('[transferBlock] Bir container kendi alt elemanına taşınamaz')
-                return
+              if (oldIndex !== -1 && newIndex !== -1) {
+                activeParent.children = arrayMove(
+                  activeParent.children,
+                  oldIndex,
+                  newIndex,
+                ) as Draft<EmailBlock>[]
               }
             }
-
-            // Kaynaktan çıkar
-            const sourceIndex = sourceParent.children.findIndex((b) => b.id === blockId)
-            const [movedBlock] = sourceParent.children.splice(sourceIndex, 1)
-
-            // Hedefe ekle
-            const insertIndex = index ?? targetContainer.children.length
-            targetContainer.children.splice(insertIndex, 0, movedBlock)
           }),
 
-        // Ok tuşları ile taşıma - aynı container içinde
         moveBlockStep: (id, direction) =>
           set((state) => {
-            const parent = findParent(state.blocks, id)
-            if (!parent) return
+            const blocks = state.blocks as EmailBlock[]
+            const parent = findParent(blocks, id)
+
+            if (!parent || !hasChildren(parent)) return
 
             const index = parent.children.findIndex((b) => b.id === id)
             if (index === -1) return
@@ -241,24 +226,39 @@ const createEmailStore = () =>
             const newIndex = direction === 'before' ? index - 1 : index + 1
             if (newIndex < 0 || newIndex >= parent.children.length) return
 
-            parent.children = arrayMove(parent.children, index, newIndex)
+            parent.children = arrayMove(parent.children, index, newIndex) as Draft<EmailBlock>[]
           }),
 
         getBlock: (id) => findBlock(get().blocks, id),
         getParent: (id) => findParent(get().blocks, id),
-        getDepth: (id) => calculateDepth(get().blocks, id),
 
         exportToHTML: async () => {
-          return ''
+          const state = get()
+          const rootBlock = state.blocks.find((b) => b.id === 'root') as RootBlock
+
+          if (!rootBlock) {
+            console.error('Root block not found during export')
+            return ''
+          }
+
+          try {
+            const html = await pretty(await render(<EmailExportTemplate root={rootBlock} />), {
+              pretty: true,
+            })
+            return html
+          } catch (error) {
+            console.error('Export failed:', error)
+            return ''
+          }
         },
       })),
       {
-        limit: 20,
+        limit: 50,
         partialize: (state) => ({ blocks: state.blocks }),
         equality: (a, b) => a.blocks === b.blocks,
       },
     ),
-  )
+  ) as unknown as EmailStoreApi
 
 // ============================================
 // CONTEXT & HOOKS

@@ -1,37 +1,92 @@
-import { ButtonProps, ContainerProps, ImgProps, TextProps } from '@react-email/components'
-import type { CSSProperties } from 'react'
+import type {
+  ButtonProps,
+  ContainerProps,
+  ImgProps,
+  SectionProps,
+  ColumnProps,
+  TextProps,
+  BodyProps,
+  HtmlProps,
+  HeadProps,
+} from '@react-email/components'
+import { CSSProperties } from 'react'
 
 declare global {
-  type EmailBlockType = 'root' | 'container' | 'text' | 'button' | 'image'
+  // Destekleyeceğimiz block tipleri
+  type EmailBlockType =
+    | 'root'
+    | 'container'
+    | 'section'
+    | 'column'
+    | 'text'
+    | 'button'
+    | 'image'
+    | 'divider'
+    | 'spacer'
 
+  // Ortak özellikler
   interface BaseBlock {
     id: string
     type: EmailBlockType
-    styles?: CSSProperties
   }
 
+  // 1. Kapsayıcı (Parent) Blocklar
+  // ----------------------------------------------------------------
+
   interface RootBlock extends BaseBlock {
+    type: 'root'
+    props?: HtmlProps // lang="tr" vb.
     children: EmailBlock[]
   }
 
   interface ContainerBlock extends BaseBlock {
+    type: 'container'
+    props?: ContainerProps // style, className
     children: EmailBlock[]
-    props?: ContainerProps
   }
 
+  interface SectionBlock extends BaseBlock {
+    type: 'section'
+    props?: SectionProps
+    children: EmailBlock[] // Genelde Column alır
+  }
+
+  interface ColumnBlock extends BaseBlock {
+    type: 'column'
+    props?: ColumnProps
+    children: EmailBlock[]
+  }
+
+  // 2. İçerik (Leaf) Blocklar
+  // ----------------------------------------------------------------
+
   interface TextBlock extends BaseBlock {
-    content: string
-    props?: TextProps
+    type: 'text'
+    content: string // Text içeriğini burada tutuyoruz
+    props?: TextProps // style, vs.
   }
 
   interface ButtonBlock extends BaseBlock {
+    type: 'button'
     content: string
-    props?: ButtonProps
+    props?: ButtonProps // href, style, target
   }
 
   interface ImageBlock extends BaseBlock {
-    props?: ImgProps
+    type: 'image'
+    props: ImgProps // src, alt, width, height zorunlu olabilir
   }
 
-  type EmailBlock = RootBlock | ContainerBlock | TextBlock | ButtonBlock | ImageBlock
+  // Union Type
+  type EmailBlock =
+    | RootBlock
+    | ContainerBlock
+    | SectionBlock
+    | ColumnBlock
+    | TextBlock
+    | ButtonBlock
+    | ImageBlock
+
+  type BlockWithChildren = RootBlock | ContainerBlock | SectionBlock | ColumnBlock
+  type BlockWithContent = TextBlock | ButtonBlock
 }

@@ -11,7 +11,6 @@ export const ToolboxAddText = () => {
       id,
       type: 'text',
       content: 'Lorem ipsum dolor sit amet.',
-      styles: {},
       props: {},
     }
 

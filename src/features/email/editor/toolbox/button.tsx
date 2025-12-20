@@ -12,7 +12,6 @@ export const ToolboxAddButton = () => {
       type: 'button',
       content: 'Click Me',
       props: { href: '#' },
-      styles: {},
     }
 
     addBlock(newBlock)

@@ -1,29 +1,21 @@
-import { CSSProperties, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 interface PropertyTextProps {
   label: string
-  styleKey: keyof CSSProperties
-  value: CSSProperties[keyof CSSProperties]
+  value: string
   placeholder?: string
-  onBlur: (key: keyof CSSProperties, value: string) => void
+  onBlur: (value: string) => void
 }
 
-export const PropertyText = ({
-  label,
-  styleKey,
-  value,
-  placeholder,
-  onBlur,
-}: PropertyTextProps) => {
+export const PropertyText = ({ label, value, placeholder, onBlur }: PropertyTextProps) => {
   const [localValue, setLocalValue] = useState(String(value || ''))
 
-  // Block değiştiğinde value güncellenir, local state'i senkronize et
   useEffect(() => {
     setLocalValue(String(value || ''))
   }, [value])
 
   const handleBlur = () => {
-    onBlur(styleKey, localValue)
+    onBlur(localValue)
   }
 
   return (
