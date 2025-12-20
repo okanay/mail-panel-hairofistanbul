@@ -3,7 +3,6 @@ import { createStore, StoreApi, useStore } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 import { temporal, TemporalState } from 'zundo'
 import { arrayMove } from '@dnd-kit/sortable'
-import { getHTMLContent } from './editor/export'
 
 // ============================================
 // TYPES
@@ -89,14 +88,8 @@ const calculateDepth = (blocks: EmailBlock[], targetId: string, currentDepth = 0
 const initial: EmailBlock[] = [
   {
     id: 'root',
-    type: 'container',
-    styles: {
-      minHeight: '400px',
-      display: 'flex',
-      flexDirection: 'column',
-      backgroundColor: '#fff',
-      gap: '8px',
-    },
+    type: 'root',
+    styles: {},
     children: [],
   },
 ]
@@ -256,8 +249,7 @@ const createEmailStore = () =>
         getDepth: (id) => calculateDepth(get().blocks, id),
 
         exportToHTML: async () => {
-          const { blocks } = get()
-          return await getHTMLContent(blocks)
+          return ''
         },
       })),
       {

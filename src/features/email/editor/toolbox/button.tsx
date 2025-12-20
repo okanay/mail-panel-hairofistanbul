@@ -11,16 +11,8 @@ export const ToolboxAddButton = () => {
       id,
       type: 'button',
       content: 'Click Me',
-      props: { url: '#' },
-      styles: {
-        backgroundColor: '#000',
-        color: '#fff',
-        padding: '6px 6px 6px 6px',
-        borderRadius: '4px',
-        textAlign: 'center',
-        fontSize: '16px',
-        display: 'inline-block',
-      },
+      props: { href: '#' },
+      styles: {},
     }
 
     addBlock(newBlock)
@@ -29,7 +21,7 @@ export const ToolboxAddButton = () => {
   return (
     <button
       onClick={() => handleAdd()}
-      className="h-10 bg-stone-800 px-4 text-left text-xs font-medium text-stone-100 uppercase hover:bg-stone-900"
+      className="h-10 rounded bg-stone-800 px-4 text-left text-xs font-medium text-stone-100 uppercase hover:bg-stone-900"
     >
       Button
     </button>

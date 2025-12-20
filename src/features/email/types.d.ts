@@ -1,7 +1,8 @@
+import { ButtonProps, ContainerProps, ImgProps, TextProps } from '@react-email/components'
 import type { CSSProperties } from 'react'
 
 declare global {
-  type EmailBlockType = 'container' | 'text' | 'button' | 'image'
+  type EmailBlockType = 'root' | 'container' | 'text' | 'button' | 'image'
 
   interface BaseBlock {
     id: string
@@ -9,34 +10,28 @@ declare global {
     styles?: CSSProperties
   }
 
-  interface ContainerBlock extends BaseBlock {
-    type: 'container'
+  interface RootBlock extends BaseBlock {
     children: EmailBlock[]
   }
 
+  interface ContainerBlock extends BaseBlock {
+    children: EmailBlock[]
+    props?: ContainerProps
+  }
+
   interface TextBlock extends BaseBlock {
-    type: 'text'
     content: string
+    props?: TextProps
   }
 
   interface ButtonBlock extends BaseBlock {
-    type: 'button'
     content: string
-    props: {
-      url: string
-      target?: '_blank' | '_self'
-    }
+    props?: ButtonProps
   }
 
   interface ImageBlock extends BaseBlock {
-    type: 'image'
-    props: {
-      src: string
-      alt: string
-      width?: number
-      height?: number
-    }
+    props?: ImgProps
   }
 
-  type EmailBlock = ContainerBlock | TextBlock | ButtonBlock | ImageBlock
+  type EmailBlock = RootBlock | ContainerBlock | TextBlock | ButtonBlock | ImageBlock
 }

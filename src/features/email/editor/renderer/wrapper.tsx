@@ -3,7 +3,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { ArrowDown, ArrowLeft, ArrowRight, ArrowUp, Grip, Trash2 } from 'lucide-react'
 import type { CSSProperties, PropsWithChildren } from 'react'
 import { twMerge } from 'tailwind-merge'
-import { useEmailStore } from '../../../store'
+import { useEmailStore } from '../../store'
 
 interface BlockWrapperProps extends PropsWithChildren {
   block: EmailBlock

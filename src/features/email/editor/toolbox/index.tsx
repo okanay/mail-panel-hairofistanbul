@@ -12,8 +12,8 @@ export const Toolbox = () => {
         <h3 className="mb-2 text-xs font-medium text-stone-500 uppercase">Bloklar</h3>
         <ToolboxAddContainer />
         <ToolboxAddText />
-        <ToolboxAddButton />
         <ToolboxAddImage />
+        <ToolboxAddButton />
       </section>
       <section>
         <h3 className="mb-2 text-xs font-medium text-stone-500 uppercase">Kontrol</h3>

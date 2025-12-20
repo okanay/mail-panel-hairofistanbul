@@ -16,7 +16,20 @@ export const TextProperties = ({ block }: TextPropertiesProps) => {
         </div>
       </div>
 
-      <div className="flex flex-col gap-y-3 px-4"></div>
+      {/* Content & Link */}
+      <div className="flex flex-col gap-y-3 border-b border-stone-200 px-4 pb-4">
+        <h4 className="text-xs font-medium text-stone-400">Content</h4>
+      </div>
+
+      {/* Layout */}
+      <div className="flex flex-col gap-y-3 border-b border-stone-200 px-4 pb-4">
+        <h4 className="text-xs font-medium text-stone-400">Layout</h4>
+      </div>
+
+      {/* Appearance */}
+      <div className="flex flex-col gap-y-3 px-4">
+        <h4 className="text-xs font-medium text-stone-400">Appearance</h4>
+      </div>
     </div>
   )
 }
