@@ -3,6 +3,7 @@ import { createStore, StoreApi, useStore } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
 import { temporal, TemporalState } from 'zundo'
 import { arrayMove } from '@dnd-kit/sortable'
+import { getHTMLContent } from './editor/export'
 
 // ============================================
 // TYPES
@@ -27,6 +28,9 @@ interface EmailStore {
   getBlock: (id: string) => EmailBlock | null
   getParent: (id: string) => ContainerBlock | null
   getDepth: (id: string) => number
+
+  // Export Actions
+  exportToHTML: () => Promise<string>
 }
 
 type EmailStoreApi = StoreApi<EmailStore> & {
@@ -250,6 +254,11 @@ const createEmailStore = () =>
         getBlock: (id) => findBlock(get().blocks, id),
         getParent: (id) => findParent(get().blocks, id),
         getDepth: (id) => calculateDepth(get().blocks, id),
+
+        exportToHTML: async () => {
+          const { blocks } = get()
+          return await getHTMLContent(blocks)
+        },
       })),
       {
         limit: 20,

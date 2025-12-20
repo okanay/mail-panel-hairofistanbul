@@ -1,5 +1,6 @@
 import { ToolboxAddButton } from './button'
 import { ToolboxAddContainer } from './container'
+import { ToolboxExport } from './export'
 import { ToolboxHistory } from './history'
 import { ToolboxAddImage } from './image'
 import { ToolboxAddText } from './text'
@@ -17,6 +18,10 @@ export const Toolbox = () => {
       <section>
         <h3 className="mb-2 text-xs font-medium text-stone-500 uppercase">Kontrol</h3>
         <ToolboxHistory />
+      </section>
+      <section>
+        <h3 className="mb-2 text-xs font-medium text-stone-500 uppercase">Çıktı</h3>
+        <ToolboxExport />
       </section>
     </div>
   )
