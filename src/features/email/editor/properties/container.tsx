@@ -109,9 +109,25 @@ export const ContainerProperties = ({ block }: ContainerPropertiesProps) => {
         />
 
         <PropertyText
+          label="Min Width"
+          styleKey="minWidth"
+          value={block.styles?.minWidth}
+          placeholder="0px"
+          onBlur={handleStyleChange}
+        />
+
+        <PropertyText
           label="Height"
           styleKey="height"
           value={block.styles?.height}
+          placeholder="0px"
+          onBlur={handleStyleChange}
+        />
+
+        <PropertyText
+          label="Min Height"
+          styleKey="minHeight"
+          value={block.styles?.minHeight}
           placeholder="0px"
           onBlur={handleStyleChange}
         />

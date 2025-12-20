@@ -1,6 +1,6 @@
 import { useModalStore } from '@/features/modals/store'
 import { Canvas } from './editor/canvas'
-import { PropertiesPanel } from './editor/panels'
+import { PropertiesPanel } from './editor/properties'
 import { Toolbox } from './editor/toolbox'
 
 // ============================================
