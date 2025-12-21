@@ -66,22 +66,15 @@ export const BlockWrapper = ({ block, children }: BlockWrapperProps) => {
       style={style}
       onClick={handleSelect}
       className={twMerge(
-        'group relative isolate', // isolate: z-index karmaşasını önler
-        'transition-all duration-200 ease-in-out',
-        // 1. Normal Durum (Hover)
+        'group relative isolate z-20 min-h-4 w-full transition-all duration-200 ease-in-out',
         !isSelected && !isDragging && 'hover:z-10 hover:ring-1 hover:ring-blue-400',
-        // 2. Seçili Durum
         isSelected && 'z-20 ring-2 ring-blue-600',
-        // 3. Sürüklenme Durumu (Hayalet görüntü)
         isDragging && 'ring-dashed z-0 opacity-50 ring-2 ring-stone-400',
-        // Boş containerların bile seçilebilmesi için min yükseklik
-        'min-h-4',
       )}
     >
       {/* --- TOOLBAR (Sadece Seçiliyken Görünür) --- */}
       {isSelected && !isDragging && (
         <div className="absolute -top-7 right-0 z-50 flex h-7 items-center overflow-hidden rounded-t bg-blue-600 text-white shadow-sm">
-          {/* Label (Blok Tipi) */}
           <div className="border-r border-blue-500/50 px-2 text-[10px] font-bold tracking-wider uppercase">
             {block.type}
           </div>

@@ -12,6 +12,7 @@ export const ToolboxAddContainer = () => {
       type: 'container',
       props: {
         style: {
+          width: '100%',
           minHeight: '60px',
           border: '1px dashed grey',
         },

@@ -1,5 +1,5 @@
 import { useModalStore } from '@/features/modals/store'
-import { Canvas } from './editor/canvas'
+import { EditorSheel } from './editor/canvas'
 import { PropertiesPanel } from './editor/properties'
 import { Toolbox } from './editor/toolbox'
 
@@ -31,7 +31,7 @@ const EmailEditorContent = ({ onClose }: EmailEditorProps) => {
       {/* Main Content */}
       <div className="flex flex-1 overflow-hidden">
         <Toolbox />
-        <Canvas />
+        <EditorSheel />
         <PropertiesPanel />
       </div>
     </div>

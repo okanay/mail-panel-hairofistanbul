@@ -35,7 +35,7 @@ declare global {
 
   interface RootBlock extends BaseBlock {
     type: 'root'
-    props?: HtmlProps // lang="tr" vb.
+    props?: HtmlProps
     children: EmailBlock[]
   }
 

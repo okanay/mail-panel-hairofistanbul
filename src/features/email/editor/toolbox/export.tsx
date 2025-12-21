@@ -1,40 +1,35 @@
+import { pretty, render } from '@react-email/render'
 import { useEmailStore } from '../../store'
 import { Download, Loader2 } from 'lucide-react'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import { ExportSheel } from '../canvas'
 
 export const ToolboxExport = () => {
-  const { exportToHTML } = useEmailStore()
+  const { blocks, getBlock } = useEmailStore()
   const [loading, setLoading] = useState(false)
 
-  const handleExport = async () => {
+  const handleExport = useCallback(async () => {
     setLoading(true)
     try {
-      // 1. HTML String'i al
-      const html = await exportToHTML()
+      const rootBlock = getBlock('root') as RootBlock
 
-      if (!html) throw new Error('HTML üretilemedi')
+      const html = await pretty(await render(<ExportSheel rootBlock={rootBlock} />), {
+        pretty: true,
+      })
 
-      // 2. Blob oluştur
       const blob = new Blob([html], { type: 'text/html' })
-
-      // 3. İndirme bağlantısı oluştur
       const url = URL.createObjectURL(blob)
       const a = document.createElement('a')
       a.href = url
-      a.download = `email-template-${Date.now()}.html`
-
-      // 4. Tıkla ve temizle
+      a.download = 'email.html'
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
       URL.revokeObjectURL(url)
-    } catch (error) {
-      console.error('Export failed:', error)
-      alert('Export sırasında bir hata oluştu.')
     } finally {
       setLoading(false)
     }
-  }
+  }, [blocks])
 
   return (
     <div className="flex flex-col gap-2">

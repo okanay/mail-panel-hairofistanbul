@@ -1,19 +1,65 @@
+import { Body, Container, Head, Html } from '@react-email/components'
 import { useEmailStore } from '../../store'
-import { BlockRootContainer } from '../renderer/root'
+import { EditorComponentRenderer, ExportComponentRenderer } from '../renderer'
 
-export const Canvas = () => {
-  const { blocks, setSelected } = useEmailStore()
+export const EditorSheel = () => {
+  const { setSelected, blocks } = useEmailStore()
 
   const rootBlock = blocks.find((b) => b.id === 'root') as RootBlock
 
   return (
-    <div
+    <Container
+      id="editor-sheel"
       onClick={() => setSelected(null)}
-      className="flex h-full flex-1 flex-col items-center justify-start overflow-y-auto bg-stone-100 px-4 py-12"
+      style={{
+        margin: '0 auto',
+        padding: '40px 0px',
+      }}
     >
-      <div className="relative min-h-150 w-full max-w-150 bg-white shadow-xl">
-        <BlockRootContainer block={rootBlock} />
-      </div>
-    </div>
+      <Container
+        align="center"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: 650,
+          width: 465,
+          backgroundColor: 'white',
+          border: '1px solid #eaeaea',
+        }}
+      >
+        {rootBlock.children.map((child) => (
+          <EditorComponentRenderer key={child.id} block={child} />
+        ))}
+      </Container>
+    </Container>
+  )
+}
+
+export const ExportSheel = ({ rootBlock }: { rootBlock: RootBlock }) => {
+  return (
+    <Html>
+      <Head />
+      <Body
+        style={{
+          margin: '0 auto',
+          padding: '40px 0px',
+        }}
+      >
+        <Container
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: 650,
+            width: 465,
+            backgroundColor: 'white',
+            border: '1px solid #eaeaea',
+          }}
+        >
+          {rootBlock.children.map((child) => (
+            <ExportComponentRenderer key={child.id} block={child} />
+          ))}
+        </Container>
+      </Body>
+    </Html>
   )
 }

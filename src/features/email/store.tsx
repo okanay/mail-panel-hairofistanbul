@@ -4,8 +4,6 @@ import { temporal, type TemporalState } from 'zundo'
 import { arrayMove } from '@dnd-kit/sortable'
 import { createContext, useContext, useState, type PropsWithChildren } from 'react'
 import type { Draft } from 'immer'
-import { EmailExportTemplate } from './editor/exporter'
-import { pretty, render } from '@react-email/render'
 
 // ============================================
 // STORE TYPES
@@ -23,14 +21,11 @@ interface EmailStore {
 
   // Movement
   moveBlock: (activeId: string, overId: string) => void
-  moveBlockStep: (id: string, direction: 'before' | 'after') => void // Geri eklendi
+  moveBlockStep: (id: string, direction: 'before' | 'after') => void
 
   // Helpers
   getBlock: (id: string) => EmailBlock | null
-  getParent: (id: string) => BlockWithChildren | null // Geri eklendi
-
-  // Export
-  exportToHTML: () => Promise<string>
+  getParent: (id: string) => BlockWithChildren | null
 }
 
 // Zundo'nun takip ettiği state parçası
@@ -89,18 +84,6 @@ const initialBlocks: EmailBlock[] = [
   {
     id: 'root',
     type: 'root',
-    props: {
-      lang: 'tr',
-      dir: 'ltr',
-      style: {
-        margin: '0 auto',
-        backgroundColor: 'red',
-        color: 'white',
-        padding: '20px',
-        maxWidth: '600px',
-        minHeight: '600px',
-      },
-    },
     children: [],
   },
 ]
@@ -231,26 +214,6 @@ const createEmailStore = () =>
 
         getBlock: (id) => findBlock(get().blocks, id),
         getParent: (id) => findParent(get().blocks, id),
-
-        exportToHTML: async () => {
-          const state = get()
-          const rootBlock = state.blocks.find((b) => b.id === 'root') as RootBlock
-
-          if (!rootBlock) {
-            console.error('Root block not found during export')
-            return ''
-          }
-
-          try {
-            const html = await pretty(await render(<EmailExportTemplate root={rootBlock} />), {
-              pretty: true,
-            })
-            return html
-          } catch (error) {
-            console.error('Export failed:', error)
-            return ''
-          }
-        },
       })),
       {
         limit: 50,
