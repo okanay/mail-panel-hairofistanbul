@@ -1,20 +1,31 @@
+import { arrayMove } from '@dnd-kit/sortable'
+import type { Draft } from 'immer'
+import { createContext, useContext, useState, type PropsWithChildren } from 'react'
+import { temporal, type TemporalState } from 'zundo'
 import { createStore, useStore, type StoreApi } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
-import { temporal, type TemporalState } from 'zundo'
-import { arrayMove } from '@dnd-kit/sortable'
-import { createContext, useContext, useState, type PropsWithChildren } from 'react'
-import type { Draft } from 'immer'
 
 // ============================================
 // STORE TYPES
 // ============================================
 
+interface SelectionRect {
+  top: number
+  left: number
+  width: number
+  height: number
+}
+
 interface EmailStore {
   blocks: EmailBlock[]
+
+  // Editor
   selected: string | null
+  activeRect: SelectionRect | null
+  setSelected: (id: string | null) => void
+  setSelection: (id: string, rect: SelectionRect | null) => void
 
   // Actions
-  setSelected: (id: string | null) => void
   addBlock: (block: EmailBlock, targetParentId?: string) => void
   updateBlock: (id: string, data: Partial<EmailBlock> & { content?: string; styles?: any }) => void
   removeBlock: (id: string) => void
@@ -99,68 +110,54 @@ const createEmailStore = () =>
     temporal(
       immer((set, get) => ({
         blocks: initialBlocks,
-        selected: null,
-
+        selected: 'root',
+        activeRect: null,
         setSelected: (id) =>
           set((state) => {
             state.selected = id
           }),
 
+        setSelection: (id, rect) =>
+          set((state) => {
+            state.selected = id
+            state.activeRect = rect
+          }),
+
         addBlock: (newBlock, targetParentId) =>
           set((state) => {
-            // 1. Hedef Parent ID'yi belirle
-            // targetParentId varsa onu kullan, yoksa seçili olana bak, o da yoksa root.
+            // --------------------------------------------------------
+            // 1. HEDEF PARENT BULMA (Target Resolution)
+            // --------------------------------------------------------
+
+            // Eğer hedef ID verilmediyse, seçili ögeye bak, o da yoksa root'a git.
             let potentialParentId = targetParentId || state.selected || 'root'
 
-            // 2. Bu ID'ye sahip bloğu bul
-            // Immer state'i içinde aradığımız için cast işlemi gerekiyor
+            // Blok ağacında bu ID'ye sahip bloğu bul
             let parentBlock = findBlock(state.blocks as EmailBlock[], potentialParentId)
 
-            // 3. Eğer bulduğumuz blok "Çocuk Sahibi Olamayan" (Leaf) bir bloksa (örn: Button),
-            // onun ebeveynini bulup, oraya eklemeliyiz.
+            // Eğer bulduğumuz blok "Leaf" (Çocuk sahibi olamayan: Text, Button, Image vb.) ise,
+            // onun içine ekleyemeyiz. Bu yüzden onun ebeveynini bulup oraya eklemeliyiz.
             if (parentBlock && !hasChildren(parentBlock)) {
               const realParent = findParent(state.blocks as EmailBlock[], parentBlock.id)
               if (realParent) {
                 parentBlock = realParent
               } else {
-                // Ebeveyni yoksa (ki imkansız ama) root'a dön
+                // Ebeveyni bulunamazsa root'a dön (Fallback)
                 parentBlock = findBlock(state.blocks as EmailBlock[], 'root')
               }
             }
 
-            // Güvenlik önlemi: Hala geçerli bir parent yoksa root'a zorla
+            // Güvenlik önlemi: Hala geçerli bir parent yoksa root'a zorla.
             if (!parentBlock || !hasChildren(parentBlock)) {
               parentBlock = findBlock(state.blocks as EmailBlock[], 'root') as RootBlock
             }
 
-            // Artık elimizde kesinlikle "Children" dizisi olan bir `parentBlock` var.
-            // TypeScript'in bunu anlaması için Type Guard ile daraltıyoruz:
+            // Hedef Container artık kesinleşti (targetContainer children dizisine sahip).
             const targetContainer = parentBlock
 
-            // --- BUNDLE (SARMALAMA) MANTIĞI ---
-            // Kural: Root içine doğrudan Text, Button veya Image eklenemez.
-            // Bunlar bir Section içine sarılmalıdır.
-            const isRoot = targetContainer.id === 'root'
-            const isContentBlock = ['text', 'button', 'image'].includes(newBlock.type)
-
-            if (isRoot && isContentBlock) {
-              const wrapperSection: SectionBlock = {
-                id: crypto.randomUUID(),
-                type: 'section',
-                props: {},
-                children: [newBlock],
-              }
-
-              // Wrapper'ı ekle
-              // @ts-ignore
-              targetContainer.children.push(wrapperSection)
-              state.selected = newBlock.id
-            } else {
-              // Normal ekleme
-              // @ts-ignore
-              targetContainer.children.push(newBlock)
-              state.selected = newBlock.id
-            }
+            // @ts-ignore
+            targetContainer.children.push(newBlock)
+            state.selected = newBlock.id
           }),
 
         updateBlock: (id, data) =>

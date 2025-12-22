@@ -1,10 +1,48 @@
 import { useEmailStore, useEmailTemporal } from '../../store'
 import { pretty, render } from '@react-email/render'
-import { ExportSheel } from '../canvas'
-import { Type, Image as ImageIcon, Undo2, Redo2, Download, Loader2, Link2 } from 'lucide-react'
+import {
+  Type,
+  Image as ImageIcon,
+  Undo2,
+  Redo2,
+  Download,
+  Loader2,
+  Link2,
+  ColumnsIcon,
+} from 'lucide-react'
 import { useCallback, useState } from 'react'
+import { ExportSheel } from '../renderer/export'
 
 const generateId = () => crypto.randomUUID()
+
+const createTwoColumnLayout = (): SectionBlock => {
+  return {
+    id: crypto.randomUUID(),
+    type: 'section',
+    props: { style: { width: '100%', height: '64px' }, children: undefined },
+    children: [
+      {
+        id: crypto.randomUUID(),
+        type: 'row',
+        props: { style: { width: '100%', padding: '0px' }, children: undefined },
+        children: [
+          {
+            id: crypto.randomUUID(),
+            type: 'column',
+            props: { style: { width: '50%', padding: '0px' } },
+            children: [createText('Sol Taraf')],
+          },
+          {
+            id: crypto.randomUUID(),
+            type: 'column',
+            props: { style: { width: '50%', padding: '0px' } },
+            children: [createText('Sağ Taraf')],
+          },
+        ],
+      },
+    ],
+  }
+}
 
 const createText = (content: string = 'Lorem ipsum dolor sit amet.'): TextBlock => ({
   id: generateId(),
@@ -51,17 +89,15 @@ const createImage = (): ImageBlock => ({
       maxWidth: '100%',
       height: 'auto',
       borderRadius: '4px',
+      display: 'block',
     },
   },
 })
 
 export const Toolbox = () => {
-  const { addBlock, selected, getBlock, blocks } = useEmailStore()
+  const { addBlock, getBlock, blocks } = useEmailStore()
   const { undo, redo, pastStates, futureStates } = useEmailTemporal()
   const [exporting, setExporting] = useState(false)
-
-  const selectedBlock = selected ? getBlock(selected) : null
-  const selectedType = selectedBlock?.type || 'root'
 
   const handleAddText = () => addBlock(createText())
   const handleAddButton = () => addBlock(createButton())
@@ -117,6 +153,13 @@ export const Toolbox = () => {
           <h3 className="mb-3 text-[10px] font-bold tracking-wider text-stone-400 uppercase">
             Düzen (Layout)
           </h3>
+          <div className="grid grid-cols-2 gap-2">
+            <ToolboxButton
+              icon={<ColumnsIcon />}
+              label="2 Kolon"
+              onClick={() => addBlock(createTwoColumnLayout())}
+            />
+          </div>
         </div>
 
         <div className="mb-6">

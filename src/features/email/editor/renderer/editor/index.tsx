@@ -1,8 +1,6 @@
-import { Body, Container, Head, Html } from '@react-email/components'
-import { useEmailStore } from '../../store'
-import { EditorComponentRenderer, ExportComponentRenderer } from '../renderer'
+import { useEmailStore } from '@/features/email/store'
+import { EditorComponentRenderer } from './blocks'
 
-// --- EDITOR MODE ---
 export const EditorSheel = () => {
   const { setSelected, blocks } = useEmailStore()
   const rootBlock = blocks.find((b) => b.id === 'root') as RootBlock
@@ -43,28 +41,5 @@ export const EditorSheel = () => {
         ))}
       </div>
     </div>
-  )
-}
-
-// --- EXPORT MODE ---
-export const ExportSheel = ({ rootBlock }: { rootBlock: RootBlock }) => {
-  return (
-    <Html lang="tr">
-      <Head />
-      <Body style={rootBlock.props?.style}>
-        <Container
-          style={{
-            backgroundColor: '#ffffff',
-            margin: '0 auto',
-            maxWidth: '600px',
-            border: '1px solid #e5e5e5',
-          }}
-        >
-          {rootBlock.children.map((child) => (
-            <ExportComponentRenderer key={child.id} block={child} />
-          ))}
-        </Container>
-      </Body>
-    </Html>
   )
 }
