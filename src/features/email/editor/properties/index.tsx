@@ -28,5 +28,9 @@ export const PropertiesPanel = () => {
     }
   }
 
-  return <aside className="w-80 border-l border-stone-200 bg-white">{PropertiesComponent}</aside>
+  return (
+    <aside className="fixed top-0 right-0 h-dvh w-68 overflow-y-auto border-l border-stone-200 bg-white pt-16">
+      {PropertiesComponent}
+    </aside>
+  )
 }

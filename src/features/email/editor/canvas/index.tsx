@@ -21,7 +21,7 @@ export const EditorSheel = () => {
         fontFamily: rootStyles.fontFamily || 'sans-serif',
         display: 'flex',
         justifyContent: 'center',
-        padding: '40px 0',
+        padding: '40px 0px',
       }}
     >
       <div

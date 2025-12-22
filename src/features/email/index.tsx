@@ -15,7 +15,7 @@ const EmailEditorContent = ({ onClose }: EmailEditorProps) => {
   return (
     <div className="relative flex h-dvh w-screen flex-col bg-stone-100 font-sans text-stone-800">
       {/* Header */}
-      <div className="pointer-events-auto z-50 flex h-16 w-full shrink-0 items-center justify-between border-b border-stone-200 bg-white px-6">
+      <div className="pointer-events-auto fixed z-50 flex h-16 w-full shrink-0 items-center justify-between border-b border-stone-200 bg-white px-6">
         <div>
           <h2 className="text-lg font-bold">Email Builder</h2>
           <span className="text-xs text-stone-500">v0.1 - Age Of Panels</span>
@@ -29,7 +29,7 @@ const EmailEditorContent = ({ onClose }: EmailEditorProps) => {
       </div>
 
       {/* Main Content */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex max-h-[calc(100dvh+64px)] flex-1 overflow-y-auto py-15">
         <Toolbox />
         <EditorSheel />
         <PropertiesPanel />

@@ -1,8 +1,9 @@
-import { arrayMove } from '@dnd-kit/sortable'
-import { createContext, useContext, useState, type PropsWithChildren } from 'react'
-import { temporal, type TemporalState } from 'zundo'
 import { createStore, useStore, type StoreApi } from 'zustand'
 import { immer } from 'zustand/middleware/immer'
+import { temporal, type TemporalState } from 'zundo'
+import { arrayMove } from '@dnd-kit/sortable'
+import { createContext, useContext, useState, type PropsWithChildren } from 'react'
+import type { Draft } from 'immer'
 
 // ============================================
 // STORE TYPES
@@ -43,11 +44,11 @@ const hasChildren = (block: EmailBlock): block is BlockWithChildren => {
   return ['root', 'section', 'row', 'column'].includes(block.type)
 }
 
+// Recursive blok bulucu
 const findBlock = (blocks: EmailBlock[], id: string): EmailBlock | null => {
   for (const block of blocks) {
     if (block.id === id) return block
     if (hasChildren(block)) {
-      // @ts-ignore
       const found = findBlock(block.children, id)
       if (found) return found
     }
@@ -55,6 +56,7 @@ const findBlock = (blocks: EmailBlock[], id: string): EmailBlock | null => {
   return null
 }
 
+// Recursive parent bulucu
 const findParent = (
   blocks: EmailBlock[],
   childId: string,
@@ -63,7 +65,6 @@ const findParent = (
   for (const block of blocks) {
     if (block.id === childId) return currentParent
     if (hasChildren(block)) {
-      // @ts-ignore
       const found = findParent(block.children, childId, block)
       if (found) return found
     }
@@ -107,41 +108,59 @@ const createEmailStore = () =>
 
         addBlock: (newBlock, targetParentId) =>
           set((state) => {
-            const blocks = state.blocks as EmailBlock[]
-            let parentId = targetParentId || state.selected || 'root'
+            // 1. Hedef Parent ID'yi belirle
+            // targetParentId varsa onu kullan, yoksa seçili olana bak, o da yoksa root.
+            let potentialParentId = targetParentId || state.selected || 'root'
 
-            let parentBlock = findBlock(blocks, parentId) as BlockWithChildren
+            // 2. Bu ID'ye sahip bloğu bul
+            // Immer state'i içinde aradığımız için cast işlemi gerekiyor
+            let parentBlock = findBlock(state.blocks as EmailBlock[], potentialParentId)
 
-            // Eğer seçili eleman bir "Leaf" (Text/Button) ise, onun parent'ına ekle
+            // 3. Eğer bulduğumuz blok "Çocuk Sahibi Olamayan" (Leaf) bir bloksa (örn: Button),
+            // onun ebeveynini bulup, oraya eklemeliyiz.
             if (parentBlock && !hasChildren(parentBlock)) {
-              const realParent = findParent(blocks, parentId)
+              const realParent = findParent(state.blocks as EmailBlock[], parentBlock.id)
               if (realParent) {
-                parentId = realParent.id
-                parentBlock = realParent as BlockWithChildren
+                parentBlock = realParent
+              } else {
+                // Ebeveyni yoksa (ki imkansız ama) root'a dön
+                parentBlock = findBlock(state.blocks as EmailBlock[], 'root')
               }
             }
 
-            // HATA KORUMASI: Eğer hala parent bulamadıysak root'a dön
+            // Güvenlik önlemi: Hala geçerli bir parent yoksa root'a zorla
             if (!parentBlock || !hasChildren(parentBlock)) {
-              parentId = 'root'
-              parentBlock = findBlock(blocks, 'root') as RootBlock
+              parentBlock = findBlock(state.blocks as EmailBlock[], 'root') as RootBlock
             }
 
-            // --- BUNDLE MANTIĞI ---
-            if (parentId === 'root' && ['text', 'button', 'image'].includes(newBlock.type)) {
+            // Artık elimizde kesinlikle "Children" dizisi olan bir `parentBlock` var.
+            // TypeScript'in bunu anlaması için Type Guard ile daraltıyoruz:
+            const targetContainer = parentBlock
+
+            // --- BUNDLE (SARMALAMA) MANTIĞI ---
+            // Kural: Root içine doğrudan Text, Button veya Image eklenemez.
+            // Bunlar bir Section içine sarılmalıdır.
+            const isRoot = targetContainer.id === 'root'
+            const isContentBlock = ['text', 'button', 'image'].includes(newBlock.type)
+
+            if (isRoot && isContentBlock) {
               const wrapperSection: SectionBlock = {
                 id: crypto.randomUUID(),
                 type: 'section',
                 props: {},
                 children: [newBlock],
               }
-              parentBlock.children.push(wrapperSection as any)
-              state.selected = newBlock.id
-              return
-            }
 
-            parentBlock.children.push(newBlock as ColumnBlock)
-            state.selected = newBlock.id
+              // Wrapper'ı ekle
+              // @ts-ignore
+              targetContainer.children.push(wrapperSection)
+              state.selected = newBlock.id
+            } else {
+              // Normal ekleme
+              // @ts-ignore
+              targetContainer.children.push(newBlock)
+              state.selected = newBlock.id
+            }
           }),
 
         updateBlock: (id, data) =>
@@ -149,16 +168,20 @@ const createEmailStore = () =>
             const block = findBlock(state.blocks as EmailBlock[], id)
             if (!block) return
 
+            // Props güncelleme (Style vb.)
             if (data.props) {
-              if (!block.props) block.props = {}
+              block.props = block.props || {}
               Object.assign(block.props, data.props)
             }
-            if (data.content !== undefined && ['text', 'button'].includes(block.type)) {
-              // @ts-ignore
-              block.content = data.content
+
+            // İçerik güncelleme (Text, Button label)
+            if (data.content !== undefined && (block.type === 'text' || block.type === 'button')) {
+              ;(block as Draft<BlockWithContent>).content = data.content
             }
+
+            // Helper: Style kısayolu
             if (data.styles) {
-              if (!block.props) block.props = {}
+              block.props = block.props || {}
               // @ts-ignore
               block.props.style = { ...block.props.style, ...data.styles }
             }
@@ -168,31 +191,42 @@ const createEmailStore = () =>
           set((state) => {
             if (id === 'root') return
             const parent = findParent(state.blocks as EmailBlock[], id)
-            if (parent) {
+
+            if (parent && hasChildren(parent)) {
               const index = parent.children.findIndex((b) => b.id === id)
               if (index !== -1) {
+                // Immer array metodu splice ile siliyoruz
                 parent.children.splice(index, 1)
-                state.selected = null
+
+                // Eğer silinen seçiliyse, seçimi kaldır
+                if (state.selected === id) {
+                  state.selected = null
+                }
               }
             }
           }),
 
         moveBlock: (activeId, overId) =>
           set((state) => {
-            // Basitleştirilmiş move logic (Parent kontrolü yapılmalı)
             const blocks = state.blocks as EmailBlock[]
             const activeParent = findParent(blocks, activeId)
             const overParent = findParent(blocks, overId)
 
+            // Sadece aynı parent içindeki hareketlere izin veriyoruz (Basit Sortable)
+            // Farklı parentlar arası geçiş (Drag between containers) daha karmaşık logic gerektirir
             if (activeParent && overParent && activeParent.id === overParent.id) {
-              const oldIndex = activeParent.children.findIndex((x) => x.id === activeId)
-              const newIndex = activeParent.children.findIndex((x) => x.id === overId)
+              const children = activeParent.children as EmailBlock[]
+              const oldIndex = children.findIndex((x) => x.id === activeId)
+              const newIndex = children.findIndex((x) => x.id === overId)
+
               if (oldIndex >= 0 && newIndex >= 0) {
+                // arrayMove immutable döner, immer içinde olduğumuz için mutate etmeliyiz
+                // ancak arrayMove basit bir helper, immer ile direkt assignment yapabiliriz.
                 activeParent.children = arrayMove(
-                  activeParent.children as any[],
+                  children,
                   oldIndex,
                   newIndex,
-                ) as any
+                ) as Draft<EmailBlock>[]
               }
             }
           }),
@@ -201,11 +235,17 @@ const createEmailStore = () =>
           set((state) => {
             const blocks = state.blocks as EmailBlock[]
             const parent = findParent(blocks, id)
-            if (!parent) return
-            const index = parent.children.findIndex((b) => b.id === id)
-            const newIndex = direction === 'before' ? index - 1 : index + 1
-            if (newIndex >= 0 && newIndex < parent.children.length) {
-              parent.children = arrayMove(parent.children as any[], index, newIndex) as any
+
+            if (parent && hasChildren(parent)) {
+              const index = parent.children.findIndex((b) => b.id === id)
+              const newIndex = direction === 'before' ? index - 1 : index + 1
+
+              if (newIndex >= 0 && newIndex < parent.children.length) {
+                // Swap logic
+                const item = parent.children[index]
+                parent.children.splice(index, 1)
+                parent.children.splice(newIndex, 0, item)
+              }
             }
           }),
 
@@ -213,15 +253,15 @@ const createEmailStore = () =>
         getParent: (id) => findParent(get().blocks, id),
       })),
       {
-        limit: 50,
-        partialize: (state) => ({ blocks: state.blocks }),
-        equality: (a, b) => a.blocks === b.blocks,
+        limit: 50, // Geçmiş limit
+        partialize: (state) => ({ blocks: state.blocks }), // Sadece blocks state'ini sakla
+        equality: (a, b) => a.blocks === b.blocks, // Render performans optimizasyonu
       },
     ),
   ) as unknown as EmailStoreApi
 
 // ============================================
-// CONTEXT & HOOKS (DEĞİŞTİRİLMEDİ)
+// CONTEXT & HOOKS
 // ============================================
 
 const EmailContext = createContext<EmailStoreApi | undefined>(undefined)

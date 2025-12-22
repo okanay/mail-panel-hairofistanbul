@@ -1,16 +1,7 @@
 import { useEmailStore, useEmailTemporal } from '../../store'
 import { pretty, render } from '@react-email/render'
 import { ExportSheel } from '../canvas'
-import {
-  Type,
-  Image as ImageIcon,
-  MousePointer2,
-  Undo2,
-  Redo2,
-  Download,
-  Loader2,
-  Heading,
-} from 'lucide-react'
+import { Type, Image as ImageIcon, Undo2, Redo2, Download, Loader2, Link2 } from 'lucide-react'
 import { useCallback, useState } from 'react'
 
 const generateId = () => crypto.randomUUID()
@@ -22,7 +13,7 @@ const createText = (content: string = 'Lorem ipsum dolor sit amet.'): TextBlock 
   props: {
     style: {
       fontSize: '16px',
-      lineHeight: '24px',
+      lineHeight: '16px',
       color: '#4a4a4a',
       margin: '0 0 16px 0',
     },
@@ -39,7 +30,7 @@ const createButton = (): ButtonBlock => ({
       backgroundColor: '#007bff',
       color: '#ffffff',
       padding: '12px 24px',
-      borderRadius: '4px',
+      borderRadius: '0px',
       textDecoration: 'none',
       fontSize: '14px',
       fontWeight: 'bold',
@@ -98,7 +89,7 @@ export const Toolbox = () => {
   }, [blocks, getBlock])
 
   return (
-    <div className="flex h-full w-80 flex-col border-r border-stone-200 bg-white font-sans text-stone-800">
+    <div className="fixed top-0 left-0 h-dvh w-68 overflow-hidden overflow-y-auto border-r border-stone-200 bg-white pt-16">
       <div className="flex items-center justify-between border-b border-stone-200 p-4">
         <span className="text-xs font-bold tracking-wider text-stone-500 uppercase">Toolbox</span>
         <div className="flex gap-1">
@@ -134,35 +125,13 @@ export const Toolbox = () => {
           </h3>
           <div className="grid grid-cols-2 gap-2">
             <ToolboxButton icon={<Type size={18} />} label="Metin" onClick={handleAddText} />
-            <ToolboxButton
-              icon={<MousePointer2 size={18} />}
-              label="Buton"
-              onClick={handleAddButton}
-            />
+            <ToolboxButton icon={<Link2 size={18} />} label="Buton" onClick={handleAddButton} />
             <ToolboxButton icon={<ImageIcon size={18} />} label="Görsel" onClick={handleAddImage} />
-            <ToolboxButton
-              icon={<Heading size={18} />}
-              label="Başlık"
-              onClick={() => addBlock(createText('<h2>Başlık</h2>'))}
-            />
           </div>
-        </div>
-
-        <div className="mt-4 rounded bg-blue-50 p-3 text-xs text-blue-700">
-          <span className="mb-1 block font-bold uppercase opacity-70">
-            Seçili: {selectedType.toUpperCase()}
-          </span>
-          <p className="opacity-80">
-            {selectedType === 'root'
-              ? 'Sayfaya yeni bir bölüm eklemek için yukarıdaki düzenleri kullanın.'
-              : selectedType === 'section' || selectedType === 'column'
-                ? 'İçeriği zenginleştirmek için elementleri sürükleyebilir veya tıklayabilirsiniz.'
-                : 'Ayarlar panelinden özellikleri düzenleyebilirsiniz.'}
-          </p>
         </div>
       </div>
 
-      <div className="border-t border-stone-200 p-4">
+      <div className="absolute bottom-0 z-20 w-full border-t border-stone-200 p-4">
         <button
           onClick={handleExport}
           disabled={exporting}
@@ -186,12 +155,10 @@ const ToolboxButton = ({ icon, label, onClick }: ToolboxButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className="group flex flex-col items-center justify-center gap-2 rounded border border-stone-200 bg-white py-3 transition-all hover:border-blue-400 hover:bg-blue-50 active:scale-95"
+      className="group flex items-center justify-center gap-2 rounded border border-stone-200 bg-white py-3 transition-all hover:border-blue-400 hover:bg-blue-50 active:scale-95"
     >
+      <span className="text-xs font-medium text-stone-600 group-hover:text-blue-700">{label}</span>
       <div className="text-stone-500 transition-colors group-hover:text-blue-600">{icon}</div>
-      <span className="text-[11px] font-medium text-stone-600 group-hover:text-blue-700">
-        {label}
-      </span>
     </button>
   )
 }
