@@ -1,6 +1,5 @@
 import { useEmailStore } from '../../store'
 import { ButtonProperties } from './button'
-import { ContainerProperties } from './container'
 import { ImageProperties } from './image'
 import { RootProperties } from './root'
 import { TextProperties } from './text'
@@ -17,9 +16,6 @@ export const PropertiesPanel = () => {
     PropertiesComponent = <RootProperties />
   } else {
     switch (selectedBlock.type) {
-      case 'container':
-        PropertiesComponent = <ContainerProperties block={selectedBlock as ContainerBlock} />
-        break
       case 'text':
         PropertiesComponent = <TextProperties block={selectedBlock as TextBlock} />
         break

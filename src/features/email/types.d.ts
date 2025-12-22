@@ -1,54 +1,38 @@
 import type {
   ButtonProps,
-  ContainerProps,
   ImgProps,
   SectionProps,
   ColumnProps,
   TextProps,
   BodyProps,
-  HtmlProps,
-  HeadProps,
+  RowProps,
 } from '@react-email/components'
-import { CSSProperties } from 'react'
+import type { CSSProperties } from 'react'
 
 declare global {
-  // Destekleyeceğimiz block tipleri
-  type EmailBlockType =
-    | 'root'
-    | 'container'
-    | 'section'
-    | 'column'
-    | 'text'
-    | 'button'
-    | 'image'
-    | 'divider'
-    | 'spacer'
+  // 1. Ortak Ögeler.
+  // ----------------------------------------------------------------
 
-  // Ortak özellikler
+  type EmailBlockType = 'root' | 'section' | 'row' | 'column' | 'text' | 'button' | 'image'
+
   interface BaseBlock {
     id: string
     type: EmailBlockType
   }
 
-  // 1. Kapsayıcı (Parent) Blocklar
+  // 2. Kapsayıcı (Parent) Blocklar
   // ----------------------------------------------------------------
 
   interface RootBlock extends BaseBlock {
     type: 'root'
-    props?: HtmlProps
-    children: EmailBlock[]
-  }
-
-  interface ContainerBlock extends BaseBlock {
-    type: 'container'
-    props?: ContainerProps // style, className
+    props?: BodyProps
     children: EmailBlock[]
   }
 
   interface SectionBlock extends BaseBlock {
     type: 'section'
     props?: SectionProps
-    children: EmailBlock[] // Genelde Column alır
+    children: EmailBlock[]
   }
 
   interface ColumnBlock extends BaseBlock {
@@ -57,36 +41,44 @@ declare global {
     children: EmailBlock[]
   }
 
-  // 2. İçerik (Leaf) Blocklar
+  interface RowBlock extends BaseBlock {
+    type: 'row'
+    props?: RowProps
+    children: ColumnBlock[]
+  }
+
+  // 3. İçerik (Leaf) Blocklar
   // ----------------------------------------------------------------
 
   interface TextBlock extends BaseBlock {
     type: 'text'
-    content: string // Text içeriğini burada tutuyoruz
-    props?: TextProps // style, vs.
+    content: string
+    props?: TextProps
   }
 
   interface ButtonBlock extends BaseBlock {
     type: 'button'
     content: string
-    props?: ButtonProps // href, style, target
+    props?: ButtonProps
   }
 
   interface ImageBlock extends BaseBlock {
     type: 'image'
-    props: ImgProps // src, alt, width, height zorunlu olabilir
+    props: ImgProps
   }
 
-  // Union Type
+  // 4. Union/Export Types
+  // ----------------------------------------------------------------
+
   type EmailBlock =
     | RootBlock
-    | ContainerBlock
     | SectionBlock
+    | RowBlock
     | ColumnBlock
     | TextBlock
     | ButtonBlock
     | ImageBlock
 
-  type BlockWithChildren = RootBlock | ContainerBlock | SectionBlock | ColumnBlock
+  type BlockWithChildren = RootBlock | SectionBlock | RowBlock | ColumnBlock
   type BlockWithContent = TextBlock | ButtonBlock
 }

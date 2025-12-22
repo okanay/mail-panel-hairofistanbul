@@ -1,51 +1,99 @@
-import { BlockButton } from './button'
-import { EditorBlockContainer, ExportBlockContainer } from './container'
-import { BlockImage } from './image'
-import { BlockText } from './text'
 import { BlockWrapper } from './wrapper'
+import { Section, Row, Column, Text, Button, Img } from '@react-email/components'
+
+// ------------------------------------------------------------------
+// SIMPLE RENDERERS (Leafs)
+// ------------------------------------------------------------------
+const RenderText = ({ block }: { block: TextBlock }) => (
+  <Text {...block.props}>{block.content}</Text>
+)
+const RenderButton = ({ block }: { block: ButtonBlock }) => (
+  <Button {...block.props}>{block.content}</Button>
+)
+const RenderImage = ({ block }: { block: ImageBlock }) => (
+  <Img {...block.props} style={{ maxWidth: '100%', ...block.props?.style }} />
+)
+
+// ------------------------------------------------------------------
+// STRUCTURAL RENDERERS (Recursive)
+// ------------------------------------------------------------------
+
+// SECTION (Tek Sütun - %100 Genişlik)
+const RenderSection = ({ block, Renderer }: { block: SectionBlock; Renderer: any }) => (
+  <Section style={{ width: '100%', ...block.props?.style }} {...block.props}>
+    {block.children.map((child) => (
+      <Renderer key={child.id} block={child} />
+    ))}
+  </Section>
+)
+
+// ROW (Çoklu Sütun - Grid)
+const RenderRow = ({ block, Renderer }: { block: RowBlock; Renderer: any }) => (
+  <Row style={{ width: '100%', ...block.props?.style }} {...block.props}>
+    {block.children.map((col) => (
+      <Renderer key={col.id} block={col} />
+    ))}
+  </Row>
+)
+
+// COLUMN (Hücre)
+const RenderColumn = ({ block, Renderer }: { block: ColumnBlock; Renderer: any }) => (
+  <Column style={{ ...block.props?.style }} {...block.props}>
+    {block.children.map((child) => (
+      <Renderer key={child.id} block={child} />
+    ))}
+  </Column>
+)
+
+// ------------------------------------------------------------------
+// MAIN DISPATCHERS
+// ------------------------------------------------------------------
 
 export const EditorComponentRenderer = ({ block }: { block: EmailBlock }) => {
   let Component = null
 
   switch (block.type) {
-    case 'container':
-      Component = <EditorBlockContainer block={block as ContainerBlock} />
+    case 'section':
+      Component = <RenderSection block={block as SectionBlock} Renderer={EditorComponentRenderer} />
+      break
+    case 'row':
+      Component = <RenderRow block={block as RowBlock} Renderer={EditorComponentRenderer} />
+      break
+    case 'column':
+      Component = <RenderColumn block={block as ColumnBlock} Renderer={EditorComponentRenderer} />
       break
     case 'text':
-      Component = <BlockText block={block as TextBlock} />
+      Component = <RenderText block={block as TextBlock} />
       break
     case 'button':
-      Component = <BlockButton block={block as ButtonBlock} />
+      Component = <RenderButton block={block as ButtonBlock} />
       break
     case 'image':
-      Component = <BlockImage block={block as ImageBlock} />
+      Component = <RenderImage block={block as ImageBlock} />
       break
     default:
-      return <div className="p-2 text-xs text-red-500">Bilinmeyen Tip {block.type}</div>
+      return null
   }
 
+  // Wrapper her bloğu sarmalar (Drag & Drop ve Seçim için)
   return <BlockWrapper block={block}>{Component}</BlockWrapper>
 }
 
 export const ExportComponentRenderer = ({ block }: { block: EmailBlock }) => {
-  let Component = null
-
   switch (block.type) {
-    case 'container':
-      Component = <ExportBlockContainer block={block as ContainerBlock} />
-      break
+    case 'section':
+      return <RenderSection block={block as SectionBlock} Renderer={ExportComponentRenderer} />
+    case 'row':
+      return <RenderRow block={block as RowBlock} Renderer={ExportComponentRenderer} />
+    case 'column':
+      return <RenderColumn block={block as ColumnBlock} Renderer={ExportComponentRenderer} />
     case 'text':
-      Component = <BlockText block={block as TextBlock} />
-      break
+      return <RenderText block={block as TextBlock} />
     case 'button':
-      Component = <BlockButton block={block as ButtonBlock} />
-      break
+      return <RenderButton block={block as ButtonBlock} />
     case 'image':
-      Component = <BlockImage block={block as ImageBlock} />
-      break
+      return <RenderImage block={block as ImageBlock} />
     default:
-      return <div className="p-2 text-xs text-red-500">Bilinmeyen Tip {block.type}</div>
+      return null
   }
-
-  return Component
 }
