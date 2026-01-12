@@ -12,6 +12,7 @@ import {
   LogOut,
   Mail,
   Save,
+  Scan,
   Settings,
 } from 'lucide-react'
 import { LoadingIndicator } from '../../../components/loading-indicator'
@@ -75,6 +76,18 @@ export const EditorMenu = ({ formData }: Props) => {
         ...search,
         editable: isMenuVisible ? 'no' : 'yes',
         showMenu: isMenuVisible ? 'no' : 'yes',
+        hideMenu: 'no',
+      },
+    })
+  }
+
+  const handleFocusMode = () => {
+    navigate({
+      replace: true,
+      search: {
+        ...search,
+        editable: 'yes',
+        showMenu: 'no',
         hideMenu: 'no',
       },
     })
@@ -214,12 +227,23 @@ export const EditorMenu = ({ formData }: Props) => {
           <hr className="my-1 h-px w-full border-stone-200" />
 
           <div className="flex w-full flex-col px-2">
-            {/* Document Actions Section */}
-            <MenuButton
-              onClick={handleToggleEditMode}
-              icon={<Eye className="size-4" />}
-              label={'İncele'}
-            />
+            <div className="flex w-full items-center justify-between">
+              {/* Document Actions Section */}
+              <MenuButton
+                onClick={handleToggleEditMode}
+                icon={<Eye className="size-4" />}
+                label={'İncele'}
+              />
+
+              <div className="mx-1 h-5 w-px bg-stone-400" />
+
+              {/* Document Actions Section */}
+              <MenuButton
+                onClick={handleFocusMode}
+                icon={<Scan className="size-4" />}
+                label={'Odak'}
+              />
+            </div>
 
             <MenuButton
               onClick={handleDownload}

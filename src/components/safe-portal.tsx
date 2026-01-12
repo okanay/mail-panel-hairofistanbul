@@ -1,8 +1,16 @@
 import { createPortal } from 'react-dom'
+import { useEffect, useState } from 'react'
 
 export const SafePortal = ({ children }: { children: React.ReactNode }) => {
-  if (typeof document === 'undefined') {
-    return null
-  }
-  return createPortal(children, document.body)
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+
+    return () => {
+      setMounted(false)
+    }
+  }, [])
+
+  return mounted ? createPortal(children, document.body) : undefined
 }
