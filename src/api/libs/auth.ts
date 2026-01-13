@@ -1,6 +1,7 @@
 import z from 'zod'
 import { setCookie } from '@tanstack/react-start/server'
 import { UserView } from '../db/schema/users'
+import { SignJWT, jwtVerify } from 'jose'
 
 export const authValidation = z.object({
   username: z
@@ -16,68 +17,35 @@ export const authValidation = z.object({
     .max(16, { message: 'Şifre en fazla 16 karakter olmalıdır' }),
 })
 
-async function getKey() {
-  const secret = process.env.APP_AUTH_COOKIE_SECRET
-  const enc = new TextEncoder()
-  return await crypto.subtle.importKey(
-    'raw',
-    enc.encode(secret),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign', 'verify'],
-  )
-}
+const getSecretKey = () => new TextEncoder().encode(process.env.APP_AUTH_COOKIE_SECRET)
 
 export async function createAccessToken(userView: UserView) {
-  const header = JSON.stringify({ alg: 'HS256', typ: 'JWT' })
-  const payload = JSON.stringify({
-    ...userView,
-    exp: Math.floor(Date.now() / 1000) + 15 * 60,
-  })
+  const secret = getSecretKey()
 
-  const base64UrlEncode = (str: string) =>
-    btoa(str).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+  // Jose kütüphanesi Türkçe, Rusça, Emoji ayırt etmeksizin her şeyi otomatik halleder.
+  const jwt = await new SignJWT({ ...userView })
+    .setProtectedHeader({ alg: 'HS256' })
+    .setIssuedAt()
+    .setExpirationTime('15m') // 15 dakika
+    .sign(secret)
 
-  const encodedHeader = base64UrlEncode(header)
-  const encodedPayload = base64UrlEncode(payload)
-
-  const key = await getKey()
-  const signature = await crypto.subtle.sign(
-    'HMAC',
-    key,
-    new TextEncoder().encode(`${encodedHeader}.${encodedPayload}`),
-  )
-
-  const encodedSignature = base64UrlEncode(String.fromCharCode(...new Uint8Array(signature)))
-  return `${encodedHeader}.${encodedPayload}.${encodedSignature}`
+  return jwt
 }
 
 export async function verifyAccessToken(token: string): Promise<UserView | null> {
   try {
-    const [encodedHeader, encodedPayload, encodedSignature] = token.split('.')
-    if (!encodedHeader || !encodedPayload || !encodedSignature) return null
+    const secret = getSecretKey()
 
-    const key = await getKey()
-    const signature = await crypto.subtle.sign(
-      'HMAC',
-      key,
-      new TextEncoder().encode(`${encodedHeader}.${encodedPayload}`),
-    )
+    // Token doğrulama ve decode işlemi
+    const { payload } = await jwtVerify(token, secret)
 
-    const base64UrlEncode = (str: string) =>
-      btoa(str).replace(/=/g, '').replace(/\+/g, '-').replace(/\//g, '_')
+    // payload içinde 'exp', 'iat' gibi JWT standart alanları da gelir, onları ayıklayabilirsin
+    // veya doğrudan kullanabilirsin.
+    const { exp, iat, ...user } = payload
 
-    const calculatedSignature = base64UrlEncode(String.fromCharCode(...new Uint8Array(signature)))
-
-    if (calculatedSignature !== encodedSignature) return null
-
-    const payload = JSON.parse(atob(encodedPayload.replace(/-/g, '+').replace(/_/g, '/')))
-
-    if (payload.exp && Date.now() >= payload.exp * 1000) return null
-
-    const { exp, ...user } = payload
-    return user
-  } catch (e) {
+    return user as unknown as UserView
+  } catch (error) {
+    // Token süresi dolmuşsa veya imza geçersizse buraya düşer
     return null
   }
 }
